@@ -1,0 +1,882 @@
+bvt_order,site,month,collection_date,treatment,temp,run,plate,color_check,remove,notes,live_index,viability,cutoff,hue_string,ViabilityGuess,DiffColorCheck?,ViabilityIncluDried
+1,Milford,December,12/9/2024,Dead Control,,first,A1,colorless,1,pink?,0.492408185,0,,,0,,0
+32,Milford,December,12/9/2024,-20,-19.94,first,A6,colorless,1,"Might've been a -24, ran out of -24s w two left and had 2 xtra -20s, so I must've picked -24 instead of -20 twice. IDK which -20s are actually -24s, so am removing all prior to caching the mistake.",0.274140503,0,,,0,,0
+65,Milford,December,12/9/2024,-30,-30.01,second,B11,colorless,1,dried,0.089269489,0,,,0,,0
+24,Milford,December,12/9/2024,-33,-32.98,first,B4,colorless,1,dried,0.196061152,0,,,0,,0
+33,Milford,December,12/9/2024,-33,-32.98,first,B6,colorless,1,dried,0.024970605,0,,,0,,0
+43,Milford,December,12/9/2024,-33,-32.98,first,B7,colorless,1,dried,0.248577657,0,,,0,,0
+3,Milford,December,12/9/2024,-5,-4.99,first,C1,colorless,1,dried,0.16192297,0,,,0,,0
+4,Milford,December,12/9/2024,-20,-19.94,first,D1,purple,1,"Might've been a -24, ran out of -24s w two left and had 2 xtra -20s, so I must've picked -24 instead of -20 twice. IDK which -20s are actually -24s, so am removing all prior to caching the mistake.",0.771311132,1,,,1,,0
+76,Milford,December,12/9/2024,-30,-30.01,second,D12,colorless,1,dried,0.257360017,0,,,0,,0
+26,Milford,December,12/9/2024,-20,-19.94,first,D4,colorless,1,"Might've been a -24, ran out of -24s w two left and had 2 xtra -20s, so I must've picked -24 instead of -20 twice. IDK which -20s are actually -24s, so am removing all prior to caching the mistake.",0.014912207,0,,,0,,0
+13,Milford,December,12/9/2024,-20,-19.94,first,F2,purple,1,"Might've been a -24, ran out of -24s w two left and had 2 xtra -20s, so I must've picked -24 instead of -20 twice. IDK which -20s are actually -24s, so am removing all prior to caching the mistake.",0.745390991,1,,,1,,0
+21,Milford,December,12/9/2024,-30,-29.93,first,F3,colorless,1,dried,0.115954019,0,,,0,,0
+37,Milford,December,12/9/2024,-20,-19.94,first,F6,purple,1,"Might've been a -24, ran out of -24s w two left and had 2 xtra -20s, so I must've picked -24 instead of -20 twice. IDK which -20s are actually -24s, so am removing all prior to caching the mistake.",0.93026431,0,,,1,,0
+59,Milford,December,12/9/2024,-30,-30.01,second,F9,colorless,1,dried,0.085882546,0,,,0,,0
+70,Milford,December,12/9/2024,10,10,second,G11,colorless,1,dried,0.248893691,0,,,0,,0
+53,Milford,December,12/9/2024,-30,-30.01,second,H8,colorless,1,dried,0.005715224,0,,,0,,0
+187,Winchester,December,12/16/2024,-30,-30.01,first,A14,,1,"moldy, dried",,,,,,,0
+210,Winchester,December,12/16/2024,-33,-32.98,first,A17,,1,"moldy, dried",,,,,,,0
+211,Winchester,December,12/16/2024,10,10,first,B17,,1,dried,,,,,,,0
+190,Winchester,December,12/16/2024,-5,-5.91,first,D14,,1,"moldy, dried",,,,,,,0
+240,Winchester,December,12/16/2024,-15,-14.89,third,D19,colorless,1,assuming egg mass damage,0.06386943,0,0.420909569,h0:h82,0,0,0
+191,Winchester,December,12/16/2024,10,10,second,E14,purple,1,superfluous,0.814066095,1,0.420909569,h0:h82,1,0,1
+204,Winchester,December,12/16/2024,10,10,second,F16,purple,1,superfluous,0.975269142,1,0.420909569,h0:h82,1,0,1
+254,Winchester,December,12/16/2024,-15,-14.89,third,F20,,1,dried,,,,,,,0
+216,Winchester,December,12/16/2024,10,10,second,G17,purple,1,superfluous,0.543689501,1,0.420909569,h0:h82,1,0,1
+218,Winchester,December,12/16/2024,10,10,second,I17,purple,1,superfluous,0.831476816,1,0.420909569,h0:h82,1,0,1
+208,Winchester,December,12/16/2024,-30,-30.01,first,J16,,1,"moldy, dried",,,,,,,0
+246,Winchester,December,12/16/2024,10,10,fourth,J19,purple,1,superfluous,0.523809524,1,0.420909569,h0:h82,1,0,1
+158,Roanoke,December,12/16/2024,10,10,third,J8,colorless,1,"anomoly, superfluous",0,0,,,0,,0
+220,Winchester,December,12/16/2024,-30,-30.01,first,K17,,1,"moldy, dried",,,,,,,0
+160,Roanoke,December,12/16/2024,10,10,second,L8,,1,dried,,,,,,,0
+265,Winchester,December,12/16/2024,10,10,fourth,N12,purple,1,superfluous,0.804463072,1,0.420909569,h0:h82,1,0,1
+102,Roanoke,December,12/16/2024,-5,-5.05,first,N2,colorless,1,"dropped, probably picked up wrong egg",,,,,0,,0
+184,Roanoke,December,12/16/2024,10,10,fourth,O11,purple,1,superfluous,0.492969137,1,0.440207827,h0:h82,1,0,1
+139,Roanoke,December,12/16/2024,-33,-33.16,second,O6,,1,dried,,,,,,,0
+173,Roanoke,December,12/16/2024,10,10,third,O9,,1,"dried, superfluous",,,,,,,0
+164,Roanoke,December,12/16/2024,10,10,fourth,Q8,purple,1,superfluous,0.937435074,1,0.440207827,h0:h82,1,0,1
+175,Roanoke,December,12/16/2024,10,10,fourth,Q9,purple,1,superfluous,0.992063232,1,0.440207827,h0:h82,1,0,1
+106,Roanoke,December,12/16/2024,-33,-33.08,first,R2,,1,dried,,,,,,,0
+142,Roanoke,December,12/16/2024,10,10,third,R6,,1,"dried, superfluous",,,,,,,0
+153,Roanoke,December,12/16/2024,10,10,fourth,R7,purple,1,superfluous,0.801279063,1,0.440207827,h0:h82,1,0,1
+279,Winchester,December,12/16/2024,10,10,fourth,S11,purple,1,superfluous,0.86387663,1,0.420909569,h0:h82,1,0,1
+117,Roanoke,December,12/16/2024,-30,-30.06,first,S3,,1,dried,,,,,,,0
+166,Roanoke,December,12/16/2024,-27,-27.01,second,S8,,1,dried,,,,,,,0
+271,Winchester,December,12/16/2024,10,10,fourth,T12,colorless,1,"anomoly, superfluous",,,,,0,,0
+155,Roanoke,December,12/16/2024,10,10,third,T7,,1,"dried, superfluous",,,,,,,0
+145,Roanoke,December,12/16/2024,10,10,fourth,U6,purple,1,superfluous,0.910590705,1,0.440207827,h0:h82,1,0,1
+156,Roanoke,December,12/16/2024,-33,-33.16,second,U7,,1,dried,,,,,,,0
+282,Winchester,December,12/16/2024,-15,-14.89,third,V11,,1,dried,,,,,,,0
+283,Winchester,December,12/16/2024,-15,-14.89,third,W11,,1,dried,,,,,,,0
+276,Winchester,December,12/16/2024,-15,-14.89,third,W12,,1,"moldy, dried",,,,,,,0
+235,Winchester,December,12/16/2024,10,10,second,X2,purple,1,superfluous,0.701812538,1,0.420909569,h0:h82,0,0,1
+223,Winchester,December,12/16/2024,-20,-20.03,first,Z1,,1,dried,,,,,,,0
+250,Winchester,December,12/16/2024,10,10,fourth,Z3,purple,1,superfluous,0.46185738,1,0.420909569,h0:h82,1,0,1
+315,Milford,January,1/7/2025,-25,-26.93,first,L15,,1,dried,,,,,,,0
+368,Milford,January,1/7/2025,-25,-24.9,third,L19,,1,dried,,,,,,,0
+381,Milford,January,1/7/2025,-34,-32.4,third,L20,,1,dried,,0,,,,,0
+290,Milford,January,1/7/2025,-34,-33.71,first,P13,,1,dried,,,,,,,0
+304,Milford,January,1/7/2025,-29,-30.1,first,P14,,1,dried,,,,,,,0
+332,Milford,January,1/7/2025,-25,-24.92,second,P16,,1,dried,,,,,,,0
+371,Milford,January,1/7/2025,-29,-28.95,third,P19,,1,"moldy, dried",,,,,,,0
+307,Milford,January,1/7/2025,-25,-26.93,first,S14,,1,dried,,,,,,,0
+322,Milford,January,1/7/2025,-25,-24.92,second,T15,,1,dried,,,,,,,0
+310,Milford,January,1/7/2025,-34,-33.71,first,V14,,1,dried,,,,,,,0
+378,Milford,January,1/7/2025,-34,-32.4,third,W19,,1,dried,,0,,,,,0
+312,Milford,January,1/7/2025,-29,-30.1,first,X14,,1,dried,,,,,,,0
+353,Milford,January,1/7/2025,-20,-20.14,second,X17,,1,dried,,,,,,,0
+365,Milford,January,1/7/2025,10,10,third,X18,,1,dried,,,,,,,0
+299,Milford,January,1/7/2025,-15,-19.06,first,Y13,,1,dried,,,,,,,0
+313,Milford,January,1/7/2025,-29,-30.1,first,Y14,,1,dried,,,,,,,0
+328,Milford,January,1/7/2025,-34,-31.97,second,Z15,,1,dried,,,,,,,0
+402,Winchester,January,1/13/2025,-34,-31.65,first,A2,,1,dried,,,,,,,0
+463,Winchester,January,1/13/2025,-15,-14.19,third,A7,colorless,1,anomoly,0.010305063,0,0.531271316,h195:h245,0,0,0
+388,Winchester,January,1/13/2025,-34,-31.65,first,B1,,1,dried,,,,,,,0
+435,Winchester,January,1/13/2025,-29,-28.41,second,C4,,1,dried,,,,,,,0
+421,Winchester,January,1/13/2025,10,10,second,D3,,1,dried,,,,,,,0
+438,Winchester,January,1/13/2025,-25,-24.86,second,F4,,1,dried,,,,,,,0
+440,Winchester,January,1/13/2025,-34,-29.72,second,H4,,1,dried,,,,,,,0
+458,Winchester,January,1/13/2025,-15,-14.19,third,K6,,1,dried,,,,,,,0
+459,Winchester,January,1/13/2025,10,10,third,L6,,1,dried,,,,,,,0
+400,Winchester,January,1/13/2025,-25,-24.64,first,O1,,1,dried,,,,,,,0
+431,Winchester,January,1/13/2025,-25,-24.86,second,O3,,1,dried,,,,,,,0
+557,Roanoke,January,1/15/2025,-25,-24.81,third,A13,,1,dried,,,,,,,0
+573,Roanoke,January,1/15/2025,-34,-31.33,third,A14,,1,dried,,,,,,,0
+485,Roanoke,January,1/15/2025,-29,-29.05,first,A8,,1,"moldy, dried",,,,,,,0
+529,Roanoke,January,1/15/2025,-29,-29.17,second,B11,,1,dried,,,,,,,0
+574,Roanoke,January,1/15/2025,-25,-24.81,third,B14,,1,dried,,,,,,,0
+501,Roanoke,January,1/15/2025,-34,-31.3,first,B9,,1,"moldy, dried",,,,,,,0
+514,Roanoke,January,1/15/2025,-25,-25.18,first,C10,,1,dried,,,,,,,0
+559,Roanoke,January,1/15/2025,-20,-19.95,third,C13,,1,dried,,,,,,,0
+547,Roanoke,January,1/15/2025,-34,-32.41,second,D12,,1,"moldy, dried",,,,,,,0
+503,Roanoke,January,1/15/2025,10,10,first,D9,,1,dried,,,,,,,0
+532,Roanoke,January,1/15/2025,-29,-29.17,second,E11,,1,dried,,,,,,,0
+517,Roanoke,January,1/15/2025,-15,-14.98,second,F10,,1,dried,,,,,,,0
+562,Roanoke,January,1/15/2025,-34,-31.33,third,F13,,1,dried,,,,,,,0
+491,Roanoke,January,1/15/2025,-34,-31.3,first,G8,,1,dried,,,,,,,0
+492,Roanoke,January,1/15/2025,-29,-29.05,first,H8,,1,dried,,,,,,,0
+566,Roanoke,January,1/15/2025,-25,-24.81,third,I13,colorless,1,dried-viscous borderline,,,,,0,,0
+581,Roanoke,January,1/15/2025,-25,-24.81,third,I13,,1,dried,,,,,,,0
+522,Roanoke,January,1/15/2025,-20,-20.46,second,J10,,1,"moldy, dried",,,,,,,0
+523,Roanoke,January,1/15/2025,-34,-32.41,second,K10,,1,dried,,,,,,,0
+583,Roanoke,January,1/15/2025,-29,-29.02,third,K14,,1,"moldy, dried",,,,,,,0
+524,Roanoke,January,1/15/2025,-25,-25.05,second,L10,,1,dried,,,,,,,0
+571,Roanoke,January,1/15/2025,-29,-29.02,third,O13,,1,"moldy, dried",,,,,,,0
+498,Roanoke,January,1/15/2025,-25,-25.18,first,O8,,1,dried,,,,,,,0
+542,Roanoke,January,1/15/2025,Live Control,,second,P11,,1,dried,,,,,,,0
+499,Roanoke,January,1/15/2025,-25,-25.18,first,P8,,1,dried,,,,,,,0
+585,Milford,February,2/10/2025,-34,-30.15,first,B15,,1,dried,,,,,,,0
+602,Milford,February,2/10/2025,-34,-30.15,first,E16,,1,dried,,,,,,,0
+683,Milford,February,2/10/2025,-34,-32.82,third,EE14,v,1,dried,,,,,,,0
+647,Milford,February,2/10/2025,-34,-30.63,second,F19,,1,dried,,,,,,,0
+633,Milford,February,2/10/2025,-15,-15.26,second,G18,,1,"dried, moldy",,,,,,,0
+619,Milford,February,2/10/2025,-34,-30.63,second,H17,,1,dried,,,,,,,0
+607,Milford,February,2/10/2025,-34,-30.15,first,J16,,1,dried,,,,,,,0
+667,Milford,February,2/10/2025,-29,-28.59,third,L20,,1,dried,,,,,,,0
+596,Milford,February,2/10/2025,-34,-30.15,first,N15,,1,dried,,,,,,,0
+675,Milford,February,2/10/2025,-34,-32.82,third,P14,,1,dried,,,,,,,0
+677,Milford,February,2/10/2025,-29,-28.59,third,Y14,,1,"dried, moldy",,,,,,,0
+637,Milford,February,2/10/2025,-29,-28.84,second,,,1,dried,,,,,,,0
+643,Milford,February,2/10/2025,-29,-28.84,second,,,1,dried,,,,,,,0
+695,CT,January,1/21/2026,-35,-32.41,first,A11,,1,,"dry, moldy",,,,,,
+696,CT,January,1/21/2026,-35,-32.41,first,B11,,1,,"dry, moldy",,,,,,
+745,CT,January,1/21/2026,-31,-30.99,second,B14,,1,,dry,,,,,,
+730,CT,January,1/21/2026,-27,-27.58,second,C13,,1,,"dry, moldy",,,,,,
+763,CT,January,1/21/2026,-31,-30.81,third,C15,,1,diifferent BVT from rest of BVT session,dry,,,,,,
+765,CT,January,1/21/2026,-31,-30.81,third,E15,,1,diifferent BVT from rest of BVT session,dry,,,,,,
+700,CT,January,1/21/2026,-23,-24.27,first,F11,,1,,dry,,,,,,
+701,CT,January,1/21/2026,-19,-19.77,first,G11,,1,,dry,,,,,,
+750,CT,January,1/21/2026,-31,-30.81,third,G14,,1,,dry,,,,,,
+767,CT,January,1/21/2026,-23,-22.81,third,G15,,1,diifferent BVT from rest of BVT session,dry,,,,,,
+719,CT,January,1/21/2026,-23,-23.54,second,H12,,1,,dry,,,,,,
+751,CT,January,1/21/2026,-23,-22.81,third,H14,,1,,dry,,,,,,
+722,CT,January,1/21/2026,-27,-27.58,second,K12,,1,,"dry, moldy",,,,,,
+739,CT,January,1/21/2026,-27,-27.58,second,K12,,1,,"dry, moldy",,,,,,
+738,CT,January,1/21/2026,-23,-23.54,second,K13,,1,,dry,,,,,,
+723,CT,January,1/21/2026,-27,-27.58,second,L12,,1,,"dry, moldy",,,,,,
+755,CT,January,1/21/2026,-31,-30.81,third,L14,,1,,dry,,,,,,
+772,CT,January,1/21/2026,Live Control,,third,L15,colorless,1,diifferent BVT from rest of BVT session,0,0,0.457998456,,,,
+741,CT,January,1/21/2026,-35,-34.49,second,N13,,1,,dry,,,,,,
+773,CT,January,1/21/2026,-31,-30.81,third,N15,,1,diifferent BVT from rest of BVT session,dry,,,,,,
+727,CT,January,1/21/2026,-23,-23.54,second,Q12,,1,,dry,,,,,,
+859,CT,March,3/2/2026,-31,-30.94,third,E15,,1,dry,,,,,,,
+860,CT,March,3/2/2026,-35,-33.38,third,F15,,1,dry,,,,,,,
+862,CT,March,3/2/2026,-19,-19.18,third,H15,,1,dry,,,,,,,
+794,CT,March,3/2/2026,-31,-31.23,first,I11,,1,dry,,,,,,,
+845,CT,March,3/2/2026,-19,-19.18,third,I14,,1,dry,,,,,,,
+868,CT,March,3/2/2026,-35,-33.38,third,O15,,1,"dry, moldy",,,,,,,
+852,CT,March,3/2/2026,-31,-30.94,third,Q14,,1,dry,,,,,,,
+870,CT,March,3/2/2026,10,10,third,Q15,,1,"dry, slightly moldy",,,,,,,
+871,CT,March,3/2/2026,-19,-19.18,third,R15,,1,dry,,,,,,,
+819,CT,March,3/2/2026,-19,-18.96,second,S12,,1,"dry, moldy",,,,,,,
+820,CT,March,3/2/2026,-19,-18.96,second,T12,,1,"dry, moldy",,,,,,,
+856,CT,March,3/2/2026,-35,-33.38,third,U14,,1,dry,,,,,,,
+858,CT,March,3/2/2026,10,10,third,W14,,1,dry,,,,,,,
+876,CT,March,3/2/2026,-35,-33.38,third,W15,,1,dry,,,,,,,
+64,Milford,December,12/9/2024,-33,-33.05,second,A11,colorless,,,0.18485559,0,0.510849894,h150:h200,0,0,0
+73,Milford,December,12/9/2024,-20,-19.94,second,A12,purple,,,0.776012106,1,0.510849894,h150:h200,1,0,1
+82,Milford,December,12/9/2024,-27,-26.97,second,A13,purple,,,0.668212949,1,0.510849894,h150:h200,1,0,1
+8,Milford,December,12/9/2024,10,10,first,A2,purple,,,0.752061081,1,0.510849894,h150:h200,1,0,1
+16,Milford,December,12/9/2024,-24,-24.02,first,A3,colorless,,,0.005297242,0,0.510849894,h150:h200,0,0,0
+23,Milford,December,12/9/2024,-5,-4.99,first,A4,purple,,,0.799703852,1,0.510849894,h150:h200,1,0,1
+42,Milford,December,12/9/2024,-5,-4.99,first,A7,purple,,,0.849498451,1,0.510849894,h150:h200,1,0,1
+46,Milford,December,12/9/2024,10,10,second,A8,purple,,,0.87570486,1,0.510849894,h150:h200,1,0,1
+55,Milford,December,12/9/2024,Dead Control,,second,A9,colorless,,,0.01106211,0,0.510849894,h150:h200,0,0,0
+2,Milford,December,12/9/2024,-15,-14.99,first,B1,purple,,,0.871144502,1,0.510849894,h150:h200,1,0,1
+74,Milford,December,12/9/2024,-27,-26.97,second,B12,purple,,,0.774323102,1,0.510849894,h150:h200,1,0,1
+83,Milford,December,12/9/2024,-15,-15.17,second,B13,purple,,,0.664194854,1,0.510849894,h150:h200,1,0,1
+9,Milford,December,12/9/2024,Dead Control,,first,B2,colorless,,,0.05634215,0,0.510849894,h150:h200,0,0,0
+17,Milford,December,12/9/2024,-15,-14.99,first,B3,purple,,,0.906545112,1,0.510849894,h150:h200,1,0,1
+47,Milford,December,12/9/2024,-27,-26.97,second,B8,purple,,,0.740430832,1,0.510849894,h150:h200,1,0,1
+66,Milford,December,12/9/2024,-5,-7.1,second,C11,purple,,,0.827381495,1,0.510849894,h150:h200,1,0,1
+75,Milford,December,12/9/2024,-24,-24.2,second,C12,purple,,,0.757724253,1,0.510849894,h150:h200,1,0,1
+84,Milford,December,12/9/2024,-30,-30.01,second,C13,purple,,,0.680444864,1,0.510849894,h150:h200,1,0,1
+10,Milford,December,12/9/2024,-24,-24.02,first,C2,colorless,,,0.029777761,0,0.510849894,h150:h200,0,0,0
+18,Milford,December,12/9/2024,-30,-29.93,first,C3,colorless,,,6.93E-06,0,0.510849894,h150:h200,0,0,0
+25,Milford,December,12/9/2024,-24,-24.02,first,C4,colorless,,,0.012173932,0,0.510849894,h150:h200,0,0,0
+34,Milford,December,12/9/2024,Live Control,,first,C6,purple,,,0.852749566,1,0.510849894,h150:h200,1,0,1
+44,Milford,December,12/9/2024,-20,-19.94,first,C7,purple,,,0.708484891,1,0.510849894,h150:h200,1,0,1
+48,Milford,December,12/9/2024,-15,-15.17,second,C8,purple,,,0.772007305,1,0.510849894,h150:h200,1,0,1
+56,Milford,December,12/9/2024,-5,-7.1,second,C9,purple,,,0.882442884,1,0.510849894,h150:h200,1,0,1
+67,Milford,December,12/9/2024,Live Control,,second,D11,purple,,,0.679551138,1,0.510849894,h150:h200,1,0,1
+85,Milford,December,12/9/2024,-27,-26.97,second,D13,purple,,,0.712366485,1,0.510849894,h150:h200,1,0,1
+11,Milford,December,12/9/2024,Live Control,,first,D2,purple,,,0.730559973,1,0.510849894,h150:h200,1,0,1
+19,Milford,December,12/9/2024,-5,-4.99,first,D3,purple,,,0.600276144,1,0.510849894,h150:h200,1,0,1
+35,Milford,December,12/9/2024,-15,-14.99,first,D6,purple,,,0.691472046,1,0.510849894,h150:h200,1,0,1
+45,Milford,December,12/9/2024,-20,-19.94,first,D7,purple,,,0.82935705,1,0.510849894,h150:h200,1,0,1
+49,Milford,December,12/9/2024,-20,-19.94,second,D8,purple,,,0.806624461,1,0.510849894,h150:h200,1,0,1
+57,Milford,December,12/9/2024,-15,-15.17,second,D9,purple,,,0.865832895,1,0.510849894,h150:h200,1,0,1
+5,Milford,December,12/9/2024,-33,-32.98,first,E1,colorless,,,0.027897317,0,0.510849894,h150:h200,0,0,0
+68,Milford,December,12/9/2024,-24,-24.2,second,E11,purple,,,0.79568108,1,0.510849894,h150:h200,1,0,1
+77,Milford,December,12/9/2024,-15,-15.17,second,E12,purple,,,0.783359519,1,0.510849894,h150:h200,1,0,1
+86,Milford,December,12/9/2024,Live Control,,second,E13,purple,,,0.743354402,1,0.510849894,h150:h200,1,0,1
+12,Milford,December,12/9/2024,-27,-26.93,first,E2,colorless,,,0.287793334,0,0.510849894,h150:h200,0,0,0
+27,Milford,December,12/9/2024,-15,-14.99,first,E3,purple,,,0.827516602,1,0.510849894,h150:h200,1,0,1
+20,Milford,December,12/9/2024,Dead Control,,first,E3,colorless,,,0.249692483,0,0.510849894,h150:h200,0,0,0
+36,Milford,December,12/9/2024,-27,-26.93,first,E6,purple,,,0.643939662,1,0.510849894,h150:h200,1,0,1
+50,Milford,December,12/9/2024,-24,-24.2,second,E8,purple,,,0.872807936,1,0.510849894,h150:h200,1,0,1
+58,Milford,December,12/9/2024,-20,-19.94,second,E9,purple,,,0.896403397,1,0.510849894,h150:h200,1,0,1
+6,Milford,December,12/9/2024,-27,-26.93,first,F1,purple,,,0.74750571,1,0.510849894,h150:h200,1,0,1
+69,Milford,December,12/9/2024,-20,-19.94,second,F11,purple,,,0.799795138,1,0.510849894,h150:h200,1,0,1
+78,Milford,December,12/9/2024,-5,-7.1,second,F12,purple,,,0.872445297,1,0.510849894,h150:h200,1,0,1
+87,Milford,December,12/9/2024,-33,-33.05,second,F13,colorless,,,0.002631886,0,0.510849894,h150:h200,0,0,0
+28,Milford,December,12/9/2024,-27,-26.93,first,F4,purple,,,0.639963889,1,0.510849894,h150:h200,1,0,1
+51,Milford,December,12/9/2024,-33,-33.05,second,F8,colorless,,,0.088059353,0,0.510849894,h150:h200,0,0,0
+7,Milford,December,12/9/2024,-30,-29.93,first,G1,colorless,,,0.058660883,0,0.510849894,h150:h200,0,0,0
+79,Milford,December,12/9/2024,10,10,second,G12,purple,,,0.776566537,1,0.510849894,h150:h200,1,0,1
+88,Milford,December,12/9/2024,-24,-24.2,second,G13,purple,,,0.665828544,1,0.510849894,h150:h200,1,0,1
+14,Milford,December,12/9/2024,10,10,first,G2,purple,,,0.84976494,1,0.510849894,h150:h200,1,0,1
+22,Milford,December,12/9/2024,10,10,first,G3,purple,,,0.733052193,1,0.510849894,h150:h200,1,0,1
+29,Milford,December,12/9/2024,-5,-4.99,first,G4,purple,,,0.802276997,1,0.510849894,h150:h200,1,0,1
+38,Milford,December,12/9/2024,-30,-29.93,first,G6,colorless,,,0.27051514,0,0.510849894,h150:h200,0,0,0
+52,Milford,December,12/9/2024,Live Control,,second,G8,purple,,,0.758306434,1,0.510849894,h150:h200,1,0,1
+60,Milford,December,12/9/2024,-33,-33.05,second,G9,colorless,,,0.005386035,0,0.510849894,h150:h200,0,0,0
+40,Milford,December,12/9/2024,-15,-14.99,first,H1,purple,,,0.729644958,1,0.510849894,h150:h200,1,0,1
+71,Milford,December,12/9/2024,-15,-15.17,second,H11,purple,,,0.792179487,1,0.510849894,h150:h200,1,0,1
+80,Milford,December,12/9/2024,-33,-33.05,second,H12,colorless,,,0.012677199,0,0.510849894,h150:h200,0,0,0
+15,Milford,December,12/9/2024,-33,-32.98,first,H2,colorless,,,0.029894266,0,0.510849894,h150:h200,0,0,0
+30,Milford,December,12/9/2024,-30,-29.93,first,H4,colorless,,,0.00273796,0,0.510849894,h150:h200,0,0,0
+39,Milford,December,12/9/2024,10,10,first,H6,purple,,,0.551743536,1,0.510849894,h150:h200,1,0,1
+61,Milford,December,12/9/2024,-24,-24.2,second,H9,purple,,,0.746985423,1,0.510849894,h150:h200,1,0,1
+41,Milford,December,12/9/2024,-27,-26.93,first,I1,colorless,,,1.37E-05,0,0.510849894,h150:h200,0,0,0
+72,Milford,December,12/9/2024,-27,-26.97,second,I11,colorless,,,0.00369299,0,0.510849894,h150:h200,0,0,0
+81,Milford,December,12/9/2024,Dead Control,,second,I12,colorless,,,0.061082591,0,0.510849894,h150:h200,0,0,0
+89,Milford,December,12/9/2024,-5,-7.1,second,I13,purple,,,0.614164978,1,0.510849894,h150:h200,1,0,1
+31,Milford,December,12/9/2024,10,10,first,I4,purple,,,0.699556913,1,0.510849894,h150:h200,1,0,1
+54,Milford,December,12/9/2024,-5,-7.1,second,I8,purple,,,0.749059718,1,0.510849894,h150:h200,1,0,1
+62,Milford,December,12/9/2024,-20,-19.94,second,I9,purple,,,0.641290374,1,0.510849894,h150:h200,1,0,1
+63,Milford,December,12/9/2024,10,10,second,J1,purple,,,0.71029992,1,0.510849894,h150:h200,1,0,1
+199,Winchester,December,12/16/2024,-27,-27.08,first,A16,colorless,,,0.009832802,0,0.420909569,h0:h82,0,0,0
+224,Winchester,December,12/16/2024,-5,-5.91,first,A18,purple,,,0.833729806,1,0.420909569,h0:h82,1,0,1
+237,Winchester,December,12/16/2024,-27,-26.9,third,A19,colorless,,,0.155169274,0,0.420909569,h0:h82,0,0,0
+198,Winchester,December,12/16/2024,-5,-5.91,first,A20,purple,,,0.882908197,1,0.420909569,h0:h82,1,0,1
+263,Winchester,December,12/16/2024,-15,-14.89,third,AA1,purple,,,0.932013193,1,0.420909569,h0:h82,1,0,1
+188,Winchester,December,12/16/2024,-33,-32.98,first,B14,colorless,,,0.052238032,0,0.420909569,h0:h82,0,0,0
+200,Winchester,December,12/16/2024,-15,-15.02,first,B16,purple,,,0.855348809,1,0.420909569,h0:h82,1,0,1
+225,Winchester,December,12/16/2024,-33,-32.98,first,B18,colorless,,,0.082309759,0,0.420909569,h0:h82,0,0,0
+238,Winchester,December,12/16/2024,-5,-5.25,third,B19,purple,,slightly moldy,0.847723658,1,0.420909569,h0:h82,1,0,1
+251,Winchester,December,12/16/2024,-24,-23.86,third,B20,purple,,,0.82476871,1,0.420909569,h0:h82,1,0,1
+189,Winchester,December,12/16/2024,-20,-20.03,first,C14,purple,,,0.886623414,1,0.420909569,h0:h82,1,0,1
+201,Winchester,December,12/16/2024,Dead Control,,first,C16,colorless,,,0.09574954,0,0.420909569,h0:h82,0,0,0
+212,Winchester,December,12/16/2024,-20,-20.03,first,C17,purple,,,0.751562913,1,0.420909569,h0:h82,1,0,1
+226,Winchester,December,12/16/2024,-24,-22.46,first,C18,purple,,,0.766238905,1,0.420909569,h0:h82,1,0,1
+239,Winchester,December,12/16/2024,-33,-32.91,third,C19,burst,,"moldy, dried",,0,,,0,,0
+202,Winchester,December,12/16/2024,-20,-20.03,first,D16,colorless,,,0.071327504,0,0.420909569,h0:h82,0,0,0
+213,Winchester,December,12/16/2024,Live Control,,first,D17,purple,,,0.914670389,1,0.420909569,h0:h82,1,0,1
+227,Winchester,December,12/16/2024,-15,-15.02,first,D18,purple,,,0.799664689,1,0.420909569,h0:h82,1,0,1
+252,Winchester,December,12/16/2024,-30,-29.98,third,D20,colorless,,,0.048723777,0,0.420909569,h0:h82,0,0,0
+203,Winchester,December,12/16/2024,10,10,first,E16,purple,,,0.899376997,1,0.420909569,h0:h82,1,0,1
+214,Winchester,December,12/16/2024,-5,-5.91,first,E17,purple,,,0.815427817,1,0.420909569,h0:h82,1,0,1
+228,Winchester,December,12/16/2024,-20,-20.03,first,E18,purple,,shriveled,0.80375,1,0.420909569,h0:h82,1,0,1
+241,Winchester,December,12/16/2024,-24,-23.86,third,E19,purple,,,0.681877157,1,0.420909569,h0:h82,1,0,1
+253,Winchester,December,12/16/2024,10,10,third,E20,purple,,,0.934179711,1,0.420909569,h0:h82,1,0,1
+273,Winchester,December,12/16/2024,-24,-23.86,third,E7,purple,,,0.926352591,1,0.420909569,h0:h82,1,0,1
+192,Winchester,December,12/16/2024,-24,-22.46,first,F14,purple,,,0.896533278,1,0.420909569,h0:h82,1,0,1
+215,Winchester,December,12/16/2024,-15,-15.02,first,F17,purple,,,0.63375063,1,0.420909569,h0:h82,1,0,1
+229,Winchester,December,12/16/2024,-33,-32.98,first,F18,colorless,,,0.002202845,0,0.420909569,h0:h82,0,0,0
+242,Winchester,December,12/16/2024,-30,-29.98,third,F19,colorless,,,0.082977456,0,0.420909569,h0:h82,0,0,0
+193,Winchester,December,12/16/2024,-15,-15.02,first,G14,purple,,,0.907162957,1,0.420909569,h0:h82,1,0,1
+205,Winchester,December,12/16/2024,-33,-32.98,first,G16,colorless,,moldy,0.079873772,0,0.420909569,h0:h82,0,0,0
+230,Winchester,December,12/16/2024,-30,-30.01,first,G18,colorless,,,0.084292275,0,0.420909569,h0:h82,0,0,0
+243,Winchester,December,12/16/2024,-20,-20.11,third,G19,faint purple,,,0.50818825,1,0.420909569,h0:h82,1,0,1
+255,Winchester,December,12/16/2024,Live Control,,third,G20,purple,,,0.87673537,1,0.420909569,h0:h82,1,0,1
+131,Roanoke,December,12/16/2024,-30,-30.06,first,G7,colorless,,,0.037083333,0,0.440207827,h0:h82,0,0,0
+194,Winchester,December,12/16/2024,-27,-27.08,first,H14,purple,,,0.956844501,1,0.420909569,h0:h82,1,0,1
+206,Winchester,December,12/16/2024,-24,-22.46,first,H16,purple,,,0.552077694,1,0.420909569,h0:h82,1,0,1
+217,Winchester,December,12/16/2024,Dead Control,,first,H17,colorless,,"moldy, dried",0.148605469,0,0.420909569,h0:h82,0,0,0
+231,Winchester,December,12/16/2024,-5,-5.91,first,H18,purple,,,0.65910117,1,0.420909569,h0:h82,1,0,1
+244,Winchester,December,12/16/2024,Dead Control,,third,H19,colorless,,"moldy, dried",0.015047952,0,0.420909569,h0:h82,0,0,0
+256,Winchester,December,12/16/2024,-27,-26.9,third,H20,purple,,,0.983833785,1,0.420909569,h0:h82,1,0,1
+132,Roanoke,December,12/16/2024,Dead Control,,first,H7,colorless,,dried,0.186065229,0,0.440207827,h0:h82,0,0,0
+195,Winchester,December,12/16/2024,10,10,first,I14,purple,,,0.900370577,1,0.420909569,h0:h82,1,0,1
+207,Winchester,December,12/16/2024,-27,-27.08,first,I16,colorless,,,0.091399496,0,0.420909569,h0:h82,0,0,0
+232,Winchester,December,12/16/2024,10,10,first,I18,purple,,,0.869729865,1,0.420909569,h0:h82,1,0,1
+245,Winchester,December,12/16/2024,10,10,third,I19,purple,,,0.88894479,1,0.420909569,h0:h82,1,0,1
+257,Winchester,December,12/16/2024,Dead Control,,third,I20,colorless,,"moldy, dried",0.063358522,0,0.420909569,h0:h82,0,0,0
+133,Roanoke,December,12/16/2024,-27,-26.97,first,I7,colorless,,,0.006175668,0,0.440207827,h0:h82,0,0,0
+180,Roanoke,December,12/16/2024,-30,-29.89,second,J11,colorless,,,0.014486861,0,0.440207827,h0:h82,0,0,0
+274,Winchester,December,12/16/2024,-27,-26.9,third,J13,colorless,,,0.133220899,0,0.420909569,h0:h82,0,0,0
+196,Winchester,December,12/16/2024,Live Control,,first,J14,purple,,,0.988900748,1,0.420909569,h0:h82,1,0,1
+219,Winchester,December,12/16/2024,-15,-15.02,first,J17,purple,,,0.991562971,1,0.420909569,h0:h82,1,0,1
+233,Winchester,December,12/16/2024,-24,-22.46,first,J18,purple,,,0.775055263,1,0.420909569,h0:h82,1,0,1
+99,Roanoke,December,12/16/2024,10,10,first,J2,purple,,,0.549561545,1,0.440207827,h0:h82,1,0,1
+258,Winchester,December,12/16/2024,-27,-26.9,third,J20,purple,,,0.986135573,1,0.420909569,h0:h82,1,0,1
+109,Roanoke,December,12/16/2024,-25,-25.17,first,J3,purple,,,0.996133221,1,0.440207827,h0:h82,1,0,1
+120,Roanoke,December,12/16/2024,Live Control,,first,J4,purple,,,0.712749916,1,0.440207827,h0:h82,1,0,1
+135,Roanoke,December,12/16/2024,-5,-4.95,second,J6,purple,,,0.669919064,1,0.440207827,h0:h82,1,0,1
+146,Roanoke,December,12/16/2024,-20,-19.9,second,J7,purple,,,0.790065105,1,0.440207827,h0:h82,1,0,1
+169,Roanoke,December,12/16/2024,-5,-4.95,second,J9,purple,,,0.750351203,1,0.440207827,h0:h82,1,0,1
+90,Roanoke,December,12/16/2024,10,10,first,K1,purple,,,0.887420132,1,0.440207827,h0:h82,1,0,1
+181,Roanoke,December,12/16/2024,-20,-19.9,second,K11,purple,,,0.78648909,1,0.440207827,h0:h82,1,0,1
+197,Winchester,December,12/16/2024,-30,-30.01,first,K14,colorless,,,0.109390976,0,0.420909569,h0:h82,0,0,0
+209,Winchester,December,12/16/2024,-24,-22.46,first,K16,purple,,shriveled,0.775865282,1,0.420909569,h0:h82,1,0,1
+234,Winchester,December,12/16/2024,Live Control,,first,K18,purple,,,0.913194695,1,0.420909569,h0:h82,1,0,1
+247,Winchester,December,12/16/2024,-20,-20.11,third,K19,purple,,,0.64690576,1,0.420909569,h0:h82,1,0,1
+100,Roanoke,December,12/16/2024,-30,-30.06,first,K2,purple,,,0.908195301,1,0.440207827,h0:h82,1,0,1
+259,Winchester,December,12/16/2024,-30,-29.98,third,K20,colorless,,shriveled,0.118115668,0,0.420909569,h0:h82,0,0,0
+110,Roanoke,December,12/16/2024,10,10,first,K3,purple,,,0.944426761,1,0.440207827,h0:h82,1,0,1
+121,Roanoke,December,12/16/2024,-20,-20.21,first,K4,purple,,,0.841452165,1,0.440207827,h0:h82,1,0,1
+136,Roanoke,December,12/16/2024,-15,-14.86,second,K6,purple,,,0.663835074,1,0.440207827,h0:h82,1,0,1
+147,Roanoke,December,12/16/2024,10,10,second,K7,purple,,,0.611500147,1,0.440207827,h0:h82,1,0,1
+159,Roanoke,December,12/16/2024,-30,-29.89,second,K8,colorless,,,0.133766345,0,0.440207827,h0:h82,0,0,0
+170,Roanoke,December,12/16/2024,10,10,second,K9,purple,,,0.827251367,1,0.440207827,h0:h82,1,0,1
+91,Roanoke,December,12/16/2024,-33,-33.08,first,L1,colorless,,,0.189765034,0,0.440207827,h0:h82,0,0,0
+182,Roanoke,December,12/16/2024,-5,-4.95,second,L11,purple,,,0.881457553,1,0.440207827,h0:h82,1,0,1
+264,Winchester,December,12/16/2024,-33,-32.91,third,L12,burst,,dried,,0,,,0,,0
+101,Roanoke,December,12/16/2024,-25,-25.17,first,L2,colorless,,,0.335553275,0,0.440207827,h0:h82,0,0,0
+111,Roanoke,December,12/16/2024,-30,-30.06,first,L3,colorless,,,0.312871658,0,0.440207827,h0:h82,0,0,0
+122,Roanoke,December,12/16/2024,-5,-5.05,first,L4,purple,,,0.872148655,1,0.440207827,h0:h82,1,0,1
+137,Roanoke,December,12/16/2024,Live Control,,second,L6,purple,,,0.7146801,1,0.440207827,h0:h82,1,0,1
+148,Roanoke,December,12/16/2024,-25,-24.96,second,L7,purple,,,0.75168875,1,0.440207827,h0:h82,1,0,1
+171,Roanoke,December,12/16/2024,-27,-27.01,second,L9,purple,,,0.728316863,1,0.440207827,h0:h82,1,0,1
+92,Roanoke,December,12/16/2024,-20,-20.21,first,N1,purple,,,0.905517034,1,0.440207827,h0:h82,1,0,1
+183,Roanoke,December,12/16/2024,-33,-33.16,second,N11,colorless,,,0.021688437,0,0.440207827,h0:h82,0,0,0
+112,Roanoke,December,12/16/2024,Dead Control,,first,N3,colorless,,,0.046182899,0,0.440207827,h0:h82,0,0,0
+123,Roanoke,December,12/16/2024,-25,-25.17,first,N4,purple,,,0.721844692,1,0.440207827,h0:h82,1,0,1
+138,Roanoke,December,12/16/2024,10,10,second,N6,purple,,,0.514911521,1,0.440207827,h0:h82,1,0,1
+149,Roanoke,December,12/16/2024,-15,-14.86,second,N7,purple,,,0.52967371,1,0.440207827,h0:h82,1,0,1
+161,Roanoke,December,12/16/2024,-15,-14.86,second,N8,purple,,,0.795141015,1,0.440207827,h0:h82,1,0,1
+172,Roanoke,December,12/16/2024,-25,-24.96,second,N9,purple,,,0.727204558,1,0.440207827,h0:h82,1,0,1
+93,Roanoke,December,12/16/2024,-5,-5.05,first,O1,purple,,,0.965598216,1,0.440207827,h0:h82,1,0,1
+266,Winchester,December,12/16/2024,-20,-20.11,third,O12,purple,,,0.812232116,1,0.420909569,h0:h82,1,0,1
+103,Roanoke,December,12/16/2024,-20,-20.21,first,O2,purple,,,0.894963359,1,0.440207827,h0:h82,1,0,1
+113,Roanoke,December,12/16/2024,-27,-26.97,first,O3,colorless,,,0.028166567,0,0.440207827,h0:h82,0,0,0
+124,Roanoke,December,12/16/2024,10,10,first,O4,purple,,,0.908811945,1,0.440207827,h0:h82,1,0,1
+150,Roanoke,December,12/16/2024,Dead Control,,second,O7,colorless,,,0.013636364,0,0.440207827,h0:h82,0,0,0
+162,Roanoke,December,12/16/2024,-20,-19.9,second,O8,purple,,,0.690989728,1,0.440207827,h0:h82,1,0,1
+94,Roanoke,December,12/16/2024,-27,-26.97,first,P1,colorless,,,0.015096675,0,0.440207827,h0:h82,0,0,0
+185,Roanoke,December,12/16/2024,-27,-27.01,second,P11,purple,,,0.821231813,1,0.440207827,h0:h82,1,0,1
+267,Winchester,December,12/16/2024,10,10,third,P12,purple,,,0.9944952,1,0.420909569,h0:h82,1,0,1
+104,Roanoke,December,12/16/2024,Live Control,,first,P2,purple,,,0.799326385,1,0.440207827,h0:h82,1,0,1
+114,Roanoke,December,12/16/2024,-5,-5.05,first,P3,purple,,,0.851656071,1,0.440207827,h0:h82,1,0,1
+125,Roanoke,December,12/16/2024,-15,-14.97,first,P4,purple,,,0.914988197,1,0.440207827,h0:h82,1,0,1
+140,Roanoke,December,12/16/2024,-27,-27.01,second,P6,purple,,,0.514527568,1,0.440207827,h0:h82,1,0,1
+151,Roanoke,December,12/16/2024,-30,-29.89,second,P7,colorless,,slightly moldy,0.094371902,0,0.440207827,h0:h82,0,0,0
+163,Roanoke,December,12/16/2024,-33,-33.16,second,P8,colorless,,,0.17209003,0,0.440207827,h0:h82,0,0,0
+174,Roanoke,December,12/16/2024,-20,-19.9,second,P9,purple,,,0.702323017,1,0.440207827,h0:h82,1,0,1
+95,Roanoke,December,12/16/2024,-15,-14.97,first,Q1,purple,,,0.983553416,1,0.440207827,h0:h82,1,0,1
+186,Roanoke,December,12/16/2024,-27,-27.01,second,Q11,purple,,,0.058402045,0,0.440207827,h0:h82,1,10,0
+268,Winchester,December,12/16/2024,-20,-20.11,third,Q12,purple,,,0.621676381,1,0.420909569,h0:h82,1,0,1
+105,Roanoke,December,12/16/2024,-15,-14.97,first,Q2,purple,,,0.941297345,1,0.440207827,h0:h82,1,0,1
+115,Roanoke,December,12/16/2024,-15,-14.97,first,Q3,purple,,,0.875138674,1,0.440207827,h0:h82,1,0,1
+126,Roanoke,December,12/16/2024,-15,-14.97,first,Q4,purple,,,0.738253326,1,0.440207827,h0:h82,1,0,1
+141,Roanoke,December,12/16/2024,-20,-19.9,second,Q6,purple,,,0.636940335,1,0.440207827,h0:h82,1,0,1
+152,Roanoke,December,12/16/2024,-5,-4.95,second,Q7,purple,,,0.710080832,1,0.440207827,h0:h82,1,0,1
+96,Roanoke,December,12/16/2024,-30,-30.06,first,R1,purple,,,0.873175803,1,0.440207827,h0:h82,1,0,1
+278,Winchester,December,12/16/2024,Dead Control,,third,R11,colorless,,"moldy, dried",0.050258359,0,0.420909569,h0:h82,0,0,0
+269,Winchester,December,12/16/2024,Live Control,,third,R12,purple,,,0.693213668,1,0.420909569,h0:h82,1,0,1
+116,Roanoke,December,12/16/2024,-20,-20.21,first,R3,purple,,,0.91887849,1,0.440207827,h0:h82,1,0,1
+127,Roanoke,December,12/16/2024,10,10,first,R4,purple,,,0.828083033,1,0.440207827,h0:h82,1,0,1
+165,Roanoke,December,12/16/2024,-25,-24.96,second,R8,purple,,,0.738652364,1,0.440207827,h0:h82,1,0,1
+176,Roanoke,December,12/16/2024,Dead Control,,second,R9,colorless,,dried,0.096604406,0,0.440207827,h0:h82,0,0,0
+97,Roanoke,December,12/16/2024,-25,-25.17,first,S1,purple,,,0.97565699,1,0.440207827,h0:h82,1,0,1
+270,Winchester,December,12/16/2024,-30,-29.98,third,S12,colorless,,,0.009389955,0,0.420909569,h0:h82,0,0,0
+107,Roanoke,December,12/16/2024,-27,-26.97,first,S2,colorless,,,0.034229938,0,0.440207827,h0:h82,0,0,0
+128,Roanoke,December,12/16/2024,-33,-33.08,first,S4,colorless,,,0.133726334,0,0.440207827,h0:h82,0,0,0
+143,Roanoke,December,12/16/2024,-25,-24.96,second,S6,purple,,,0.510821249,1,0.440207827,h0:h82,1,0,1
+154,Roanoke,December,12/16/2024,-27,-27.01,second,S7,purple,,,0.634622051,1,0.440207827,h0:h82,1,0,1
+177,Roanoke,December,12/16/2024,-30,-29.89,second,S9,colorless,,,0.071288107,0,0.440207827,h0:h82,0,0,0
+98,Roanoke,December,12/16/2024,Dead Control,,first,T1,colorless,,dried,0.205992509,0,0.440207827,h0:h82,0,0,0
+280,Winchester,December,12/16/2024,-33,-32.91,third,T11,burst,,dried,,0,,,0,,0
+108,Roanoke,December,12/16/2024,-33,-33.08,first,T2,colorless,,,0.048696457,0,0.440207827,h0:h82,0,0,0
+118,Roanoke,December,12/16/2024,-27,-26.97,first,T3,purple,,,0.55245927,1,0.440207827,h0:h82,1,0,1
+129,Roanoke,December,12/16/2024,-5,-5.05,first,T4,purple,,,0.78480752,1,0.440207827,h0:h82,1,0,1
+144,Roanoke,December,12/16/2024,-30,-29.89,second,T6,colorless,,,0.112649326,0,0.440207827,h0:h82,0,0,0
+167,Roanoke,December,12/16/2024,-5,-4.95,second,T8,purple,,,0.733046561,1,0.440207827,h0:h82,1,0,1
+178,Roanoke,December,12/16/2024,-15,-14.86,second,T9,purple,,,0.726103338,1,0.440207827,h0:h82,1,0,1
+157,Roanoke,December,12/16/2024,Live Control,,second,U1,purple,,,0.674423145,1,0.440207827,h0:h82,1,0,1
+281,Winchester,December,12/16/2024,-30,-29.98,third,U11,colorless,,,0.020914947,0,0.420909569,h0:h82,0,0,0
+272,Winchester,December,12/16/2024,-5,-5.25,third,U12,purple,,slightly moldy,0.514544106,1,0.420909569,h0:h82,1,0,1
+134,Roanoke,December,12/16/2024,-20,-20.21,first,U2,purple,,,0.65879816,1,0.440207827,h0:h82,1,0,1
+119,Roanoke,December,12/16/2024,-33,-33.08,first,U3,colorless,,,0.144158753,0,0.440207827,h0:h82,0,0,0
+130,Roanoke,December,12/16/2024,-25,-25.17,first,U4,purple,,,0.781037904,1,0.440207827,h0:h82,1,0,1
+168,Roanoke,December,12/16/2024,-33,-33.16,second,U8,purple,,,0.515767757,1,0.440207827,h0:h82,1,0,1
+179,Roanoke,December,12/16/2024,10,10,second,U9,purple,,,0.892803862,1,0.440207827,h0:h82,1,0,1
+275,Winchester,December,12/16/2024,-33,-32.91,third,V12,burst,,dried,,0,,,0,,0
+221,Winchester,December,12/16/2024,10,10,first,X1,purple,,,0.508144499,1,0.420909569,h0:h82,1,0,1
+284,Winchester,December,12/16/2024,-20,-20.11,third,X11,purple,,,0.869083487,1,0.420909569,h0:h82,1,0,1
+248,Winchester,December,12/16/2024,-5,-5.25,third,X3,purple,,slightly moldy,0.794374077,1,0.420909569,h0:h82,1,0,1
+260,Winchester,December,12/16/2024,-24,-23.86,third,X4,purple,,,0.942725742,1,0.420909569,h0:h82,1,0,1
+222,Winchester,December,12/16/2024,-27,-27.08,first,Y1,colorless,,viscous,0.039769472,0,0.420909569,h0:h82,0,0,0
+285,Winchester,December,12/16/2024,-24,-23.86,third,Y11,purple,,,0.784363045,1,0.420909569,h0:h82,1,0,1
+236,Winchester,December,12/16/2024,-27,-27.08,first,Y2,colorless,,,0.033697632,0,0.420909569,h0:h82,0,0,0
+249,Winchester,December,12/16/2024,-33,-32.91,third,Y3,burst,,dried,,0,,,0,,0
+261,Winchester,December,12/16/2024,-5,-5.25,third,Y4,purple,,,0.868181702,1,0.420909569,h0:h82,1,0,1
+286,Winchester,December,12/16/2024,-27,-26.9,third,Z11,purple,,,0.937017273,1,0.420909569,h0:h82,1,0,1
+277,Winchester,December,12/16/2024,10,10,third,Z2,purple,,,0.897147689,1,0.420909569,h0:h82,1,0,1
+262,Winchester,December,12/16/2024,10,10,third,Z4,purple,,shriveled,0.817838066,1,0.420909569,h0:h82,1,0,1
+287,Milford,January,1/7/2025,-29,-30.1,first,L13,colorless,,,0.00098361,0,0.518984088,h195:h245,0,0,0
+301,Milford,January,1/7/2025,-25,-26.93,first,L14,colorless,,,0.000650216,0,0.518984088,h195:h245,0,0,0
+329,Milford,January,1/7/2025,-15,-15.24,second,L16,purple,,,0.999822072,1,0.518984088,h195:h245,1,0,1
+342,Milford,January,1/7/2025,10,10,second,L17,purple,,,0.999602814,1,0.518984088,h195:h245,1,0,1
+354,Milford,January,1/7/2025,-20,-19.91,third,L18,purple,,,0.99983941,1,0.518984088,h195:h245,1,0,1
+288,Milford,January,1/7/2025,-15,-19.06,first,N13,purple,,,0.999720126,1,0.518984088,h195:h245,1,0,1
+302,Milford,January,1/7/2025,10,10,first,N14,purple,,,0.992827668,1,0.518984088,h195:h245,1,0,1
+316,Milford,January,1/7/2025,-20,-22.94,first,N15,purple,,,1,1,0.518984088,h195:h245,1,0,1
+330,Milford,January,1/7/2025,Dead Control,,second,N16,colorless,,,0.049103529,0,0.518984088,h195:h245,0,0,0
+343,Milford,January,1/7/2025,-25,-24.92,second,N17,purple,,,0.999962107,1,0.518984088,h195:h245,1,0,1
+355,Milford,January,1/7/2025,-29,-28.95,third,N18,colorless,,,0.000165924,0,0.518984088,h195:h245,0,0,0
+369,Milford,January,1/7/2025,-15,-14.98,third,N19,purple,,,1,1,0.518984088,h195:h245,1,0,1
+382,Milford,January,1/7/2025,-25,-24.9,third,N20,purple,,,0.997566463,1,0.518984088,h195:h245,1,0,1
+289,Milford,January,1/7/2025,10,10,first,O13,purple,,,0.984449139,1,0.518984088,h195:h245,1,0,1
+303,Milford,January,1/7/2025,Dead Control,,first,O14,colorless,,,0,0,0.518984088,h195:h245,0,0,0
+317,Milford,January,1/7/2025,-15,-19.06,first,O15,purple,,,0.978172045,1,0.518984088,h195:h245,1,0,1
+331,Milford,January,1/7/2025,-29,-28.94,second,O16,colorless,,,0.047605215,0,0.518984088,h195:h245,0,0,0
+344,Milford,January,1/7/2025,-15,-15.24,second,O17,purple,,,0.994784323,1,0.518984088,h195:h245,1,0,1
+356,Milford,January,1/7/2025,-34,-32.4,third,O18,colorless,,,0.078658029,0,0.518984088,h195:h245,0,0,0
+370,Milford,January,1/7/2025,-20,-19.91,third,O19,colorless,,,0.000831673,0,0.518984088,h195:h245,0,0,0
+383,Milford,January,1/7/2025,-15,-14.98,third,O20,purple,,,0.999689156,1,0.518984088,h195:h245,1,0,1
+318,Milford,January,1/7/2025,10,10,first,P15,purple,,,0.999460465,1,0.518984088,h195:h245,1,0,1
+345,Milford,January,1/7/2025,Dead Control,,second,P17,colorless,,"moldy, dry",0.007596974,0,0.518984088,h195:h245,0,0,0
+357,Milford,January,1/7/2025,-15,-14.98,third,P18,purple,,,0.992160513,1,0.518984088,h195:h245,1,0,1
+291,Milford,January,1/7/2025,Live Control,,first,Q13,purple,,,0.988864648,1,0.518984088,h195:h245,1,0,1
+305,Milford,January,1/7/2025,-15,-19.06,first,Q14,purple,,,0.999863011,1,0.518984088,h195:h245,1,0,1
+319,Milford,January,1/7/2025,-29,-30.1,first,Q15,colorless,,viscous,0.004409776,0,0.518984088,h195:h245,0,0,0
+333,Milford,January,1/7/2025,10,10,second,Q16,purple,,,0.997662501,1,0.518984088,h195:h245,1,0,1
+346,Milford,January,1/7/2025,-34,-31.97,second,Q17,colorless,,,0.005477673,0,0.518984088,h195:h245,0,0,0
+358,Milford,January,1/7/2025,-25,-24.9,third,Q18,purple,,,1,1,0.518984088,h195:h245,1,0,1
+372,Milford,January,1/7/2025,Dead Control,,third,Q19,colorless,,"moldy, dried",0.013539344,0,0.518984088,h195:h245,0,0,0
+384,Milford,January,1/7/2025,10,10,third,Q20,purple,,,0.973347812,1,0.518984088,h195:h245,1,0,1
+292,Milford,January,1/7/2025,-25,-26.93,first,R13,purple,,,0.999799782,1,0.518984088,h195:h245,1,0,1
+306,Milford,January,1/7/2025,-34,-33.71,first,R14,colorless,,,0,0,0.518984088,h195:h245,0,0,0
+320,Milford,January,1/7/2025,Live Control,,first,R15,purple,,,0.999198779,1,0.518984088,h195:h245,1,0,1
+334,Milford,January,1/7/2025,-34,-31.97,second,R16,colorless,,,0.078569509,0,0.518984088,h195:h245,0,0,0
+347,Milford,January,1/7/2025,-20,-20.14,second,R17,purple,,,0.998066872,1,0.518984088,h195:h245,1,0,1
+359,Milford,January,1/7/2025,10,10,third,R18,purple,,,0.998080296,1,0.518984088,h195:h245,1,0,1
+373,Milford,January,1/7/2025,10,10,third,R19,purple,,,1,1,0.518984088,h195:h245,1,0,1
+385,Milford,January,1/7/2025,-20,-19.91,third,R20,purple,,,0.999302432,1,0.518984088,h195:h245,1,0,1
+293,Milford,January,1/7/2025,-20,-22.94,first,S13,purple,,,1,1,0.518984088,h195:h245,1,0,1
+321,Milford,January,1/7/2025,-20,-20.14,second,S15,purple,,,0.751245389,1,0.518984088,h195:h245,1,0,1
+335,Milford,January,1/7/2025,10,10,second,S16,purple,,,0.972862689,1,0.518984088,h195:h245,1,0,1
+348,Milford,January,1/7/2025,-15,-15.24,second,S17,purple,,,0.996301931,1,0.518984088,h195:h245,1,0,1
+360,Milford,January,1/7/2025,Live Control,,third,S18,purple,,,0.999576403,1,0.518984088,h195:h245,1,0,1
+374,Milford,January,1/7/2025,-25,-24.9,third,S19,purple,,,0.929530781,1,0.518984088,h195:h245,1,0,1
+386,Milford,January,1/7/2025,-29,-28.95,third,S20,colorless,,viscous,0.000184083,0,0.518984088,h195:h245,0,0,0
+294,Milford,January,1/7/2025,-29,-30.1,first,T13,purple,,,0.999882415,1,0.518984088,h195:h245,1,0,1
+308,Milford,January,1/7/2025,-15,-19.06,first,T14,purple,,,0.999979704,1,0.518984088,h195:h245,1,0,1
+336,Milford,January,1/7/2025,-25,-24.92,second,T16,purple,,,0.99347935,1,0.518984088,h195:h245,1,0,1
+349,Milford,January,1/7/2025,-29,-28.94,second,T17,colorless,,,0.007791444,0,0.518984088,h195:h245,0,0,0
+361,Milford,January,1/7/2025,-15,-14.98,third,T18,purple,,,0.999580861,1,0.518984088,h195:h245,1,0,1
+375,Milford,January,1/7/2025,10,10,third,T19,purple,,,0.978476081,1,0.518984088,h195:h245,1,0,1
+295,Milford,January,1/7/2025,-34,-33.71,first,U13,colorless,,,0.007678003,0,0.518984088,h195:h245,0,0,0
+309,Milford,January,1/7/2025,-20,-22.94,first,U14,purple,,,1,1,0.518984088,h195:h245,1,0,1
+323,Milford,January,1/7/2025,10,10,second,U15,purple,,,0.993450615,1,0.518984088,h195:h245,1,0,1
+337,Milford,January,1/7/2025,Live Control,,second,U16,purple,,,0.999576562,1,0.518984088,h195:h245,1,0,1
+350,Milford,January,1/7/2025,-25,-24.92,second,U17,purple,,,1,1,0.518984088,h195:h245,1,0,1
+362,Milford,January,1/7/2025,-20,-19.91,third,U18,purple,,,0.986961174,1,0.518984088,h195:h245,1,0,1
+376,Milford,January,1/7/2025,-15,-14.98,third,U19,purple,,,0.998005125,1,0.518984088,h195:h245,1,0,1
+296,Milford,January,1/7/2025,-25,-26.93,first,V13,colorless,,,0.002032036,0,0.518984088,h195:h245,0,0,0
+324,Milford,January,1/7/2025,-15,-15.24,second,V15,purple,,,0.993213384,1,0.518984088,h195:h245,1,0,1
+338,Milford,January,1/7/2025,-15,-15.24,second,V16,purple,,,1,1,0.518984088,h195:h245,1,0,1
+351,Milford,January,1/7/2025,-34,-31.97,second,V17,colorless,,,0.005403392,0,0.518984088,h195:h245,0,0,0
+363,Milford,January,1/7/2025,-29,-28.95,third,V18,colorless,,viscous,0.000543642,0,0.518984088,h195:h245,0,0,0
+377,Milford,January,1/7/2025,-29,-28.95,third,V19,light purple,,,0.543499619,1,0.518984088,h195:h245,1,0,1
+379,Milford,January,1/7/2025,Live Control,,third,W1,purple,,,0.993033346,1,0.518984088,h195:h245,1,0,1
+297,Milford,January,1/7/2025,10,10,first,W13,purple,,,0.973598945,1,0.518984088,h195:h245,1,0,1
+311,Milford,January,1/7/2025,10,10,first,W14,purple,,,0.998059461,1,0.518984088,h195:h245,1,0,1
+325,Milford,January,1/7/2025,-29,-28.94,second,W15,colorless,,,0.014402671,0,0.518984088,h195:h245,0,0,0
+339,Milford,January,1/7/2025,-20,-20.14,second,W16,purple,,,0.998253654,1,0.518984088,h195:h245,1,0,1
+352,Milford,January,1/7/2025,10,10,second,W17,purple,,,0.984173867,1,0.518984088,h195:h245,1,0,1
+364,Milford,January,1/7/2025,-25,-24.9,third,W18,purple,,,0.937971182,1,0.518984088,h195:h245,1,0,1
+298,Milford,January,1/7/2025,-20,-22.94,first,X13,purple,,,0.990190451,1,0.518984088,h195:h245,1,0,1
+326,Milford,January,1/7/2025,-34,-31.97,second,X15,colorless,,,0.001183902,0,0.518984088,h195:h245,0,0,0
+340,Milford,January,1/7/2025,-29,-28.94,second,X16,colorless,,,0.032436281,0,0.518984088,h195:h245,0,0,0
+380,Milford,January,1/7/2025,-20,-19.91,third,X19,purple,,,0.998582911,1,0.518984088,h195:h245,1,0,1
+327,Milford,January,1/7/2025,-20,-20.14,second,Y15,purple,,,1,1,0.518984088,h195:h245,1,0,1
+341,Milford,January,1/7/2025,-29,-28.94,second,Y16,colorless,,,0.019877899,0,0.518984088,h195:h245,0,0,0
+366,Milford,January,1/7/2025,-34,-32.4,third,Y18,purple,,,0.986446997,1,0.518984088,h195:h245,1,0,1
+300,Milford,January,1/7/2025,-20,-22.94,first,Z13,purple,,,0.993589549,1,0.518984088,h195:h245,1,0,1
+314,Milford,January,1/7/2025,-34,-33.71,first,Z14,colorless,,shrivelled,0.00283977,0,0.518984088,h195:h245,0,0,0
+367,Milford,January,1/7/2025,-34,-32.4,third,Z18,purple,,,0.96341164,1,0.518984088,h195:h245,1,0,1
+387,Winchester,January,1/13/2025,Live Control,,first,A1,purple,,,0.959541628,1,0.531271316,h195:h245,1,0,1
+417,Winchester,January,1/13/2025,-25,-24.64,first,A20,purple,,,0.995874649,1,0.531271316,h195:h245,1,0,1
+418,Winchester,January,1/13/2025,Live Control,,first,A3,purple,,,0.987843371,1,0.531271316,h195:h245,1,0,1
+433,Winchester,January,1/13/2025,10,10,second,A4,purple,,,0.963285625,1,0.531271316,h195:h245,1,0,1
+448,Winchester,January,1/13/2025,-15,-14.93,second,A6,purple,,,0.980497869,1,0.531271316,h195:h245,1,0,1
+403,Winchester,January,1/13/2025,-29,-28.54,first,B2,burst,,"dried, but had burst post-cooler bath",,0,,,0,0,0
+419,Winchester,January,1/13/2025,-29,-28.41,second,B3,colorless,,,0.010252155,0,0.531271316,h195:h245,0,0,0
+434,Winchester,January,1/13/2025,-20,-20.16,second,B4,purple,,,0.98055537,1,0.531271316,h195:h245,1,0,1
+449,Winchester,January,1/13/2025,10,10,second,B6,purple,,,0.990636027,1,0.531271316,h195:h245,1,0,1
+464,Winchester,January,1/13/2025,Live Control,,third,B7,purple,,,0.930373097,1,0.531271316,h195:h245,1,0,1
+389,Winchester,January,1/13/2025,-15,-14.93,first,C1,purple,,,0.970960793,1,0.531271316,h195:h245,1,0,1
+404,Winchester,January,1/13/2025,10,10,first,C2,purple,,,0.999945544,1,0.531271316,h195:h245,1,0,1
+420,Winchester,January,1/13/2025,-34,-29.72,second,C3,colorless,,,0.008654145,0,0.531271316,h195:h245,0,0,0
+450,Winchester,January,1/13/2025,-20,-20.16,second,C6,purple,,,0.993727454,1,0.531271316,h195:h245,1,0,1
+465,Winchester,January,1/13/2025,-34,-28.14,third,C7,colorless,,,0,0,0.531271316,h195:h245,0,0,0
+390,Winchester,January,1/13/2025,-29,-28.54,first,D1,burst,,"dried, but had burst post-cooler bath",,0,,,0,0,0
+405,Winchester,January,1/13/2025,Dead Control,,first,D2,colorless,,moldy,0.008622514,0,0.531271316,h195:h245,0,0,0
+436,Winchester,January,1/13/2025,-15,-14.93,second,D4,purple,,,0.991188841,1,0.531271316,h195:h245,1,0,1
+451,Winchester,January,1/13/2025,-25,-24.86,second,D6,purple,,,0.958760728,1,0.531271316,h195:h245,1,0,1
+466,Winchester,January,1/13/2025,-25,-22.62,third,D7,purple,,,0.997857767,1,0.531271316,h195:h245,1,0,1
+391,Winchester,January,1/13/2025,-25,-24.64,first,E1,purple,,,0.99840447,1,0.531271316,h195:h245,1,0,1
+406,Winchester,January,1/13/2025,-15,-14.93,first,E2,purple,,,0.980672022,1,0.531271316,h195:h245,1,0,1
+422,Winchester,January,1/13/2025,-20,-20.16,second,E3,purple,,,0.998547558,1,0.531271316,h195:h245,1,0,1
+437,Winchester,January,1/13/2025,-34,-29.72,second,E4,colorless,,,0.286734519,0,0.531271316,h195:h245,0,0,0
+452,Winchester,January,1/13/2025,10,10,third,E6,purple,,,0.999857102,1,0.531271316,h195:h245,1,0,1
+467,Winchester,January,1/13/2025,-15,-14.19,third,E7,purple,,,0.99918019,1,0.531271316,h195:h245,1,0,1
+392,Winchester,January,1/13/2025,10,10,first,F1,purple,,,0.9999844,1,0.531271316,h195:h245,1,0,1
+407,Winchester,January,1/13/2025,10,10,first,F2,purple,,,0.993850248,1,0.531271316,h195:h245,1,0,1
+423,Winchester,January,1/13/2025,-25,-24.86,second,F3,purple,,,0.917620843,1,0.531271316,h195:h245,1,0,1
+453,Winchester,January,1/13/2025,-15,-14.19,third,F6,purple,,,0.996141861,1,0.531271316,h195:h245,1,0,1
+468,Winchester,January,1/13/2025,-20,-19.65,third,F7,purple,,,0.996405769,1,0.531271316,h195:h245,1,0,1
+393,Winchester,January,1/13/2025,-20,-20.02,first,G1,purple,,,0.992583712,1,0.531271316,h195:h245,1,0,1
+408,Winchester,January,1/13/2025,-25,-24.64,first,G2,purple,,,0.998359453,1,0.531271316,h195:h245,1,0,1
+424,Winchester,January,1/13/2025,Dead Control,,second,G3,colorless,,"moldy, dried",0.021635539,0,0.531271316,h195:h245,0,0,0
+439,Winchester,January,1/13/2025,10,10,second,G4,purple,,,0.992105953,1,0.531271316,h195:h245,1,0,1
+454,Winchester,January,1/13/2025,-20,-19.65,third,G6,colorless,,,0.002725732,0,0.531271316,h195:h245,0,0,0
+469,Winchester,January,1/13/2025,-29,-26.1,third,G7,purple,,,0.999401465,1,0.531271316,h195:h245,1,0,1
+394,Winchester,January,1/13/2025,-34,-31.65,first,H1,colorless,,,0.001129639,0,0.531271316,h195:h245,0,0,0
+409,Winchester,January,1/13/2025,-15,-14.93,first,H2,purple,,,0.988869961,1,0.531271316,h195:h245,1,0,1
+425,Winchester,January,1/13/2025,-15,-14.93,second,H3,purple,,,0.991396909,1,0.531271316,h195:h245,1,0,1
+455,Winchester,January,1/13/2025,-29,-26.1,third,H6,purple,,,0.999149896,1,0.531271316,h195:h245,1,0,1
+470,Winchester,January,1/13/2025,-20,-19.65,third,H7,purple,,,0.999467287,1,0.531271316,h195:h245,1,0,1
+395,Winchester,January,1/13/2025,-15,-14.93,first,I1,purple,,,0.987892952,1,0.531271316,h195:h245,1,0,1
+410,Winchester,January,1/13/2025,-29,-28.54,first,I2,colorless,,,0.008712708,0,0.531271316,h195:h245,0,0,0
+426,Winchester,January,1/13/2025,-34,-29.72,second,I3,colorless,,,0,0,0.531271316,h195:h245,0,0,0
+441,Winchester,January,1/13/2025,Dead Control,,second,I4,colorless,,"moldy, dried",0.006431029,0,0.531271316,h195:h245,0,0,0
+456,Winchester,January,1/13/2025,Dead Control,,third,I6,colorless,,"moldy, dried",0.132169534,0,0.531271316,h195:h245,0,0,0
+471,Winchester,January,1/13/2025,-29,-26.1,third,I7,purple,,,0.978328783,1,0.531271316,h195:h245,1,0,1
+396,Winchester,January,1/13/2025,10,10,first,J1,purple,,,0.978353276,1,0.531271316,h195:h245,1,0,1
+411,Winchester,January,1/13/2025,-34,-31.65,first,J2,colorless,,,0.002369283,0,0.531271316,h195:h245,0,0,0
+427,Winchester,January,1/13/2025,-29,-28.41,second,J3,colorless,,,3.52E-05,0,0.531271316,h195:h245,0,0,0
+442,Winchester,January,1/13/2025,-29,-28.41,second,J4,colorless,,,0.008719004,0,0.531271316,h195:h245,0,0,0
+457,Winchester,January,1/13/2025,-25,-22.62,third,J6,purple,,,0.967934074,1,0.531271316,h195:h245,1,0,1
+472,Winchester,January,1/13/2025,-25,-22.62,third,J7,purple,,,0.969679949,1,0.531271316,h195:h245,1,0,1
+397,Winchester,January,1/13/2025,-20,-20.02,first,K1,purple,,,0.998442566,1,0.531271316,h195:h245,1,0,1
+412,Winchester,January,1/13/2025,-20,-20.02,first,K2,purple,,,0.999298278,1,0.531271316,h195:h245,1,0,1
+428,Winchester,January,1/13/2025,Live Control,,second,K3,purple,,,0.998942103,1,0.531271316,h195:h245,1,0,1
+443,Winchester,January,1/13/2025,-25,-24.86,second,K4,purple,,,0.984132749,1,0.531271316,h195:h245,1,0,1
+473,Winchester,January,1/13/2025,10,10,third,K7,purple,,,0.985796749,1,0.531271316,h195:h245,1,0,1
+398,Winchester,January,1/13/2025,-29,-28.54,first,L1,burst,,"dried, but had burst post-cooler bath",,0,,,0,0,0
+413,Winchester,January,1/13/2025,-20,-20.02,first,L2,purple,,,0.951507908,1,0.531271316,h195:h245,1,0,1
+429,Winchester,January,1/13/2025,-15,-14.93,second,L3,purple,,,0.999789717,1,0.531271316,h195:h245,1,0,1
+444,Winchester,January,1/13/2025,-15,-14.93,second,L4,purple,,,1,1,0.531271316,h195:h245,1,0,1
+474,Winchester,January,1/13/2025,-15,-14.19,third,L7,purple,,,0.993538443,1,0.531271316,h195:h245,1,0,1
+399,Winchester,January,1/13/2025,-25,-24.64,first,N1,purple,,,0.991025869,1,0.531271316,h195:h245,1,0,1
+414,Winchester,January,1/13/2025,-34,-31.65,first,N2,colorless,,,0.001477852,0,0.531271316,h195:h245,0,0,0
+478,Winchester,January,1/13/2025,10,10,third,N20,purple,,,0.969336964,1,0.531271316,h195:h245,1,0,1
+430,Winchester,January,1/13/2025,-20,-20.16,second,N3,purple,,,0.985558594,1,0.531271316,h195:h245,1,0,1
+445,Winchester,January,1/13/2025,-20,-20.16,second,N4,purple,,,0.971859209,1,0.531271316,h195:h245,1,0,1
+460,Winchester,January,1/13/2025,-29,-26.1,third,N6,purple,,,0.99958084,1,0.531271316,h195:h245,1,0,1
+475,Winchester,January,1/13/2025,-29,-26.1,third,N7,purple,,,0.999803854,1,0.531271316,h195:h245,1,0,1
+415,Winchester,January,1/13/2025,-15,-14.93,first,O2,purple,,,0.999759718,1,0.531271316,h195:h245,1,0,1
+479,Winchester,January,1/13/2025,10,10,third,O20,purple,,,0.956545591,1,0.531271316,h195:h245,1,0,1
+446,Winchester,January,1/13/2025,-29,-28.41,second,O4,colorless,,,0,0,0.531271316,h195:h245,0,0,0
+461,Winchester,January,1/13/2025,-20,-19.65,third,O6,colorless,,,0.030960251,0,0.531271316,h195:h245,0,0,0
+476,Winchester,January,1/13/2025,-25,-22.62,third,O7,purple,,,0.983199294,1,0.531271316,h195:h245,1,0,1
+401,Winchester,January,1/13/2025,-20,-20.02,first,P1,purple,,,0.999785685,1,0.531271316,h195:h245,1,0,1
+416,Winchester,January,1/13/2025,10,10,first,P2,purple,,,0.990486775,1,0.531271316,h195:h245,1,0,1
+480,Winchester,January,1/13/2025,-20,-19.65,third,P20,purple,,,0.998710499,1,0.531271316,h195:h245,1,0,1
+432,Winchester,January,1/13/2025,10,10,second,P3,purple,,,0.857244842,1,0.531271316,h195:h245,1,0,1
+447,Winchester,January,1/13/2025,Live Control,,second,P4,purple,,,0.996530423,1,0.531271316,h195:h245,1,0,1
+462,Winchester,January,1/13/2025,-25,-22.62,third,P6,purple,,,0.989305463,1,0.531271316,h195:h245,1,0,1
+477,Winchester,January,1/13/2025,Dead Control,,third,P7,colorless,,,0.064489838,0,0.531271316,h195:h245,0,0,0
+481,Winchester,January,1/13/2025,-34,-28.14,third,,burst,,,,0,,,0,0,0
+482,Winchester,January,1/13/2025,-34,-28.14,third,,burst,,,,0,,,0,0,0
+483,Winchester,January,1/13/2025,-34,-28.14,third,,burst,,,,0,,,0,0,0
+484,Winchester,January,1/13/2025,-34,-28.14,third,,burst,,,,0,,,0,0,0
+512,Roanoke,January,1/15/2025,-15,-16,first,A10,purple,,,0.977158724,1,0.574495343,h195:h245,1,0,1
+528,Roanoke,January,1/15/2025,-15,-14.98,second,A11,purple,,,0.992260613,1,0.574495343,h195:h245,1,0,1
+543,Roanoke,January,1/15/2025,-25,-25.05,second,A12,purple,,,1,1,0.574495343,h195:h245,1,0,1
+500,Roanoke,January,1/15/2025,-15,-16,first,A9,purple,,,0.99991762,1,0.574495343,h195:h245,1,0,1
+513,Roanoke,January,1/15/2025,-20,-20.64,first,B10,purple,,,0.905786282,1,0.574495343,h195:h245,1,0,1
+544,Roanoke,January,1/15/2025,10,10,second,B12,purple,,,0.94828376,1,0.574495343,h195:h245,1,0,1
+558,Roanoke,January,1/15/2025,-15,-14.86,third,B13,purple,,,0.988285469,1,0.574495343,h195:h245,1,0,1
+486,Roanoke,January,1/15/2025,-15,-16,first,B8,purple,,,1,1,0.574495343,h195:h245,1,0,1
+530,Roanoke,January,1/15/2025,-20,-20.46,second,C11,purple,,,0.999974638,1,0.574495343,h195:h245,1,0,1
+546,Roanoke,January,1/15/2025,10,10,second,C12,purple,,,0.999495711,1,0.574495343,h195:h245,1,0,1
+575,Roanoke,January,1/15/2025,Dead Control,,third,C14,colorless,,dried,0,0,0.574495343,h195:h245,0,0,0
+487,Roanoke,January,1/15/2025,-20,-20.64,first,C8,purple,,,0.999632684,1,0.574495343,h195:h245,1,0,1
+502,Roanoke,January,1/15/2025,-20,-20.64,first,C9,purple,,,0.998867311,1,0.574495343,h195:h245,1,0,1
+515,Roanoke,January,1/15/2025,10,10,first,D10,purple,,,0.967374385,1,0.574495343,h195:h245,1,0,1
+531,Roanoke,January,1/15/2025,-34,-32.41,second,D11,colorless,,,0.004334347,0,0.574495343,h195:h245,0,0,0
+560,Roanoke,January,1/15/2025,-29,-29.02,third,D13,colorless,,,0.01736616,0,0.574495343,h195:h245,0,0,0
+576,Roanoke,January,1/15/2025,-15,-14.86,third,D14,purple,,,0.998700813,1,0.574495343,h195:h245,1,0,1
+488,Roanoke,January,1/15/2025,Live Control,,first,D8,purple,,,1,1,0.574495343,h195:h245,1,0,1
+516,Roanoke,January,1/15/2025,-29,-29.05,first,E10,purple,,,0.988901887,1,0.574495343,h195:h245,1,0,1
+548,Roanoke,January,1/15/2025,-20,-20.46,second,E12,purple,,,0.982351687,1,0.574495343,h195:h245,1,0,1
+561,Roanoke,January,1/15/2025,Live Control,,third,E13,purple,,,0.996204602,1,0.574495343,h195:h245,1,0,1
+577,Roanoke,January,1/15/2025,-20,-19.95,third,E14,purple,,,0.997636308,1,0.574495343,h195:h245,1,0,1
+489,Roanoke,January,1/15/2025,10,10,first,E8,purple,,,0.982336333,1,0.574495343,h195:h245,1,0,1
+504,Roanoke,January,1/15/2025,-29,-29.05,first,E9,colorless,,viscous,0.00278345,0,0.574495343,h195:h245,0,0,0
+533,Roanoke,January,1/15/2025,Dead Control,,second,F11,colorless,,dried,0.080281207,0,0.574495343,h195:h245,0,0,0
+549,Roanoke,January,1/15/2025,-15,-14.98,second,F12,purple,,,0.927440044,1,0.574495343,h195:h245,1,0,1
+578,Roanoke,January,1/15/2025,-20,-19.95,third,F14,purple,,,0.999820937,1,0.574495343,h195:h245,1,0,1
+490,Roanoke,January,1/15/2025,-25,-25.18,first,F8,purple,,,0.998774681,1,0.574495343,h195:h245,1,0,1
+505,Roanoke,January,1/15/2025,10,10,first,F9,purple,,,0.998563715,1,0.574495343,h195:h245,1,0,1
+518,Roanoke,January,1/15/2025,-25,-25.05,second,G10,purple,,,0.997783236,1,0.574495343,h195:h245,1,0,1
+534,Roanoke,January,1/15/2025,-20,-20.46,second,G11,purple,,,0.980099158,1,0.574495343,h195:h245,1,0,1
+550,Roanoke,January,1/15/2025,Dead Control,,second,G12,colorless,,dried,0.159412073,0,0.574495343,h195:h245,0,0,0
+563,Roanoke,January,1/15/2025,-25,-24.81,third,G13,purple,,,0.998441499,1,0.574495343,h195:h245,1,0,1
+579,Roanoke,January,1/15/2025,10,10,third,G14,purple,,,0.989310588,1,0.574495343,h195:h245,1,0,1
+506,Roanoke,January,1/15/2025,-20,-20.64,first,G9,purple,,,0.998575568,1,0.574495343,h195:h245,1,0,1
+519,Roanoke,January,1/15/2025,10,10,second,H10,purple,,shrivelled,0.806295007,1,0.574495343,h195:h245,1,0,1
+535,Roanoke,January,1/15/2025,-15,-14.98,second,H11,purple,,,0.988707553,1,0.574495343,h195:h245,1,0,1
+551,Roanoke,January,1/15/2025,-25,-25.05,second,H12,purple,,,0.973734018,1,0.574495343,h195:h245,1,0,1
+564,Roanoke,January,1/15/2025,10,10,third,H13,purple,,,0.992260749,1,0.574495343,h195:h245,1,0,1
+580,Roanoke,January,1/15/2025,-15,-14.86,third,H14,purple,,,0.968847828,1,0.574495343,h195:h245,1,0,1
+507,Roanoke,January,1/15/2025,Live Control,,first,H9,purple,,,0.989578614,1,0.574495343,h195:h245,1,0,1
+521,Roanoke,January,1/15/2025,Dead Control,,second,I10,colorless,,,0.002412408,0,0.574495343,h195:h245,0,0,0
+536,Roanoke,January,1/15/2025,10,10,second,I11,purple,,moldy,0.950066594,1,0.574495343,h195:h245,1,0,1
+552,Roanoke,January,1/15/2025,-15,-14.86,third,I12,purple,,,0.997930429,1,0.574495343,h195:h245,1,0,1
+493,Roanoke,January,1/15/2025,-34,-31.3,first,I8,colorless,,viscous,0.00719055,0,0.574495343,h195:h245,0,0,0
+508,Roanoke,January,1/15/2025,-34,-31.3,first,I9,colorless,,"dropped egg, small chance found egg is wrong",0.047909528,0,0.574495343,h195:h245,0,0,0
+537,Roanoke,January,1/15/2025,-25,-25.05,second,J11,purple,,,0.974037455,1,0.574495343,h195:h245,1,0,1
+553,Roanoke,January,1/15/2025,-29,-29.02,third,J12,colorless,,,0.058302019,0,0.574495343,h195:h245,0,0,0
+567,Roanoke,January,1/15/2025,-34,-31.33,third,J13,colorless,,,0.041215572,0,0.574495343,h195:h245,0,0,0
+582,Roanoke,January,1/15/2025,-34,-31.33,third,J14,colorless,,viscous,0.011277387,0,0.574495343,h195:h245,0,0,0
+494,Roanoke,January,1/15/2025,Dead Control,,first,J8,colorless,,dried,0.000268178,0,0.574495343,h195:h245,0,0,0
+509,Roanoke,January,1/15/2025,-15,-16,first,J9,purple,,,0.990086367,1,0.574495343,h195:h245,1,0,1
+538,Roanoke,January,1/15/2025,-34,-32.41,second,K11,colorless,,,0.013975588,0,0.574495343,h195:h245,0,0,0
+554,Roanoke,January,1/15/2025,-34,-31.33,third,K12,colorless,,,0.013630324,0,0.574495343,h195:h245,0,0,0
+568,Roanoke,January,1/15/2025,-15,-14.86,third,K13,purple,,,0.99989869,1,0.574495343,h195:h245,1,0,1
+495,Roanoke,January,1/15/2025,-15,-16,first,K8,purple,,,0.965499706,1,0.574495343,h195:h245,1,0,1
+510,Roanoke,January,1/15/2025,-25,-25.18,first,K9,colorless,,,0.118034222,0,0.574495343,h195:h245,0,0,0
+539,Roanoke,January,1/15/2025,-20,-20.46,second,L11,purple,,,0.999768581,1,0.574495343,h195:h245,1,0,1
+555,Roanoke,January,1/15/2025,-20,-19.95,third,L12,purple,,,0.999975982,1,0.574495343,h195:h245,1,0,1
+569,Roanoke,January,1/15/2025,10,10,third,L13,purple,,,0.828112807,1,0.574495343,h195:h245,1,0,1
+496,Roanoke,January,1/15/2025,-20,-20.64,first,L8,purple,,,0.971712345,1,0.574495343,h195:h245,1,0,1
+511,Roanoke,January,1/15/2025,-34,-31.3,first,L9,colorless,,"viscous, shrivelled",0.000534887,0,0.574495343,h195:h245,0,0,0
+525,Roanoke,January,1/15/2025,-34,-32.41,second,N10,colorless,,,0.012581519,0,0.574495343,h195:h245,0,0,0
+540,Roanoke,January,1/15/2025,-29,-29.17,second,N11,colorless,,viscous,0.000289569,0,0.574495343,h195:h245,0,0,0
+556,Roanoke,January,1/15/2025,10,10,third,N12,purple,,,0.977857428,1,0.574495343,h195:h245,1,0,1
+570,Roanoke,January,1/15/2025,-20,-19.95,third,N13,purple,,,0.91620935,1,0.574495343,h195:h245,1,0,1
+497,Roanoke,January,1/15/2025,10,10,first,N8,purple,,,0.996127897,1,0.574495343,h195:h245,1,0,1
+526,Roanoke,January,1/15/2025,Live Control,,second,O10,colorless,,,0.016434034,0,0.574495343,h195:h245,0,0,0
+541,Roanoke,January,1/15/2025,-15,-14.98,second,O11,purple,,,0.999763454,1,0.574495343,h195:h245,1,0,1
+527,Roanoke,January,1/15/2025,10,10,second,P10,purple,,,0.995186028,1,0.574495343,h195:h245,1,0,1
+572,Roanoke,January,1/15/2025,10,10,third,P13,purple,,,0.885118953,1,0.574495343,h195:h245,1,0,1
+520,Roanoke,January,1/15/2025,-29,-29.17,second,,burst,,,,0,,,0,0,0
+545,Roanoke,January,1/15/2025,-29,-29.17,second,,burst,,,,0,,,0,0,0
+565,Roanoke,January,1/15/2025,-29,-29.02,third,,burst,,,,0,,,0,0,0
+584,Milford,February,2/10/2025,-20,-19.18,first,A15,colorless,,,1.17E-05,0,0.378339308,h195:h220,0,0,0
+598,Milford,February,2/10/2025,Dead Control,,first,A16,light purple,,,0.025390022,0,0.378339308,h195:h220,1,1,0
+612,Milford,February,2/10/2025,-20,-19.18,first,A17,colorless,,,4.62E-05,0,0.378339308,h195:h220,0,0,0
+627,Milford,February,2/10/2025,-20,-20,second,A18,purple,,,0.973287252,1,0.378339308,h195:h220,1,0,1
+641,Milford,February,2/10/2025,-20,-20,second,A19,purple,,,0.756569433,1,0.378339308,h195:h220,1,0,1
+679,Milford,February,2/10/2025,Dead Control,,third,AA14,colorless,,,0.012780051,0,0.378339308,h195:h220,0,0,0
+599,Milford,February,2/10/2025,10,10,first,B16,purple,,,0.897409782,1,0.378339308,h195:h220,1,0,1
+613,Milford,February,2/10/2025,-29,-28.98,first,B17,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+628,Milford,February,2/10/2025,10,10,second,B18,purple,,,0.806114847,1,0.378339308,h195:h220,1,0,1
+642,Milford,February,2/10/2025,-25,-25.46,second,B19,purple,,,0.593014448,1,0.378339308,h195:h220,1,0,1
+657,Milford,February,2/10/2025,-29,-28.59,third,B20,colorless,,,0.002853721,0,0.378339308,h195:h220,0,0,0
+680,Milford,February,2/10/2025,-25,-24.59,third,BB14,purple,,,0.919245795,1,0.378339308,h195:h220,1,0,1
+586,Milford,February,2/10/2025,-29,-28.98,first,C15,purple,,,0.740475559,1,0.378339308,h195:h220,1,0,1
+600,Milford,February,2/10/2025,-15,-13.16,first,C16,colorless,,,5.30E-05,0,0.378339308,h195:h220,0,0,0
+614,Milford,February,2/10/2025,-15,-13.16,first,C17,colorless,,,0.002329882,0,0.378339308,h195:h220,0,0,0
+629,Milford,February,2/10/2025,10,10,second,C18,purple,,,0.815475027,1,0.378339308,h195:h220,1,0,1
+644,Milford,February,2/10/2025,-15,-15.26,second,C19,purple,,,0.842195085,1,0.378339308,h195:h220,1,0,1
+658,Milford,February,2/10/2025,-25,-24.59,third,C20,purple,,,0.953389769,1,0.378339308,h195:h220,1,0,1
+681,Milford,February,2/10/2025,-15,-15.76,third,CC14,purple,,,0.873959899,1,0.378339308,h195:h220,1,0,1
+587,Milford,February,2/10/2025,-25,-24.82,first,D15,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+601,Milford,February,2/10/2025,-25,-24.82,first,D16,purple,,,0.558050847,1,0.378339308,h195:h220,1,0,1
+615,Milford,February,2/10/2025,10,10,first,D17,purple,,,0.86602154,1,0.378339308,h195:h220,1,0,1
+630,Milford,February,2/10/2025,-29,-28.84,second,D18,colorless,,,0.000345369,0,0.378339308,h195:h220,0,0,0
+645,Milford,February,2/10/2025,-20,-20,second,D19,purple,,,0.956284559,1,0.378339308,h195:h220,1,0,1
+659,Milford,February,2/10/2025,10,10,third,D20,purple,,,0.985811427,1,0.378339308,h195:h220,1,0,1
+682,Milford,February,2/10/2025,10,10,third,DD14,purple,,,0.79301712,1,0.378339308,h195:h220,1,0,1
+588,Milford,February,2/10/2025,-15,-13.16,first,E15,colorless,,,0.000231154,0,0.378339308,h195:h220,0,0,0
+616,Milford,February,2/10/2025,-25,-24.82,first,E17,colorless,,,0.000117551,0,0.378339308,h195:h220,0,0,0
+631,Milford,February,2/10/2025,-25,-25.46,second,E18,purple,,,0.977511462,1,0.378339308,h195:h220,1,0,1
+646,Milford,February,2/10/2025,-25,-25.46,second,E19,purple,,,0.993177368,1,0.378339308,h195:h220,1,0,1
+660,Milford,February,2/10/2025,-34,-32.82,third,E20,colorless,,,0.006221821,0,0.378339308,h195:h220,0,0,0
+671,Milford,February,2/10/2025,-29,-28.59,third,EE6,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+589,Milford,February,2/10/2025,Live Control,,first,F15,purple,,,0.937895563,1,0.378339308,h195:h220,1,0,1
+603,Milford,February,2/10/2025,-29,-28.98,first,F16,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+617,Milford,February,2/10/2025,-29,-28.84,second,F17,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+632,Milford,February,2/10/2025,Dead Control,,second,F18,colorless,,,5.16E-05,0,0.378339308,h195:h220,0,0,0
+661,Milford,February,2/10/2025,-20,-21.23,third,F20,purple,,,0.803666698,1,0.378339308,h195:h220,1,0,1
+590,Milford,February,2/10/2025,10,10,first,G15,purple,,,0.994947259,1,0.378339308,h195:h220,1,0,1
+604,Milford,February,2/10/2025,-25,-24.82,first,G16,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+618,Milford,February,2/10/2025,-20,-20,second,G17,purple,,,0.634057399,1,0.378339308,h195:h220,1,0,1
+648,Milford,February,2/10/2025,10,10,second,G19,purple,,,0.996696096,1,0.378339308,h195:h220,1,0,1
+662,Milford,February,2/10/2025,Live Control,,third,G20,purple,,,0.871318571,1,0.378339308,h195:h220,1,0,1
+591,Milford,February,2/10/2025,-15,-13.16,first,H15,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+605,Milford,February,2/10/2025,-29,-28.98,first,H16,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+634,Milford,February,2/10/2025,-20,-20,second,H18,purple,,,0.7717373,1,0.378339308,h195:h220,1,0,1
+649,Milford,February,2/10/2025,Dead Control,,third,H19,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+663,Milford,February,2/10/2025,Dead Control,,third,H20,colorless,,,0.005738806,0,0.378339308,h195:h220,0,0,0
+592,Milford,February,2/10/2025,-20,-19.18,first,I15,purple,,,0.931547804,1,0.378339308,h195:h220,1,0,1
+606,Milford,February,2/10/2025,-20,-19.18,first,I16,colorless,,,9.49E-05,0,0.378339308,h195:h220,0,0,0
+620,Milford,February,2/10/2025,10,10,second,I17,purple,,,0.822153885,1,0.378339308,h195:h220,1,0,1
+635,Milford,February,2/10/2025,-34,-30.63,second,I18,colorless,,viscous,0,0,0.378339308,h195:h220,0,0,0
+650,Milford,February,2/10/2025,-34,-32.82,third,I19,colorless,,,9.15E-05,0,0.378339308,h195:h220,0,0,0
+664,Milford,February,2/10/2025,-25,-24.59,third,I20,purple,,,0.809792935,1,0.378339308,h195:h220,1,0,1
+593,Milford,February,2/10/2025,-29,-28.98,first,J15,colorless,,,0.000147558,0,0.378339308,h195:h220,0,0,0
+621,Milford,February,2/10/2025,-25,-25.46,second,J17,purple,,,0.90104228,1,0.378339308,h195:h220,1,0,1
+636,Milford,February,2/10/2025,10,10,second,J18,purple,,,0.983705627,1,0.378339308,h195:h220,1,0,1
+651,Milford,February,2/10/2025,-25,-24.59,third,J19,purple,,,0.440050902,1,0.378339308,h195:h220,1,0,1
+665,Milford,February,2/10/2025,10,10,third,J20,purple,,,0.913931736,1,0.378339308,h195:h220,1,0,1
+594,Milford,February,2/10/2025,-25,-24.82,first,K15,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+608,Milford,February,2/10/2025,10,10,first,K16,purple,,,0.818307765,1,0.378339308,h195:h220,1,0,1
+622,Milford,February,2/10/2025,-15,-15.26,second,K17,purple,,,0.876033172,1,0.378339308,h195:h220,1,0,1
+638,Milford,February,2/10/2025,-34,-30.63,second,K18,colorless,,viscous,0,0,0.378339308,h195:h220,0,0,0
+652,Milford,February,2/10/2025,-20,-21.23,third,K19,purple,,,0.671676414,1,0.378339308,h195:h220,1,0,1
+666,Milford,February,2/10/2025,-34,-32.82,third,K20,colorless,,,0.009056719,0,0.378339308,h195:h220,0,0,0
+672,Milford,February,2/10/2025,-15,-15.76,third,L14,purple,,,0.962100606,1,0.378339308,h195:h220,1,0,1
+595,Milford,February,2/10/2025,10,10,first,L15,purple,,,0.840241312,1,0.378339308,h195:h220,1,0,1
+609,Milford,February,2/10/2025,-25,-24.82,first,L16,faint purple,,,0.00041675,0,0.378339308,h195:h220,1,1,0
+623,Milford,February,2/10/2025,-15,-15.26,second,L17,purple,,,0.959215558,1,0.378339308,h195:h220,1,0,1
+639,Milford,February,2/10/2025,-15,-15.26,second,L18,purple,,,0.925873289,1,0.378339308,h195:h220,1,0,1
+653,Milford,February,2/10/2025,-29,-28.59,third,L19,purple,,,0.843759864,1,0.378339308,h195:h220,1,0,1
+673,Milford,February,2/10/2025,-25,-24.59,third,N14,purple,,,0.927046899,1,0.378339308,h195:h220,1,0,1
+610,Milford,February,2/10/2025,Live Control,,first,N16,purple,,,0.958814697,1,0.378339308,h195:h220,1,0,1
+624,Milford,February,2/10/2025,-25,-25.46,second,N17,purple,,,0.834189596,1,0.378339308,h195:h220,1,0,1
+640,Milford,February,2/10/2025,Live Control,,second,N18,purple,,,0.731288594,1,0.378339308,h195:h220,1,0,1
+654,Milford,February,2/10/2025,10,10,third,N19,purple,,,0.885801712,1,0.378339308,h195:h220,1,0,1
+668,Milford,February,2/10/2025,-20,-21.23,third,N20,purple,,,0.680473882,1,0.378339308,h195:h220,1,0,1
+674,Milford,February,2/10/2025,10,10,third,O14,purple,,,0.835707044,1,0.378339308,h195:h220,1,0,1
+597,Milford,February,2/10/2025,-20,-19.18,first,O15,colorless,,,0,0,0.378339308,h195:h220,0,0,0
+611,Milford,February,2/10/2025,-34,-30.15,first,O16,colorless,,,8.45E-06,0,0.378339308,h195:h220,0,0,0
+625,Milford,February,2/10/2025,-29,-28.84,second,O17,colorless,,,3.24E-06,0,0.378339308,h195:h220,0,0,0
+655,Milford,February,2/10/2025,-15,-15.76,third,O19,purple,,,0.939595552,1,0.378339308,h195:h220,1,0,1
+669,Milford,February,2/10/2025,-15,-15.76,third,O20,purple,,,0.573435772,1,0.378339308,h195:h220,1,0,1
+626,Milford,February,2/10/2025,-34,-30.63,second,P17,colorless,,viscous,0,0,0.378339308,h195:h220,0,0,0
+656,Milford,February,2/10/2025,-15,-15.76,third,P19,purple,,,0.914151423,1,0.378339308,h195:h220,1,0,1
+670,Milford,February,2/10/2025,-20,-21.23,third,P20,purple,,,0.910834822,1,0.378339308,h195:h220,1,0,1
+676,Milford,February,2/10/2025,Live Control,,third,P9,purple,,,0.940806948,1,0.378339308,h195:h220,1,0,1
+678,Milford,February,2/10/2025,-20,-21.23,third,Z14,colorless,,,0.000752477,0,0.378339308,h195:h220,0,0,0
+712,CT,January,1/21/2026,10,10,first,A12,purple,,,0.990598278,1,0.457998456,h195:230,,,
+728,CT,January,1/21/2026,-35,-34.49,second,A13,colorless,,,0,0,0.457998456,h195:230,,,
+744,CT,January,1/21/2026,-19,-22.31,second,A14,purple,,,0.997349041,1,0.457998456,h195:230,,,
+761,CT,January,1/21/2026,-27,-26.6,third,A15,colorless,,diifferent BVT from rest of BVT session,0,0,0.450034195,h195:230,,,
+697,CT,January,1/21/2026,-31,-31.26,first,B11,colorless,,,0,0,0.457998456,h195:230,,,
+713,CT,January,1/21/2026,-27,-26.92,first,B12,colorless,,,0,0,0.457998456,h195:230,,,
+729,CT,January,1/21/2026,-23,-23.54,second,B13,colorless,,,0,0,0.457998456,h195:230,,,
+762,CT,January,1/21/2026,-19,-16.88,third,B15,purple,,diifferent BVT from rest of BVT session,0.767036415,1,0.450034195,h195:230,,,
+778,CT,January,1/21/2026,Dead Control,,third,BB14,colorless,,diifferent BVT from rest of BVT session,0,0,0.450034195,h195:230,,,
+684,CT,January,1/21/2026,-19,-19.77,first,C10,colorless,,,0,0,0.457998456,h195:230,,,
+714,CT,January,1/21/2026,-19,-19.77,first,C12,purple,,,0.991848648,1,0.457998456,h195:230,,,
+746,CT,January,1/21/2026,-27,-27.58,second,C14,colorless,,,0,0,0.457998456,h195:230,,,
+685,CT,January,1/21/2026,-35,-32.41,first,D10,colorless,,,0,0,0.457998456,h195:230,,,
+698,CT,January,1/21/2026,-27,-26.92,first,D11,purple,,,0.906606549,1,0.457998456,h195:230,,,
+715,CT,January,1/21/2026,-19,-22.31,second,D12,purple,,,0.938411325,1,0.457998456,h195:230,,,
+731,CT,January,1/21/2026,-31,-30.99,second,D13,colorless,,,0,0,0.457998456,h195:230,,,
+747,CT,January,1/21/2026,-35,-34.89,third,D14,colorless,,,0,0,0.457998456,h195:230,,,
+764,CT,January,1/21/2026,-23,-22.81,third,D15,colorless,,diifferent BVT from rest of BVT session,0,0,0.450034195,h195:230,,,
+686,CT,January,1/21/2026,-27,-26.92,first,E10,colorless,,,2.87E-05,0,0.457998456,h195:230,,,
+699,CT,January,1/21/2026,Dead Control,,first,E11,colorless,,,0,0,0.457998456,h195:230,,,
+716,CT,January,1/21/2026,-31,-30.99,second,E12,colorless,,,0,0,0.457998456,h195:230,,,
+732,CT,January,1/21/2026,10,10,second,E13,purple,,,0.977709522,1,0.457998456,h195:230,,,
+748,CT,January,1/21/2026,-27,-26.6,third,E14,faint purple,,,0.000245787,0,0.457998456,h195:230,,,
+711,CT,January,1/21/2026,-35,-32.41,first,EE14,colorless,,,0,0,0.457998456,h195:230,,,
+760,CT,January,1/21/2026,10,10,third,EE2,faint purple,,,0.185806497,0,0.457998456,h195:230,,,
+777,CT,January,1/21/2026,10,10,third,EE3,purple,,diifferent BVT from rest of BVT session,0.889589892,1,0.450034195,h195:230,,,
+779,CT,January,1/21/2026,Live Control,,third,EE4,purple,,diifferent BVT from rest of BVT session,0.90006839,1,0.450034195,h195:230,,,
+717,CT,January,1/21/2026,Dead Control,,second,F12,colorless,,,0,0,0.457998456,h195:230,,,
+733,CT,January,1/21/2026,-19,-22.31,second,F13,purple,,,0.921914235,1,0.457998456,h195:230,,,
+749,CT,January,1/21/2026,10,10,third,F14,purple,,,0.899317088,1,0.457998456,h195:230,,,
+766,CT,January,1/21/2026,10,10,third,F15,purple,,diifferent BVT from rest of BVT session,0.763202912,1,0.450034195,h195:230,,,
+687,CT,January,1/21/2026,10,10,first,G10,purple,,,0.740040744,1,0.457998456,h195:230,,,
+718,CT,January,1/21/2026,-35,-34.49,second,G12,colorless,,,0,0,0.457998456,h195:230,,,
+734,CT,January,1/21/2026,-35,-34.49,second,G13,colorless,,,0,0,0.457998456,h195:230,,,
+688,CT,January,1/21/2026,-23,-24.27,first,H10,purple,,,0.733328755,1,0.457998456,h195:230,,,
+702,CT,January,1/21/2026,10,10,first,H11,purple,,,0.92164719,1,0.457998456,h195:230,,,
+735,CT,January,1/21/2026,10,10,second,H13,purple,,,0.974362874,1,0.457998456,h195:230,,,
+768,CT,January,1/21/2026,-27,-26.6,third,H15,colorless,,diifferent BVT from rest of BVT session,0,0,0.450034195,h195:230,,,
+689,CT,January,1/21/2026,Live Control,,first,I10,purple,,,0.952297113,1,0.457998456,h195:230,,,
+703,CT,January,1/21/2026,-31,-31.26,first,I11,colorless,,,0,0,0.457998456,h195:230,,,
+720,CT,January,1/21/2026,10,10,second,I12,purple,,,0.973256105,1,0.457998456,h195:230,,,
+736,CT,January,1/21/2026,-35,-34.49,second,I13,colorless,,,0,0,0.457998456,h195:230,,,
+752,CT,January,1/21/2026,-19,-16.88,third,I14,purple,,,0.999817692,1,0.457998456,h195:230,,,
+769,CT,January,1/21/2026,-19,-16.88,third,I15,purple,,diifferent BVT from rest of BVT session,0.971300664,1,0.450034195,h195:230,,,
+690,CT,January,1/21/2026,-31,-31.26,first,J10,purple,,,0.92615312,1,0.457998456,h195:230,,,
+704,CT,January,1/21/2026,-23,-24.27,first,J11,purple,,,0.974032086,1,0.457998456,h195:230,,,
+721,CT,January,1/21/2026,Live Control,,second,J12,purple,,,0.915996911,1,0.457998456,h195:230,,,
+737,CT,January,1/21/2026,-19,-22.31,second,J13,purple,,,0.980156611,1,0.457998456,h195:230,,,
+753,CT,January,1/21/2026,10,10,third,J14,purple,,,0.731977503,1,0.457998456,h195:230,,,
+770,CT,January,1/21/2026,-35,-34.89,third,J15,colorless,,diifferent BVT from rest of BVT session,0,0,0.450034195,h195:230,,,
+691,CT,January,1/21/2026,-27,-26.92,first,K10,purple,,,0.74549575,1,0.457998456,h195:230,,,
+705,CT,January,1/21/2026,10,10,first,K11,purple,,,0.974032086,1,0.457998456,h195:230,,,
+754,CT,January,1/21/2026,-35,-34.89,third,K14,colorless,,,4.87E-05,0,0.457998456,h195:230,,,
+771,CT,January,1/21/2026,-19,-16.88,third,K15,purple,,diifferent BVT from rest of BVT session,0.963910165,1,0.450034195,h195:230,,,
+692,CT,January,1/21/2026,-19,-19.77,first,L10,purple,,,0.763338808,1,0.457998456,h195:230,,,
+706,CT,January,1/21/2026,-19,-19.77,first,L11,purple,,,0.971857146,1,0.457998456,h195:230,,,
+740,CT,January,1/21/2026,-31,-30.99,second,L13,colorless,,,0,0,0.457998456,h195:230,,,
+693,CT,January,1/21/2026,-23,-24.27,first,N10,purple,,,0.525669981,1,0.457998456,h195:230,,,
+707,CT,January,1/21/2026,-27,-26.92,first,N11,purple,,,0.999976259,1,0.457998456,h195:230,,,
+724,CT,January,1/21/2026,-31,-30.99,second,N12,colorless,,,0,0,0.457998456,h195:230,,,
+756,CT,January,1/21/2026,-27,-26.6,third,N14,purple,,,0.837755393,1,0.457998456,h195:230,,,
+742,CT,January,1/21/2026,-23,-23.54,second,N2,colorless,,,0,0,0.457998456,h195:230,,,
+694,CT,January,1/21/2026,-31,-31.26,first,O10,faint purple,,,0.220276815,0,0.457998456,h195:230,,,
+708,CT,January,1/21/2026,-35,-32.41,first,O11,colorless,,,0,0,0.457998456,h195:230,,,
+725,CT,January,1/21/2026,-19,-22.31,second,O12,purple,,,0.94906914,1,0.457998456,h195:230,,,
+743,CT,January,1/21/2026,10,10,second,O13,purple,,,0.836477304,1,0.457998456,h195:230,,,
+757,CT,January,1/21/2026,-19,-16.88,third,O14,purple,,,0.978409813,1,0.457998456,h195:230,,,
+774,CT,January,1/21/2026,-35,-34.89,third,O15,colorless,,diifferent BVT from rest of BVT session,0,0,0.450034195,h195:230,,,
+709,CT,January,1/21/2026,-23,-24.27,first,P11,purple,,,0.985267448,1,0.457998456,h195:230,,,
+726,CT,January,1/21/2026,10,10,second,P12,purple,,,0.838857546,1,0.457998456,h195:230,,,
+758,CT,January,1/21/2026,-23,-22.81,third,P14,colorless,,,0.000106095,0,0.457998456,h195:230,,,
+775,CT,January,1/21/2026,-23,-22.81,third,P15,colorless,,diifferent BVT from rest of BVT session,0.000406105,0,0.450034195,h195:230,,,
+780,CT,January,1/21/2026,-19,-16.88,third,P8,purple,,diifferent BVT from rest of BVT session,0.880068911,1,0.450034195,h195:230,,,
+710,CT,January,1/21/2026,-31,-31.26,first,Q11,colorless,,,0,0,0.457998456,h195:230,,,
+759,CT,January,1/21/2026,-35,-34.89,third,Q14,colorless,,,0.000728261,0,0.457998456,h195:230,,,
+776,CT,January,1/21/2026,-27,-26.6,third,Q15,purple,,diifferent BVT from rest of BVT session,0.961127402,1,0.450034195,h195:230,,,
+781,CT,January,1/21/2026,Live Control,,third,Q4,purple,,diifferent BVT from rest of BVT session,0.990035211,1,0.450034195,h195:230,,,
+790,CT,March,3/2/2026,-35,-34.86,first,E11,colorless,,,0,0,0.453462004,h195:230,,,
+806,CT,March,3/2/2026,-23,-22.99,first,E12,purple,,,0.994242821,1,0.453462004,h195:230,,,
+823,CT,March,3/2/2026,-35,-34.97,second,E13,colorless,,thick,0,0,0.453462004,h195:230,,,
+841,CT,March,3/2/2026,-23,-23.66,second,E14,purple,,,0.98690025,1,0.453462004,h195:230,,,
+791,CT,March,3/2/2026,-23,-22.99,first,F11,purple,,,0.954594002,1,0.453462004,h195:230,,,
+807,CT,March,3/2/2026,-27,-26.93,first,F12,colorless,,,0,0,0.453462004,h195:230,,,
+824,CT,March,3/2/2026,10,10,second,F13,purple,,,0.933297907,1,0.453462004,h195:230,,,
+842,CT,March,3/2/2026,-19,-18.96,second,F14,purple,,,0.974140319,1,0.453462004,h195:230,,,
+792,CT,March,3/2/2026,-27,-26.93,first,G11,colorless,,,0,0,0.453462004,h195:230,,,
+808,CT,March,3/2/2026,-31,-31.23,first,G12,colorless,,,0.000173646,0,0.453462004,h195:230,,,
+825,CT,March,3/2/2026,-27,-26.83,second,G13,purple,,,0.972913466,1,0.453462004,h195:230,,,
+843,CT,March,3/2/2026,-27,-26.83,second,G14,purple,,,0.957507991,1,0.453462004,h195:230,,,
+861,CT,March,3/2/2026,-27,-26.34,third,G15,colorless,,,0,0,0.453462004,h195:230,,,
+793,CT,March,3/2/2026,-19,-18.89,first,H11,purple,,,1,1,0.453462004,h195:230,,,
+809,CT,March,3/2/2026,-27,-26.93,first,H12,colorless,,,0,0,0.453462004,h195:230,,,
+826,CT,March,3/2/2026,-35,-34.97,second,H13,colorless,,,0,0,0.453462004,h195:230,,,
+844,CT,March,3/2/2026,Live Control,,second,H14,purple,,,0.96796181,1,0.453462004,h195:230,,,
+810,CT,March,3/2/2026,10,10,first,I12,purple,,,1,1,0.453462004,h195:230,,,
+827,CT,March,3/2/2026,-19,-18.96,second,I13,purple,,,0.99037278,1,0.453462004,h195:230,,,
+863,CT,March,3/2/2026,-23,-23.04,third,I15,purple,,,0.911355796,1,0.453462004,h195:230,,,
+795,CT,March,3/2/2026,Dead Control,,first,J11,colorless,,dry,0,0,0.453462004,h195:230,,,
+811,CT,March,3/2/2026,-23,-22.99,first,J12,purple,,,0.891870451,1,0.453462004,h195:230,,,
+846,CT,March,3/2/2026,-27,-26.34,third,J14,purple,,,0.999994736,1,0.453462004,h195:230,,,
+864,CT,March,3/2/2026,Live Control,,third,J15,purple,,,0.995309316,1,0.453462004,h195:230,,,
+796,CT,March,3/2/2026,10,10,first,K11,purple,,,0.988863734,1,0.453462004,h195:230,,,
+812,CT,March,3/2/2026,-19,-18.89,first,K12,light purple,,thick,0.001904375,0,0.453462004,h195:230,,,
+829,CT,March,3/2/2026,-31,-31.85,second,K13,colorless,,,0,0,0.453462004,h195:230,,,
+847,CT,March,3/2/2026,-31,-30.94,third,K14,colorless,,,0,0,0.453462004,h195:230,,,
+865,CT,March,3/2/2026,-31,-30.94,third,K15,colorless,,,0,0,0.453462004,h195:230,,,
+782,CT,March,3/2/2026,-23,-22.99,first,L10,purple,,,0.99146167,1,0.453462004,h195:230,,,
+797,CT,March,3/2/2026,-23,-22.99,first,L11,colorless,,thick,0,0,0.453462004,h195:230,,,
+813,CT,March,3/2/2026,-35,-34.86,first,L12,colorless,,,0,0,0.453462004,h195:230,,,
+830,CT,March,3/2/2026,-23,-23.66,second,L13,purple,,,0.856792649,1,0.453462004,h195:230,,,
+848,CT,March,3/2/2026,-23,-23.04,third,L14,purple,,,0.898120341,1,0.453462004,h195:230,,,
+866,CT,March,3/2/2026,-19,-19.18,third,L15,purple,,,0.838144544,1,0.453462004,h195:230,,,
+783,CT,March,3/2/2026,-31,-31.23,first,N10,colorless,,,0.000400435,0,0.453462004,h195:230,,,
+798,CT,March,3/2/2026,-31,-31.23,first,N11,colorless,,thick,0,0,0.453462004,h195:230,,,
+814,CT,March,3/2/2026,-27,-26.83,second,N12,purple,,,0.999995043,1,0.453462004,h195:230,,,
+849,CT,March,3/2/2026,10,10,third,N14,purple,,,0.96282611,1,0.453462004,h195:230,,,
+867,CT,March,3/2/2026,-23,-23.04,third,N15,purple,,,0.963640106,1,0.453462004,h195:230,,,
+784,CT,March,3/2/2026,-27,-26.93,first,O10,colorless,,,0,0,0.453462004,h195:230,,,
+799,CT,March,3/2/2026,-27,-26.93,first,O11,colorless,,,0.000118011,0,0.453462004,h195:230,,,
+815,CT,March,3/2/2026,-35,-34.97,second,O12,colorless,,,0,0,0.453462004,h195:230,,,
+832,CT,March,3/2/2026,-31,-31.85,second,O13,colorless,,,4.66255E-05,0,0.453462004,h195:230,,,
+850,CT,March,3/2/2026,-35,-33.38,third,O14,colorless,,,0,0,0.453462004,h195:230,,,
+785,CT,March,3/2/2026,-35,-34.86,first,P10,colorless,,,0,0,0.453462004,h195:230,,,
+800,CT,March,3/2/2026,-19,-18.89,first,P11,purple,,,1,1,0.453462004,h195:230,,,
+816,CT,March,3/2/2026,-23,-23.66,second,P12,purple,,,0.903141677,1,0.453462004,h195:230,,,
+833,CT,March,3/2/2026,-27,-26.83,second,P13,purple,,,0.990859843,1,0.453462004,h195:230,,,
+851,CT,March,3/2/2026,-19,-19.18,third,P14,purple,,,0.99614075,1,0.453462004,h195:230,,,
+869,CT,March,3/2/2026,-27,-26.34,third,P15,colorless,,,0,0,0.453462004,h195:230,,,
+786,CT,March,3/2/2026,10,10,first,Q10,purple,,,0.962674563,1,0.453462004,h195:230,,,
+801,CT,March,3/2/2026,-35,-34.86,first,Q11,colorless,,,7.95862E-06,0,0.453462004,h195:230,,,
+817,CT,March,3/2/2026,10,10,second,Q12,purple,,,0.984342424,1,0.453462004,h195:230,,,
+834,CT,March,3/2/2026,10,10,second,Q13,purple,,,0.952720544,1,0.453462004,h195:230,,,
+787,CT,March,3/2/2026,-19,-18.89,first,R10,purple,,,0.96390625,1,0.453462004,h195:230,,,
+802,CT,March,3/2/2026,-19,-18.89,first,R11,purple,,,0.998939256,1,0.453462004,h195:230,,,
+818,CT,March,3/2/2026,-31,-31.85,second,R12,colorless,,thick,0.000112181,0,0.453462004,h195:230,,,
+835,CT,March,3/2/2026,-35,-34.97,second,R13,colorless,,,0.000186418,0,0.453462004,h195:230,,,
+853,CT,March,3/2/2026,-27,-26.34,third,R14,purple,,,0.922343763,1,0.453462004,h195:230,,,
+788,CT,March,3/2/2026,Live Control,,first,S10,purple,,,0.89118066,1,0.453462004,h195:230,,,
+803,CT,March,3/2/2026,-35,-34.86,first,S11,light purple,,,0.000451866,0,0.453462004,h195:230,,,
+836,CT,March,3/2/2026,-23,-23.66,second,S13,purple,,,0.994272813,1,0.453462004,h195:230,,,
+854,CT,March,3/2/2026,10,10,third,S14,purple,,,0.824266468,1,0.453462004,h195:230,,,
+872,CT,March,3/2/2026,-31,-30.94,third,S15,colorless,,,5.47251E-05,0,0.453462004,h195:230,,,
+789,CT,March,3/2/2026,10,10,first,T10,purple,,,0.997416593,1,0.453462004,h195:230,,,
+804,CT,March,3/2/2026,-31,-31.23,first,T11,colorless,,,0.001037752,0,0.453462004,h195:230,,,
+837,CT,March,3/2/2026,-19,-18.96,second,T13,purple,,,0.722694393,1,0.453462004,h195:230,,,
+855,CT,March,3/2/2026,-23,-23.04,third,T14,purple,,,0.948047314,1,0.453462004,h195:230,,,
+873,CT,March,3/2/2026,-23,-23.04,third,T15,purple,,,0.953448977,1,0.453462004,h195:230,,,
+805,CT,March,3/2/2026,10,10,first,U11,purple,,,0.827195343,1,0.453462004,h195:230,,,
+821,CT,March,3/2/2026,-23,-23.66,second,U12,purple,,,0.946293063,1,0.453462004,h195:230,,,
+838,CT,March,3/2/2026,10,10,second,U13,purple,,,0.996156056,1,0.453462004,h195:230,,,
+874,CT,March,3/2/2026,10,10,third,U15,purple,,,0.988150015,1,0.453462004,h195:230,,,
+822,CT,March,3/2/2026,-31,-31.85,second,V12,colorless,,thick,0,0,0.453462004,h195:230,,,
+839,CT,March,3/2/2026,-35,-34.97,second,V13,colorless,,,0,0,0.453462004,h195:230,,,
+857,CT,March,3/2/2026,Dead Control,,third,V14,colorless,,,5.35724E-05,0,0.453462004,h195:230,,,
+875,CT,March,3/2/2026,-27,-26.34,third,V15,purple,,,0.962289532,1,0.453462004,h195:230,,,
+840,CT,March,3/2/2026,-31,-31.85,second,W13,colorless,,,6.30096E-06,0,0.453462004,h195:230,,,
+,CT,March,3/2/2026,Live Control,,,S7,purple,,,0.996043182,1,0.453462004,h195:230,,,
+,CT,March,3/2/2026,Dead Control,,,K10,colorless,,,0.00139643,0,0.453462004,h195:230,,,
+,CT,March,3/2/2026,Dead Control,,,I7,colorless,,dry,0.015743347,0,0.453462004,h195:230,,,
+,CT,March,3/2/2026,Live Control,,,F10,purple,,,0.928275018,1,0.453462004,h195:230,,,
+,CT,March,3/2/2026,Dead Control,,,G10,colorless,,dry,0.001891225,0,0.453462004,h195:230,,,
+831,CT,March,3/2/2026,-27,-26.83,second,N13,,1,dry,,0,,h195:230,,,
+828,CT,March,3/2/2026,10,10,second,J13,,1,"dry, moldy",,0,,h195:230,,,

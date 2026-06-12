@@ -1,0 +1,414 @@
+---
+title: "SLF_LLTime_analysis"
+author: "Clarissa Moore"
+date: "2026-02-13"
+output: html_document
+---
+
+## load data
+```{r}
+#change the file directories to yours
+#LLTime <- read.csv("D:/SLF/Data/SLF_LLTime_data.csv")
+
+#Clarissa's original statements were
+LLTime <- read.csv("C:/Users/CLAHM/Downloads/SLF/Data/SLF_LLTime_data.csv")
+
+```
+
+##load packages
+```{r}
+#this will download any packages if you don't already have them
+packages <- c("tidyverse", "betareg", "survival", "lmerTest", "emmeans", "multcompView", "glmmTMB", "pwr", "ggh4x", "multcomp", "flextable", "car", "MASS", 'dunn.test', "dplyr","rstatix")
+
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    install.packages(package)
+  }
+}
+
+lapply(packages, library, character.only = TRUE)
+
+#load them
+library(tidyverse) #for ggplot, dplyr, etc (includes several packages)
+library(betareg) #for beta regression
+library(survival) #for Kaplan-Meier
+library(lmerTest) #for lmer p-values
+library(emmeans) #for cld
+library(multcompView) #for cld
+library(glmmTMB) #for beta regression
+library(pwr) # for power analysis
+library(ggh4x) #for facet_grid_2
+library(flextable) #for saving tables
+library(car) #for leveneTest()
+library(MASS)
+library(dunn.test)
+library(dplyr)
+library(rstatix)
+
+#make color pallette
+library(viridis)
+
+set.seed(123)  # for reproducibility
+
+# 10 evenly spaced colors from the viridis palette
+cols <- viridis(10)
+
+# randomize their order
+Palette <- sample(cols)
+Palette
+```
+
+## clean data
+```{r}
+LLTime <- LLTime[!(LLTime$site %in% c("Dead Control", "Live Control")), ] #remove controls, since these were only used to calculate viability, done in Excel
+
+LLTime <- LLTime %>% #add right and left bounds of interval censoring; 
+  mutate(left = ifelse(viability == 1, time, -Inf),
+         right = ifelse(viability == 1, Inf, time)) #if live, left = exposure time, right = infinity, if dead, left = -infinity, right = exposure time. Yes it is different from LLTemp because we're dealing with positive numbers now
+
+#since the code is set up to gorup just by site, not collection date, we'll differentiate the two 2026 trials in the site column
+LLTime <- LLTime %>%
+  mutate(site = ifelse(collection_date == "3/2/2026", "March CT", 
+               ifelse(collection_date == "1/21/2026", "January CT", site)))
+
+```
+
+#number of eggs used if not 4:
+```{r}
+LLTime_n2 <- LLTime %>%
+  group_by(site, temp, time,mass) %>%
+  dplyr::summarise(n_total = n())
+table(as.character(LLTime_n2$n_total))
+
+```
+
+##sample sizes
+```{r}
+#sample size
+LLTime_n <- LLTime %>%
+  group_by(site, temp, mass) %>%
+  dplyr::summarise(n_total = n(), 
+            n_dry = sum(remove, na.rm = T), 
+            n_used = (n()-n_dry),
+            prop_dry = n_dry/n_total)
+
+LLTime_n %>%
+  group_by(site) %>%
+  summarise(samplesizes = sum(n_used))
+```
+
+## dried egg numbers
+```{r}
+
+#number of dried eggs:
+sum(LLTime$remove == 1, na.rm = TRUE)/nrow(LLTime)
+#percent dried eggs:
+sum(LLTime$remove == 1, na.rm = TRUE)/nrow(LLTime)
+
+
+
+#proportion of dried eggs by temp:
+table(LLTime_n$prop_dry) 
+min(LLTime_n$prop_dry) 
+max(LLTime_n$prop_dry) 
+mean(LLTime_n[LLTime_n$temp =="-22", ]$prop_dry, na.rm = T) 
+mean(LLTime_n[LLTime_n$temp == "3", ]$prop_dry,  na.rm = T) 
+#No egg mass was comprised solely of dried eggs; 0-52.17 of the eggs. of a given mass were dried, with all but 1 of the 24 egg masses having at least one dried egg. The mean percent dried was 14.94 for eggs in 3 and almost twice as much, 24.55% for eggs at -22.
+```
+
+# raw data viz
+
+```{r}
+#make data set to calculate proportion of eggs that were alive, removing dry eggs
+prop_alive_no_dry <- LLTime %>%
+  filter(is.na(remove)) %>%
+  group_by(site, temp, time, mass)%>%
+  dplyr::summarize(n = n(), n_alive = sum(viability, na.rm = T)) %>%
+            mutate(propalive = n_alive/n)
+prop_alive_no_dry$time_cat <- factor(prop_alive_no_dry$time, levels = c("0", "1", "6", "24", "48", "72", "96", "120"))
+#proportions alive
+ggplot(prop_alive_no_dry, aes(x = time_cat, y = propalive)) +
+  geom_col()+
+  facet_grid(temp+site ~ mass)
+
+
+#line graph
+ggplot(prop_alive_no_dry, aes(x = time, y = propalive)) +
+  geom_point()+
+  geom_line()+
+  facet_grid(site+temp ~ mass)
+
+dog<-prop_alive_no_dry[prop_alive_no_dry$site == "January CT",]
+
+```
+
+## Kaplan-Meier
+```{r}
+LLTime_nodry <- LLTime[is.na(LLTime$remove), ]
+
+#generate Kaplan-Meier curves
+lltime_surv_obj <- with(LLTime_nodry, Surv(time = left, time2 = right, type = "interval2"))
+head(lltime_surv_obj, 100)
+lltime_km_fit <- survfit(lltime_surv_obj ~ site + temp + mass, data = LLTime_nodry)
+lltime_km_fit
+#exract data
+lltime_survd_raw <- data.frame(time = lltime_km_fit$time,
+                        prop_alive = lltime_km_fit$surv, 
+                        lower = lltime_km_fit$lower, 
+                        upper = lltime_km_fit$upper)
+lltime_survd_newdata <- data.frame(strata = lltime_km_fit$strata)
+
+lltime_survd_newdata <- lltime_survd_newdata %>%
+  rownames_to_column(var = "vars") %>%
+  separate(vars, into = c("site", "temp", "mass"), sep = ", ")%>%
+  mutate(site = sub(".*=", "", site),
+         temp = sub(".*=", "", temp),
+         mass = sub(".*=", "", mass)) %>%
+  slice(rep(row_number(), strata))
+lltime_survd <- cbind(lltime_survd_raw, lltime_survd_newdata[,-4])%>%
+  mutate(temp = str_trim(temp, side = "both")) # Removes spaces from both
+
+ggplot(lltime_survd, aes(x = time, y = prop_alive, color = mass)) +
+ geom_line()+
+  geom_point()+
+  geom_ribbon(aes(x = time, ymin = lower, ymax = upper, fill = mass), alpha = 0.1) +
+  facet_grid(temp~site) +
+  scale_fill_manual(values = Palette) +
+  scale_color_manual(values = Palette)
+
+```
+
+##-18beta reg
+```{r}
+lltime_survd$prop_alive <- ifelse(lltime_survd$prop_alive < 0.00001, 0.001, ifelse(lltime_survd$prop_alive == 1, 0.999, lltime_survd$prop_alive))
+
+lltime_survd$temp <- factor(lltime_survd$temp, levels = c("3","-18", "-22"))
+
+LLTimeModel <- glmmTMB(prop_alive ~ time * site * temp + (1|mass), data = lltime_survd[lltime_survd$site %in% c("January CT", "March CT"),], family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+#remove three way interaction
+LLTimeModel <- glmmTMB(prop_alive ~ site + time * temp + (1|mass), data = lltime_survd[lltime_survd$site %in% c("January CT", "March CT"),], family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+# Estimated marginal means for temp intercepts
+emm <- emmeans(LLTimeModel, ~ temp, at = list(time = 0))
+
+# All pairwise comparisons with Bonferroni correction
+pairs(emm, adjust = "bonferroni", type = "response")
+
+# Get slopes of temp within each sitemonth
+slopes <- emtrends(LLTimeModel, ~ temp, var = "time")
+
+# Pairwise comparisons of slopes
+pairs(slopes, adjust = "bonferroni")
+
+```
+
+```{r}
+LLTimeModel <- glmmTMB(prop_alive ~ site * time * temp + (1|mass), data = lltime_survd[lltime_survd$temp !="-18",], family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+LLTimeModel <- glmmTMB(prop_alive ~ time * temp + (1|mass), data = lltime_survd[lltime_survd$temp !="-18",], family = beta_family(link = "logit"))
+summary(LLTimeModel)
+```
+
+##beta reg
+```{r}
+lltime_survd$prop_alive <- ifelse(lltime_survd$prop_alive < 0.00001, 0.001, ifelse(lltime_survd$prop_alive == 1, 0.999, lltime_survd$prop_alive))
+
+lltime_survd$temp <- factor(lltime_survd$temp, levels = c("3", "-22"))
+lltime_survd$site <- factor(lltime_survd$site, levels = c("north VA", "south VA"))
+LLTimeModel <- glmmTMB(prop_alive ~ time * site * temp + (1|mass), data = lltime_survd, family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+lltime_survd$site <- factor(lltime_survd$site, levels = c("south VA", "north VA"))
+LLTimeModel <- glmmTMB(prop_alive ~ time * site * temp + (1|mass), data = lltime_survd, family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+lltime_survd$temp <- factor(lltime_survd$temp, levels = c("-22", "3"))
+lltime_survd$site <- factor(lltime_survd$site, levels = c("north VA", "south VA"))
+LLTimeModel <- glmmTMB(prop_alive ~ time * site * temp + (1|mass), data = lltime_survd, family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+lltime_survd$site <- factor(lltime_survd$site, levels = c("south VA", "north VA"))
+LLTimeModel <- glmmTMB(prop_alive ~ time * site * temp + (1|mass), data = lltime_survd, family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+#sample size
+table(lltime_survd$site, lltime_survd$temp)
+table(LLTime$site, LLTime$temp)
+
+#find the proportion of variance explained by random effect
+var <- var(residuals(LLTimeModel))
+var
+randovar <- 0.01583
+randovar/(randovar+var)
+#20.34%
+
+#find the dispersion parameter theta/phi
+sigma(LLTimeModel)
+#0.98
+
+#degrees of freedom
+df.residual(LLTimeModel)
+
+```
+
+#plot and quantiles
+```{r}
+newdata <- expand.grid(site = unique(lltime_survd$site), temp = unique(lltime_survd$temp), time = c(seq(0, 20, by = 1), seq(20, 120, by = 0.01))) #I make data a finer scale where the quantiles and CI bounds will be
+lltime_pred <- cbind(newdata, 
+      predict(LLTimeModel, newdata, type = "response", se.fit = T, re.form = NA))
+lltime_pred$lower <- lltime_pred$fit - 1.96 * lltime_pred$se.fit
+lltime_pred$upper <- lltime_pred$fit + 1.96 * lltime_pred$se.fit
+
+lltime_survd$temp2 <- ifelse(lltime_survd$temp == "3", "3°C", "-22°C")
+lltime_pred$temp2 <- ifelse(lltime_pred$temp == "3", "3°C", "-22°C")
+lltime_survd$temp2 <- factor(lltime_survd$temp2, levels = c("3°C", "-22°C"))
+lltime_pred$temp2 <- factor(lltime_pred$temp2, levels = c("3°C", "-22°C"))
+
+ggplot()+
+  geom_point(data = lltime_survd, aes(x = time, y = prop_alive, color = temp2, shape = temp2))+
+  geom_errorbar(data = lltime_survd, aes(x = time, ymin = lower, ymax = upper, color = temp2), alpha = 0.8) +
+  geom_line(data = lltime_pred, aes(x = time, y = fit, color = temp2))+
+  geom_ribbon(data = lltime_pred, aes(x = time, ymin = lower, ymax = upper, fill = temp2), alpha = .1)+
+  theme_minimal()+
+  facet_wrap2(site ~ ., nrow = 2, axes = "all", remove_labels = "all", strip.position = "top") +
+  theme(panel.border = element_blank(), #remove rectangle around plot
+    panel.grid.minor = element_blank(), #remove minor grid lines; looks cleaner
+    axis.line = element_line(), #add axis lines
+    axis.ticks = element_line(),
+    legend.title = element_blank(),
+    plot.background = element_rect(fill = "white", color = NA),  # White plot background
+    legend.background = element_rect(fill = "white", color = NA),
+    legend.position = c(0.09, .6)) +
+  labs(x = "Time (hrs)", y = "Proportion alive")+
+  scale_color_manual(values = c("gray70", "black"), labels = c("3°C", "-22°C"))+
+  scale_shape_manual(values = c(2, 16), labels = c("3°C", "-22°C"))+
+  scale_fill_manual(values = c("gray70", "black"), labels = c("3°C", "-22°C"))
+
+#retrieve quantiles
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$time,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$time, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$time
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.1)), ]$time,
+      lower = data[which.min(abs(data$lower - 0.1)), ]$time, 
+      upper = data[which.min(abs(data$upper - 0.1)), ]$time
+    )
+  )
+}
+
+lltime_pred$cat <- paste(lltime_pred$site, lltime_pred$temp, sep = " ")
+lltime_quantiles <- lltime_pred %>%
+  group_by(cat) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+lltime_quantiles[lltime_quantiles$quantile == "50%",]
+write.csv(lltime_quantiles, file = "C:/Users/CLAHM/Downloads/SLF/Data/SLF_LLTime_quantiles.csv")
+
+
+```
+
+##beta reg without site
+```{r}
+lltime_survd$prop_alive <- ifelse(lltime_survd$prop_alive < 0.00001, 0.001, ifelse(lltime_survd$prop_alive == 1, 0.999, lltime_survd$prop_alive))
+
+lltime_survd$temp <- factor(lltime_survd$temp, levels = c("3", "-22"))
+LLTimeModel <- glmmTMB(prop_alive ~ time * temp + (1|mass), data = lltime_survd, family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+lltime_survd$temp <- factor(lltime_survd$temp, levels = c("-22", "3"))
+LLTimeModel <- glmmTMB(prop_alive ~ time * temp + (1|mass), data = lltime_survd, family = beta_family(link = "logit"))
+summary(LLTimeModel)
+
+
+#find the proportion of variance explained by random effect
+var <- var(residuals(LLTimeModel))
+var
+randovar <- 0.0037
+randovar/(randovar+var)
+#20.34%
+
+#find the dispersion parameter theta/phi
+sigma(LLTimeModel)
+#0.98
+
+#degrees of freedom
+df.residual(LLTimeModel)
+
+```
+
+#plot and quantiles without site
+```{r}
+newdata <- expand.grid(temp = unique(lltime_survd$temp), time = c(seq(0, 20, by = 1), seq(20, 120, by = 0.01))) #I make data a finer scale where the quantiles and CI bounds will be
+lltime_pred <- cbind(newdata, 
+      predict(LLTimeModel, newdata, type = "response", se.fit = T, re.form = NA))
+lltime_pred$lower <- lltime_pred$fit - 1.96 * lltime_pred$se.fit
+lltime_pred$upper <- lltime_pred$fit + 1.96 * lltime_pred$se.fit
+
+lltime_survd$temp2 <- ifelse(lltime_survd$temp == "3", "3°C", "-22°C")
+lltime_pred$temp2 <- ifelse(lltime_pred$temp == "3", "3°C", "-22°C")
+lltime_survd$temp2 <- factor(lltime_survd$temp2, levels = c("3°C", "-22°C"))
+lltime_pred$temp2 <- factor(lltime_pred$temp2, levels = c("3°C", "-22°C"))
+
+lltime_plot <- ggplot()+
+  geom_point(data = lltime_survd, aes(x = time, y = prop_alive, color = temp2, shape = temp2), size = 0.8)+
+  geom_errorbar(data = lltime_survd, aes(x = time, ymin = lower, ymax = upper, color = temp2), alpha = 0.5) +
+  geom_line(data = lltime_pred, aes(x = time, y = fit, color = temp2))+
+  geom_ribbon(data = lltime_pred, aes(x = time, ymin = lower, ymax = upper, fill = temp2), alpha = .1)+
+  theme_minimal() +
+  theme(panel.border = element_blank(), #remove rectangle around plot
+    panel.grid.minor = element_blank(), #remove minor grid lines; looks cleaner
+    axis.line = element_line(), #add axis lines
+    axis.ticks = element_line(),
+    legend.title = element_blank(),
+    plot.background = element_rect(fill = "white", color = NA),  # White plot background
+    legend.background = element_rect(fill = "white", color = NA),
+    legend.position = c(0.8, .4)) +
+  labs(x = "Time (hrs)", y = "Proportion alive")+
+  scale_color_manual(values = c("gray70", "black"), labels = c("3°C", "-22°C"))+
+  scale_shape_manual(values = c(2, 16), labels = c("3°C", "-22°C"))+
+  scale_fill_manual(values = c("gray70", "black"), labels = c("3°C", "-22°C"))+
+  scale_x_continuous(expand = c(0, 0), limits = c(0,123), breaks = seq(0,120,by = 20))+
+  scale_y_continuous(expand = c(0.01,0))
+lltime_plot
+#save plot
+
+ggsave("C:/Users/venet001/Documents/Entomology/Venette/SLF/Outputs_from_R_Clarissa/Plots/lltime_plot.tiff", lltime_plot, width = 80, height = 80, units = "mm", dpi = 300)
+#Clarissa's original below (code above adjusted to proper directory)
+#ggsave("C:/Users/CLAHM/Downloads/SLF/Plots/lltime_plot.tiff", lltime_plot, width = 80, height = 80, units = "mm", dpi = 300)
+#retrieve quantiles
+
+lltime_pred22 <- lltime_pred[lltime_pred$temp == "-22",]
+lltime_quantiles_pool <- rbind(data.frame(
+      quantile = "50%", 
+      estimate = lltime_pred22[which.min(abs(lltime_pred22$fit - 0.5)), ]$time,
+      lower = lltime_pred22[which.min(abs(lltime_pred22$lower - 0.5)), ]$time, 
+      upper = lltime_pred22[which.min(abs(lltime_pred22$upper - 0.5)), ]$time
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = lltime_pred22[which.min(abs(lltime_pred22$fit - 0.1)), ]$time,
+      lower = lltime_pred22[which.min(abs(lltime_pred22$lower - 0.1)), ]$time, 
+      upper = lltime_pred22[which.min(abs(lltime_pred22$upper - 0.1)), ]$time
+    )
+  )
+
+lltime_pred$cat <- paste(lltime_pred$site, lltime_pred$temp, sep = " ")
+lltime_quantiles <- lltime_pred %>%
+  group_by(cat) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+lltime_quantiles[lltime_quantiles$quantile == "50%",]
+write.csv(lltime_quantiles, file = "C:/Users/CLAHM/Downloads/SLF/Data/SLF_lltime_quantiles.csv")
+
+
+```

@@ -1,0 +1,295 @@
+---
+title: "SLF_2026 summaries"
+author: "Clarissa Moore"
+date: "2026-04-03"
+output: html_document
+---
+ 
+## load data
+
+```{r}
+#change the file directories to yours
+# SCP <- read.csv("D:/SLF/Data/SLF_SCP_data.csv")
+# LLTemp <- read.csv("D:/SLF/Data/SLF_LLTemp_BVT_data.csv")
+# hatch <- read.csv("D:/SLF/Data/SLF_LLTemp_hatch_data.csv")
+
+#Clarissa's original statements were
+SCP <- read.csv("C:/Users/CLAHM/Downloads/SLF/Data/SLF_SCP_data.csv")
+LLTemp <- read.csv("C:/Users/CLAHM/Downloads/SLF/Data/SLF_LLTemp_BVT_data.csv")
+LLTime <- read.csv("C:/Users/CLAHM/Downloads/SLF/Data/SLF_LLTime_data.csv")
+
+```
+
+## load packages
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+#this will download any packages if you don't already have them
+packages <- c("tidyverse", "betareg", "survival", "lmerTest", "emmeans", "multcompView", "glmmTMB", "pwr", "ggh4x", "multcomp", "flextable", "car", "MASS", 'dunn.test', "dplyr","rstatix")
+
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    install.packages(package)
+  }
+}
+lapply(packages, library, character.only = TRUE)
+```
+
+## subset for this year's data
+
+```{r}
+SCP<- SCP[SCP$site == "Westport",]
+LLTemp<- LLTemp[LLTemp$site == "CT",] 
+LLTime<- LLTime[LLTime$site == "CT",] 
+
+#this is subsetting to only include the city they came from this year
+#I called it CT or Westport in diff datasets
+```
+
+## how many eggs (total over both shipments) were used to measure SCPs? 
+
+```{r}
+#by collection
+SCP %>%
+  group_by(collection_date) %>%
+  summarise(n = n()) 
+
+#total
+nrow(SCP)
+```
+
+## What was the min, median, and max SCP?  
+
+```{r}
+SCP %>%
+  summarize(min = min(SCP), median = median(SCP), max=max(SCP))
+```
+
+## How many egg masses and eggs were tested for Lower Lethal Temperature studies (again over both collections)?  
+
+```{r}
+#by collection
+LLTemp %>%
+  group_by(collection_date) %>%
+  summarise(n = n()) 
+
+#total
+nrow(LLTemp)
+```
+
+### number of egg *masses*: 
+we used 6 egg masses * 3 runs 
+
+= 18 egg masses /shipment
+
+= 36 egg masses total
+
+## What temperature seemed to be responsible for 50% mortality (based on BVT)? 
+
+```{r}
+#remove dried eggs
+LLTemp <- LLTemp[is.na(LLTemp$remove),] 
+
+#remove controls, since these were only used to calculate viability, done in Excel
+LLTemp <- LLTemp[!(LLTemp$treatment %in% c("Live Control", "Dead Control")), ] 
+
+#add right and left bounds of interval censoring
+LLTemp <- LLTemp %>% 
+  mutate(left = ifelse(viability == 1, temp, Inf),
+         right = ifelse(viability == 1, -Inf, temp)) 
+#if live, left = removal temp, right = -infinity
+#if dead, left = infinity, right = removal temp
+
+#generate Kaplan-Meier curves
+surv_obj <- with(LLTemp, Surv(time = right, time2 = left, type = "interval2"))
+km_fit <- survfit(surv_obj ~ month + run, data = LLTemp)
+
+#exract data
+survd <- data.frame(temp = km_fit$time,
+                        propalive = km_fit$surv, 
+                        lower = km_fit$lower, 
+                        upper = km_fit$upper)
+survd_newdata <- data.frame(strata = km_fit$strata)
+survd_newdata <- survd_newdata %>%
+  rownames_to_column(var = "var") %>%
+  separate(col = "var", 
+           into = c("month", "run"),
+           sep = ",") %>%
+  mutate(month = sub(".*=", "", month)) %>%
+  mutate(run = sub(".*=", "", run)) %>%
+  slice(rep(row_number(), strata))
+survd <- cbind(survd, survd_newdata[,-3]) %>% #-3 is removing useless third column
+  mutate(
+    month = str_replace_all(month, "\\s+", ""),
+    run = str_replace_all(run, "\\s+", ""),
+  propalive = 1-propalive, #take the inverse, as to display survival not mortality
+  lower = 1-lower, #take the inverse
+  upper = 1-upper) #take the inverse
+
+#fit model, here im keeping sitemonth in it just because
+survd <- survd %>% mutate(propalive = ifelse(propalive == 0, 0.001, ifelse(propalive == 1, 0.999, survd$propalive)))
+LLTempModel <- glmmTMB(propalive ~ temp * month + (1|run) -1 -temp, data = survd, family = beta_family(link = "logit"))
+summary(glht(LLTempModel), adjust = "bonferroni")
+#shows intercept and slope for both months
+
+#make predictions of LTs
+#make newdata
+newdata <- expand.grid(month = unique(survd$month), temp = seq(10, -150, by = -0.1))
+
+#to acheieve confidence interval between 0 and 1, 
+#calculate fit and SE with predict on the LINK function (to get logit link values), 
+#then back tranform them to true values
+LLTempP <- cbind(newdata,
+                 predict(LLTempModel, newdata, type = "link", se.fit = T, re.form = NA))
+LLTempP$lower <- LLTempP$fit - 1.96 * LLTempP$se.fit
+LLTempP$upper <- LLTempP$fit + 1.96 * LLTempP$se.fit
+LLTempP$fit <- plogis(LLTempP$fit)
+LLTempP$upper <- plogis(LLTempP$upper)
+LLTempP$lower <- plogis(LLTempP$lower)
+
+#create function for inverse predictions
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$temp
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.1)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.1)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.1)), ]$temp
+    )
+  )
+}
+
+#retrieve quantiles
+quantiles <- LLTempP %>%
+  group_by(month) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+
+#these are the LT50 and 90s with 95% confidence intervals
+quantiles
+#there are really large errors for the January data but eventually they'd be combined
+
+```
+
+## Lastly, how many egg masses (and eggs) were used in Lower Lethal Time experiments?
+
+```{r}
+#by collection
+LLTime %>%
+  group_by(collection_date) %>%
+  summarise(n = n()) 
+
+#total
+nrow(LLTime)
+```
+
+### number of egg *masses*: 
+we used 5 egg masses in +3, 7 in -18, 7 in -22 
+
+= 19 egg masses /shipment
+
+= 38 egg masses total
+ 
+ 
+## LTs for LLTime, couldn't get these
+
+```{r}
+# #remove dried eggs
+# LLTime <- LLTime[is.na(LLTime$remove),] 
+# 
+# #make time a category
+# LLTime$time <- as.factor(LLTime$time)
+# 
+# #add right and left bounds of interval censoring
+# LLTime <- LLTime %>% 
+#   mutate(left = ifelse(viability == 1, time, Inf),
+#          right = ifelse(viability == 1, -Inf, time)) 
+# #if live, left = removal time, right = -infinity
+# #if dead, left = infinity, right = removal time
+# 
+# #generate Kaplan-Meier curves
+# surv_obj <- with(LLTime, Surv(time = right, time2 = left, type = "interval2"))
+# km_fit <- survfit(surv_obj ~ temp + collection_date, data = LLTime)
+# km_fit ##can see LT50s by run
+# 
+# #exract data
+# survd <- data.frame(time = km_fit$time,
+#                         propalive = km_fit$surv, 
+#                         lower = km_fit$lower, 
+#                         upper = km_fit$upper)
+# survd_newdata <- data.frame(strata = km_fit$strata)
+# survd_newdata <- survd_newdata %>%
+#   rownames_to_column(var = "var") %>%
+#   separate(col = "var", 
+#            into = c("temp", "collection_date"),
+#            sep = ",") %>%
+#   mutate(temp = sub(".*=", "", temp)) %>%
+#   mutate(run = sub(".*=", "", collection_date)) %>%
+#   slice(rep(row_number(), strata))
+# survd <- cbind(survd, survd_newdata[,-3]) %>% #-3 is removing useless third column
+#   mutate(
+#     temp = str_replace_all(temp, "\\s+", ""),
+#     run = str_replace_all(collection_date, "\\s+", ""))
+# 
+# #fit model, here im using month as a random effect
+# #i think we should be using collection date as a random effect when it's not significant
+# survd <- survd %>% mutate(propalive = ifelse(propalive == 0, 0.001, ifelse(propalive == 1, 0.999, survd$propalive)))
+# LLTimeModel <- glmmTMB(propalive ~ time * temp + (1|collection_date) -1 -time, data = survd, family = beta_family(link = "logit"))
+# summary(glht(LLTimeModel), adjust = "bonferroni")
+# #shows intercept and slope for both temps
+# 
+# #make predictions of LTs
+# #make newdata
+# newdata <- expand.grid(temp = unique(survd$temp), time = seq(0, 10, by = 0.1))
+# 
+# #to acheieve confidence interval between 0 and 1, 
+# #calculate fit and SE with predict on the LINK function (to get logit link values), 
+# #then back tranform them to true values
+# LLTimeP <- cbind(newdata,
+#                  predict(LLTimeModel, newdata, type = "link", se.fit = T, re.form = NA))
+# LLTimeP$lower <- LLTimeP$fit - 1.96 * LLTimeP$se.fit
+# LLTimeP$upper <- LLTimeP$fit + 1.96 * LLTimeP$se.fit
+# LLTimeP$fit <- plogis(LLTimeP$fit)
+# LLTimeP$upper <- plogis(LLTimeP$upper)
+# LLTimeP$lower <- plogis(LLTimeP$lower)
+# 
+# ggplot()+
+#   geom_point(data = survd, aes(x = time, y = propalive, color = temp, shape = temp))+
+#   geom_errorbar(data = survd, aes(x = time, ymin = lower, ymax = upper, color = temp), alpha = 0.8) +
+#   geom_line(data = LLTimeP, aes(x = time, y = fit, color = temp))+
+#   geom_ribbon(data = LLTimeP, aes(x = time, ymin = lower, ymax = upper, fill = temp), alpha = .1)
+# 
+# #create function for inverse predictions
+# calculate_quantiles <- function(data) {
+#   list(
+#     data.frame(
+#       quantile = "50%", 
+#       estimate = data[which.min(abs(data$fit - 0.5)), ]$time,
+#       lower = data[which.min(abs(data$lower - 0.5)), ]$time, 
+#       upper = data[which.min(abs(data$upper - 0.5)), ]$time
+#     ),
+#     data.frame(
+#       quantile = "90%", 
+#       estimate = data[which.min(abs(data$fit - 0.9)), ]$time,
+#       lower = data[which.min(abs(data$lower - 0.9)), ]$time, 
+#       upper = data[which.min(abs(data$upper - 0.9)), ]$time
+#     )
+#   )
+# }
+# 
+# #retrieve quantiles
+# quantiles <- LLTimeP %>%
+#   group_by(temp) %>%
+#   do(bind_rows(calculate_quantiles(.))) %>%
+#   ungroup()
+# 
+# #these are the LT50 and 90s with 95% confidence intervals
+# quantiles
+
+
+```

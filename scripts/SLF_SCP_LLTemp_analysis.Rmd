@@ -1,0 +1,1352 @@
+---
+title: "SLF_SCP_LLTemp_analysis"
+author: "Clarissa Moore"
+date: "2024-11-22"
+output: html_document
+---
+ 
+## load data
+
+```{r}
+rm(list=ls()) # clear environment window
+SCP <- read.csv("data/SLF_SCP_data.csv")
+LLTemp <- read.csv("data/SLF_LLTemp_BVT_data.csv")
+hatch <- read.csv("data/SLF_LLTemp_hatch_data.csv")
+```
+
+## load packages
+
+```{r}
+#this will download any packages if you don't already have them
+packages <- c("tidyverse", "betareg", "survival", "lmerTest", "emmeans", "multcompView", "glmmTMB", "pwr", "ggh4x", "multcomp", "flextable", "car", "MASS", 'dunn.test', "dplyr","rstatix", "viridis")
+
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    install.packages(package)
+  }
+}
+#load them
+lapply(packages, library, character.only = TRUE)
+
+#make color pallette
+set.seed(123)  # for reproducibility
+# 10 evenly spaced colors from the viridis palette
+cols <- viridis(10)
+# randomize their order
+Palette <- sample(cols)
+Palette
+
+```
+
+## clean data
+```{r}
+## bvt
+LLTemp <- LLTemp[is.na(LLTemp$remove),] #remove dried eggs\
+
+LLTemp <- LLTemp[!(LLTemp$treatment %in% c("Live Control", "Dead Control")), ] #remove controls, since these were only used to calculate viability, done in Excel
+
+LLTemp <- LLTemp %>% #add right and left bounds of interval censoring; 
+  mutate(left = ifelse(viability == 1, temp, Inf),
+         right = ifelse(viability == 1, -Inf, temp)) #if live, left = removal temp, right = -infinity, if dead, left = infinity, right = removal temp
+
+LLTemp$sitemonth <- paste(LLTemp$site, LLTemp$month, sep = "") #create a combined site and month variable
+
+## hatch
+hatch$sitemonth <- paste(hatch$site, hatch$month, sep = "") #create a combined site and month variable
+
+prop_hatch <- hatch #save version of data before making it binary
+
+hatch <- hatch %>% #make hatch data binary
+  rowwise() %>%
+  mutate(hatched = list(c(rep(1, num_hatched), rep(0, num_unhatched)))) %>%
+  unnest(hatched) %>%
+  ungroup()
+
+hatch <- hatch %>% #add right and left bounds of interval censoring; 
+  mutate(left = ifelse(hatched == 1, temp, Inf),
+         right = ifelse(hatched == 1, -Inf, temp)) #if live, left = removal temp, right = -infinity, if dead, left = infinity, right = removal temp
+
+prop_hatch <- prop_hatch[!(prop_hatch$month == "December" & prop_hatch$run %in% c("third", "fourth")), ] 
+hatch <- hatch[!(hatch$month == "December" & hatch$run %in% c("third", "fourth")), ] #remove the additional controls that were nto assigned a spsecific run
+
+## SCP
+SCP$sitemonth <- paste(SCP$site, SCP$month, sep = "") #create a combined site and month variable
+
+```
+
+# BVT LLTEMP
+
+## raw data viz
+
+```{r}
+PropData <- LLTemp %>%
+  group_by(site, month, temp, run)%>%
+  dplyr::summarize(propalive = sum(viability) / n(), .groups = 'drop')
+
+ggplot(PropData, aes(x = temp, y = propalive, color= run)) +
+  geom_point() +
+  geom_line() +
+  facet_grid(site ~ month) +
+  scale_x_reverse()
+
+```
+
+## Kaplan-Meier
+
+```{r}
+#generate Kaplan-Meier curves
+LLTemp<-LLTemp[!(LLTemp$month == "February" & LLTemp$run == "first"),]
+surv_obj <- with(LLTemp, Surv(time = right, time2 = left, type = "interval2"))
+head(surv_obj, 100)
+km_fit <- survfit(surv_obj ~ sitemonth + run, data = LLTemp)
+km_fit ##can see LT50
+
+#exract data
+survd <- data.frame(temp = km_fit$time,
+                        propalive = km_fit$surv, 
+                        lower = km_fit$lower, 
+                        upper = km_fit$upper)
+survd_newdata <- data.frame(strata = km_fit$strata)
+survd_newdata <- survd_newdata %>%
+  rownames_to_column(var = "var") %>%
+  separate(col = "var", 
+           into = c("sitemonth", "run"),
+           sep = ",") %>%
+  mutate(sitemonth = sub(".*=", "", sitemonth)) %>%
+  mutate(run = sub(".*=", "", run)) %>%
+  slice(rep(row_number(), strata))
+survd <- cbind(survd, survd_newdata[,-3]) %>%
+  mutate(
+    sitemonth = str_replace_all(sitemonth, "\\s+", ""),
+    run = str_replace_all(run, "\\s+", ""),
+  propalive = 1-propalive, #take the inverse, as to display survival not mortality
+  lower = 1-lower, #take the inverse
+  upper = 1-upper) #take the inverse
+
+ggplot()+
+  geom_point(data = survd, aes(x = temp, y = propalive, color = run))+
+  geom_line(data = survd, aes(x = temp, y = propalive, color = run)) +
+  geom_ribbon(data = survd, aes(x = temp, ymin = lower, ymax = upper, fill = run), alpha = 0.1)+
+  facet_wrap(sitemonth~.)+
+  scale_x_reverse() 
+
+survd <- survd %>% mutate(propalive = ifelse(propalive == 0, 0.001, ifelse(propalive == 1, 0.999, survd$propalive)))
+
+```
+
+## BVT-LLTemp model on JUST 2026 data
+
+```{r}
+survd2026<-survd[survd$sitemonth %in% c("CTJanuary", "CTMarch"),]
+unique(survd2026$sitemonth)
+
+LLTempModel <- glmmTMB(propalive ~ temp * sitemonth + (1|run), data = survd2026, family = beta_family(link = "logit"))
+
+LLTempModel <- glmmTMB(propalive ~ temp + (1+temp|sitemonth), data = survd2026, family = beta_family(link = "logit"))
+
+LLTempModel <- glmmTMB(propalive ~ temp + (1|sitemonth) + (0+temp|sitemonth), data = survd2026, family = beta_family(link = "logit"))
+#scale temperature
+#cox proportional hazard model
+
+LLTempModel <- glmmTMB(propalive ~ temp + (1|sitemonth), data = survd2026, family = beta_family(link = "logit"))
+
+summary(glht(LLTempModel), adjust = "bonferroni")
+summary(LLTempModel)
+```
+
+
+
+
+
+
+## BVT-LLTemp model on JUST Connecticut data to see effect of year
+
+```{r}
+survdCT<-survd[survd$sitemonth %in% c("CTJanuary", "CTMarch", "MilfordJanuary", "Milford February"),]
+
+LLTempModel <- glmmTMB(propalive ~ temp * sitemonth + (1|run), data = survdCT, family = beta_family(link = "logit"))
+summary(glht(LLTempModel), adjust = "bonferroni")
+```
+
+## beta reg with month for all data in combo
+
+```{r}
+
+LLTempModel <- glmmTMB(propalive ~ temp * sitemonth + (1|run), data = survd, family = beta_family(link = "logit"))
+summary(glht(LLTempModel), adjust = "bonferroni")
+
+
+
+# Estimated marginal means for sitemonth at temp = 0
+emm <- emmeans(LLTempModel, ~ sitemonth, at = list(temp = 0))
+
+
+
+#see slopes for each sitemonth
+emtrends(LLTempModel, ~ sitemonth, var = "temp")
+
+# Get comparisons slopes of temp between  sitemonths
+slopes <- emtrends(LLTempModel, ~ sitemonth, var = "temp")
+pairs(slopes)
+
+# All pairwise comparisons with Bonferroni correction
+summary(slopes, infer = TRUE)
+
+#sample sizes
+table(LLTemp$sitemonth)
+table(survd$sitemonth)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(LLTempModel))
+randovar <- 3.013e-08
+
+randovar/(randovar+var)
+#4.300027e-07 or 0.00000043 or 0.000043%
+
+#find the dispersion parameter theta/phi
+sigma(LLTempModel)
+
+```
+
+## plot and quantiles with month
+
+```{r}
+#make predictions
+LLTempModel <- glmmTMB(propalive ~ temp * sitemonth + (1|run), data = survd, family = beta_family(link = "logit"))
+newdata <- expand.grid(sitemonth = unique(survd$sitemonth), temp = c(seq(10, -1, by = -1), seq(-1, -75, by = -0.01))) 
+
+#to acheieve confidence interval between 0 and 1, calculate fit and SE with predict on the LINK function (to get logit link values), then back tranform them to true values
+LLTempP <- cbind(newdata,
+                 predict(LLTempModel, newdata, type = "link", se.fit = T, re.form = NA))
+LLTempP$lower <- LLTempP$fit - 1.96 * LLTempP$se.fit
+LLTempP$upper <- LLTempP$fit + 1.96 * LLTempP$se.fit
+LLTempP$fit <- plogis(LLTempP$fit)
+LLTempP$upper <- plogis(LLTempP$upper)
+LLTempP$lower <- plogis(LLTempP$lower)
+
+#retrieve quantiles
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$temp
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.1)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.1)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.1)), ]$temp
+    )
+  )
+}
+quantiles <- LLTempP %>%
+  group_by(sitemonth) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+quantiles[quantiles$quantile == "90%",]
+
+#save quantiles as a data file 
+
+# write.csv(quantiles, file ="C:/Users/venet001/Documents/Entomology/Venette/SLF/Outputs_from_R_Clarissa/SLF_LLTemp_BVT_quantiles.csv") 
+#Clarissa's original 
+write.csv(quantiles, file = "C:/Users/CLAHM/Downloads/SLF/Data/SLF_LLTemp_BVT_quantiles.csv")
+
+# #trying to get "real" 95%CI
+# LLTempP <- LLTempP %>%
+#   mutate(Variance = (fit*(1- fit))/(1+1.04)) %>%
+#   mutate(lower2 = fit - (1.96 * (sqrt(Variance) / sqrt(74))), upper2 = fit + (1.96 * (sqrt(Variance) / sqrt(74))))
+
+#plot
+LLTempP <- LLTempP %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+LLTempP$sitemonth <- factor(LLTempP$sitemonth, levels = c("MilfordDecember","MilfordJanuary","CTJanuary", "CTMarch", "MilfordFebruary","WinchesterDecember","WinchesterJanuary","RoanokeDecember","RoanokeJanuary"))
+survd$sitemonth <- factor(survd$sitemonth, levels = c("MilfordDecember","MilfordJanuary","CTJanuary", "CTMarch","MilfordFebruary","WinchesterDecember","WinchesterJanuary","RoanokeDecember","RoanokeJanuary"))
+
+ggplot() +
+  geom_point(data = survd, aes(x = temp, y = propalive, color = run)) +
+  geom_line(data = LLTempP, aes(x = temp, y = fit)) +
+  geom_ribbon(data = LLTempP, aes(x = temp, ymin = lower2, ymax = upper2), alpha = 0.1)+
+  facet_wrap2(sitemonth~., nrow=2, axes = "all", remove_labels = "all")+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    legend.position = c(.85, 0.25)) +
+  labs(color = "", x = "Temperature (°C)", y = "Proportion Alive")+
+  scale_x_reverse()
+
+#overlayed plot
+ggplot() +
+  geom_point(data = survd, aes(x = temp, y = propalive, color = sitemonth)) +
+  geom_line(data = LLTempP, aes(x = temp, y = fit, color = sitemonth)) +
+  geom_ribbon(data = LLTempP, aes(x = temp, ymin = lower2, ymax = upper2, fill = sitemonth), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line()) +
+  labs(color = "", fill = "", x = "Temperature (°C)", y = "Proportion Alive")+
+  scale_x_reverse(limits=c(0,-60))+
+  scale_y_continuous(breaks = c(1, 0.9, 0.75, 0.5, 0.25, 0), labels = c("0", "0.1","0.25","0.5","0.75","1"))+
+  scale_fill_manual(values = Palette)+
+  scale_color_manual(values = Palette)
+
+    ```
+
+## beta reg without month
+
+```{r}
+#make model
+survd$run2 <- paste(survd$sitemonth, survd$run, sep = "") #when pooling we need to change run from "first", "second" to unique, so gluing run to sitemonth
+LLTempModel_pool <- glmmTMB(propalive ~ temp + (1|run2), data = survd, family = beta_family(link = "logit"))
+summary(LLTempModel_pool)
+
+#compare AICs
+AIC(LLTempModel, LLTempModel_pool)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(LLTempModel_pool))
+randovar <- 9.618e-10 #the Variance next to run2 in model output
+var
+randovar/(randovar+var)
+#1.332563e-08 or 0.00000001332563 or 0.00000133
+
+#find the dispersion parameter theta/phi
+sigma(LLTempModel_pool)
+
+```
+
+## plot and quantiles without month
+
+```{r}
+#make predictions
+newdata <- data.frame(temp = c(seq(10, -12, by = -1), seq(-12, -40, by = -0.01), seq(-40, -55, by = -1))) 
+LLTempP_pool <- cbind(newdata,
+                 predict(LLTempModel_pool, newdata, type = "link", se.fit = T, re.form = NA))
+
+LLTempP_pool$lower <- LLTempP_pool$fit - 1.96 * LLTempP_pool$se.fit
+LLTempP_pool$upper <- LLTempP_pool$fit + 1.96 * LLTempP_pool$se.fit
+LLTempP_pool$fit <- plogis(LLTempP_pool$fit)
+LLTempP_pool$upper <- plogis(LLTempP_pool$upper)
+LLTempP_pool$lower <- plogis(LLTempP_pool$lower)
+
+#retrieve quantiles
+quantiles_pool <- rbind(data.frame(quantile = "50%", 
+      estimate = LLTempP_pool[which.min(abs(LLTempP_pool$fit - 0.5)), ]$temp,
+      lower = LLTempP_pool[which.min(abs(LLTempP_pool$lower - 0.5)), ]$temp, 
+      upper = LLTempP_pool[which.min(abs(LLTempP_pool$upper - 0.5)), ]$temp),
+    data.frame(quantile = "90%", 
+      estimate = LLTempP_pool[which.min(abs(LLTempP_pool$fit - 0.1)), ]$temp,
+      lower = LLTempP_pool[which.min(abs(LLTempP_pool$lower - 0.1)), ]$temp, 
+      upper = LLTempP_pool[which.min(abs(LLTempP_pool$upper - 0.1)), ]$temp))
+# LLTempP_pool <- LLTempP_pool %>%
+#   mutate(lower2 = ifelse(lower<0,0,lower),
+#          upper2 = ifelse(upper>1,1,upper))
+ggplot() +
+  geom_point(data = survd, aes(x = temp, y = propalive)) +
+  geom_line(data = LLTempP_pool, aes(x = temp, y = fit)) +
+  geom_ribbon(data = LLTempP_pool, aes(x = temp, ymin = lower, ymax = upper), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line()) +
+  labs(color = "", fill = "", x = "Temperature(°C)", y = "Proportion Alive")+
+  scale_x_reverse()
+
+quantiles_pool
+
+#before 2026 data was added:
+#LT50 was -27.25 [-28.21, -26.13]	
+#LT90 was -35.31 [-37.76, -32.97]
+
+```    
+
+## with Abbott's correction
+
+```{r}
+maxs<- survd %>%
+  group_by(run2) %>%
+  summarise(max= max(propalive))
+
+maxCTJ3 <- max(survd[survd$run2 == "CTJanuarythird",]$propalive)/0.999
+#divide by 0.999 because algebraically it makes sens, will make highest value 0.999 like rest of data, not 1
+
+#check
+max(survd[survd$run2 == "CTJanuarythird",]$propalive)/maxCTJ3
+
+survd <- survd %>%
+  mutate(propalive2 = ifelse(run2 == "CTJanuarythird", propalive/maxCTJ3, propalive))
+```
+
+```{r}
+#remake model with this propalive2:
+
+#make model
+survd$run2 <- paste(survd$sitemonth, survd$run, sep = "") #when pooling we need to change run from "first", "second" to unique, so gluing run to sitemonth
+LLTempModel_pool <- glmmTMB(propalive2 ~ temp + (1|run2), data = survd[survd$propalive2 <0,], family = beta_family(link = "logit"))
+summary(LLTempModel_pool)
+
+#compare AICs
+AIC(LLTempModel, LLTempModel_pool)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(LLTempModel_pool))
+randovar <- 9.618e-10 #the Variance next to run2 in model output
+var
+randovar/(randovar+var)
+#1.332563e-08 or 0.00000001332563 or 0.00000133
+
+#find the dispersion parameter theta/phi
+sigma(LLTempModel_pool)
+```
+
+```{r}
+
+#make predictions
+newdata <- data.frame(temp = c(seq(10, -12, by = -1), seq(-12, -40, by = -0.01), seq(-40, -55, by = -1))) 
+LLTempP_pool <- cbind(newdata,
+                 predict(LLTempModel_pool, newdata, type = "link", se.fit = T, re.form = NA))
+
+LLTempP_pool$lower <- LLTempP_pool$fit - 1.96 * LLTempP_pool$se.fit
+LLTempP_pool$upper <- LLTempP_pool$fit + 1.96 * LLTempP_pool$se.fit
+LLTempP_pool$fit <- plogis(LLTempP_pool$fit)
+LLTempP_pool$upper <- plogis(LLTempP_pool$upper)
+LLTempP_pool$lower <- plogis(LLTempP_pool$lower)
+
+
+#retrieve quantiles
+quantiles_pool <- rbind(data.frame(quantile = "50%", 
+      estimate = LLTempP_pool[which.min(abs(LLTempP_pool$fit - 0.5)), ]$temp,
+      lower = LLTempP_pool[which.min(abs(LLTempP_pool$lower - 0.5)), ]$temp, 
+      upper = LLTempP_pool[which.min(abs(LLTempP_pool$upper - 0.5)), ]$temp),
+    data.frame(quantile = "90%", 
+      estimate = LLTempP_pool[which.min(abs(LLTempP_pool$fit - 0.1)), ]$temp,
+      lower = LLTempP_pool[which.min(abs(LLTempP_pool$lower - 0.1)), ]$temp, 
+      upper = LLTempP_pool[which.min(abs(LLTempP_pool$upper - 0.1)), ]$temp))
+# LLTempP_pool <- LLTempP_pool %>%
+#   mutate(lower2 = ifelse(lower<0,0,lower),
+#          upper2 = ifelse(upper>1,1,upper))
+ggplot() +
+  geom_point(data = survd, aes(x = temp, y = propalive2)) +
+  geom_line(data = LLTempP_pool, aes(x = temp, y = fit)) +
+  geom_ribbon(data = LLTempP_pool, aes(x = temp, ymin = lower, ymax = upper), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line()) +
+  labs(color = "", fill = "", x = "Temperature(°C)", y = "Proportion Alive")+
+  scale_x_reverse()
+
+quantiles_pool #.11 increase in lt50, .19 decrease in lt90
+
+#before 2026 data was added:
+#LT50 was -27.25 [-28.21, -26.13]	
+#LT90 was -35.31 [-37.76, -32.97]
+
+```    
+
+# HATCH LLTEMP
+
+## data exploration
+
+```{r}
+
+ggplot(prop_hatch, aes(x = temp, y = prop_hatch, color = run))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(.~sitemonth, nrow = 2)+
+  scale_color_manual(values = Palette)+
+  scale_x_reverse()+
+  theme(legend.position = c(.85,.25))
+
+ggplot(prop_hatch, aes(x = sitemonth, y = num_eggs))+
+  geom_boxplot()+
+  geom_point()
+
+summary(prop_hatch$num_eggs)
+#number of eggs per egg mass ranged from 11 to 84, 32.04 on average. Some pieces of bark with unusually high number of eggs likely had multiple egg masses, though they were laid adjacent such that we could not deliniate them confidently and thus considered them one mass.
+
+shapiro.test(prop_hatch[prop_hatch$site == "Milford",]$num_eggs) #see that we should use non-parametric test
+
+kruskal.test(prop_hatch$num_eggs~prop_hatch$site) #run kruskal-wallis test
+
+dunn.test(prop_hatch$num_eggs,prop_hatch$site) #run post-hoc dunn.test
+by(prop_hatch$num_eggs,prop_hatch$site, mean)
+prop_hatch%>%
+  group_by(site) %>%
+  get_summary_stats(num_eggs, type = "mean_se") #find group means +- SEs
+
+#The Kruskal-Wallis test for the effect of site on egg mass size (H = 25.161, df = 2, P < 0.01) revealed that there were significantly more eggs in Roanoke samples (41.29 2.65) than Milford (29.40 2.04; Dunn test P < 0.01) and Winchester (26.47 2.08; Dunn test P < 0.01).
+
+```
+
+## Kaplan-Meier
+
+```{r}
+
+#generate Kaplan-Meier curves
+hatch_surv_obj <- with(hatch, Surv(time = right, time2 = left, type = "interval2"))
+head(hatch_surv_obj, 100)
+hatch_km_fit <- survfit(hatch_surv_obj ~ sitemonth + run, data = hatch)
+hatch_km_fit ##can see LT50
+
+#exract data
+raw_hatch_survd <- data.frame(temp = hatch_km_fit$time,
+                        propalive = hatch_km_fit$surv, 
+                        lower = hatch_km_fit$lower, 
+                        upper = hatch_km_fit$upper)
+hatch_survd_newdata <- data.frame(strata = hatch_km_fit$strata)
+hatch_survd_newdata <- hatch_survd_newdata %>%
+  rownames_to_column(var = "var") %>%
+  separate(col = "var", 
+           into = c("sitemonth", "run"),
+           sep = ",") %>%
+  mutate(sitemonth = sub(".*=", "", sitemonth)) %>%
+  mutate(run = sub(".*=", "", run)) %>%
+  slice(rep(row_number(), strata))
+hatch_survd <- cbind(raw_hatch_survd, hatch_survd_newdata[,-3]) %>%
+  mutate(
+    sitemonth = str_replace_all(sitemonth, "\\s+", ""),
+    run = str_replace_all(run, "\\s+", ""),
+  propalive = 1-propalive, #take the inverse, as to display survival not mortality
+  lower = 1-lower, #take the inverse
+  upper = 1-upper) #take the inverse
+
+hatch_survdOG <- hatch_survd #create version before removing extra 1s and changing 1s to .999 and 0s to 0.001
+
+#plot
+ggplot()+
+  geom_point(data = hatch_survd, aes(x = temp, y = propalive, color = run))+
+  geom_line(data = hatch_survd, aes(x = temp, y = propalive, color = run))+
+  geom_ribbon(data = hatch_survd, aes(x = temp, ymin = lower, ymax = upper, fill = run), alpha = 0.1)+
+  facet_wrap(sitemonth~., nrow=2)+
+  theme(legend.position = c(.85,.25))+
+  scale_x_reverse()
+
+```
+
+## data prep
+
+```{r}
+
+abbott_hatch1sMF <- hatch_survd %>%
+  group_by(sitemonth, run) %>%
+  mutate(max = max(propalive)) %>%
+    mutate(propalive_abbott = propalive/max,
+           upper_abbott = lower/max,
+           lower_abbott = upper/max) #apply Abbott's correction
+
+abbott_hatch1s <- abbott_hatch1sMF %>%filter(!(sitemonth == "MilfordFebruary" & run == "first")) #would have to get rid of MilFeb1 since there was no hatch at all
+
+abbott_hatch <- abbott_hatch1s[-c(10,11,12,20,21,22,29,30,31,37,38,39,47,54,55,56,62,63,64,72,73,74,75,76,86,94,103,111,117,121,129,145,146,153,154,155), ] #remove all 1s except for the 1 with the lowest x valye within each site*month*run
+
+abbott_hatch <- abbott_hatch %>% 
+  mutate(propalive_abbott = ifelse(propalive_abbott == 0, 0.001, ifelse(propalive_abbott >0.998, 0.999, propalive_abbott)), #have to do this again then because we've created 1s
+         upper_abbott = ifelse(upper_abbott >1,1,upper_abbott))
+max(abbott_hatch$propalive_abbott)
+#plot
+ggplot()+
+  geom_point(data = abbott_hatch, aes(x = temp, y = propalive_abbott, color = run))+
+  geom_line(data = abbott_hatch, aes(x = temp, y = propalive_abbott, color = run)) +
+  geom_ribbon(data = abbott_hatch, aes(x = temp, ymin = lower_abbott, ymax = upper_abbott, fill = run), alpha = 0.1)+
+  facet_wrap(sitemonth~., nrow=2)+
+  scale_x_reverse()+
+  theme(legend.position = c(.85,.25))
+
+```
+
+## beta reg with sitemonth
+
+```{r}
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("MilfordDecember","MilfordJanuary","MilfordFebruary","RoanokeDecember","RoanokeJanuary","WinchesterDecember","WinchesterJanuary" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary(glht(hatch_LLTempModel))
+
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("MilfordJanuary","MilfordFebruary","RoanokeDecember","RoanokeJanuary","WinchesterDecember","WinchesterJanuary","MilfordDecember" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary(glht(hatch_LLTempModel))
+
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("MilfordFebruary","MilfordJanuary","RoanokeDecember","RoanokeJanuary","WinchesterDecember","WinchesterJanuary","MilfordDecember" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary((hatch_LLTempModel))
+
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("WinchesterDecember","WinchesterJanuary","MilfordDecember","MilfordFebruary","MilfordJanuary","RoanokeDecember","RoanokeJanuary" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary(glht(hatch_LLTempModel))
+
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("WinchesterJanuary","MilfordDecember","MilfordFebruary","MilfordJanuary","RoanokeDecember","RoanokeJanuary","WinchesterDecember" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary((hatch_LLTempModel))
+
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("RoanokeDecember","WinchesterJanuary","MilfordDecember","MilfordFebruary","MilfordJanuary","RoanokeJanuary","WinchesterDecember" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary(glht(hatch_LLTempModel))
+
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("RoanokeJanuary","RoanokeDecember","WinchesterJanuary","MilfordDecember","MilfordFebruary","MilfordJanuary","WinchesterDecember" ))
+hatch_LLTempModel <- glmmTMB(propalive_abbott ~ temp * sitemonth + (1|run), data = abbott_hatch, family = beta_family(link = "logit"))
+summary(glht(hatch_LLTempModel))
+
+#sample sizes
+table(hatch[!(hatch$sitemonth == "MilfordFebruary" & hatch$run == "first"),]$sitemonth) #396-814
+table(abbott_hatch$sitemonth)
+
+df.residual(hatch_LLTempModel)
+#calculate proportion variance explained by random effects
+var <- var(residuals(hatch_LLTempModel))
+randovar <- 8.672e-10
+
+summary((hatch_LLTempModel))
+randovar/(randovar+var)
+#1.883615e-08
+
+#find the dispersion parameter theta/phi
+sigma(hatch_LLTempModel) #1.21
+
+```
+
+## plot and quantiles with month
+
+```{r}
+#make predictions
+newdata <- expand.grid(sitemonth = c("MilfordDecember","MilfordJanuary","MilfordFebruary","WinchesterDecember","WinchesterJanuary", "RoanokeDecember","RoanokeJanuary"), temp = c(seq(10, -5, by = -1), seq(-5, -45, by = -0.01))) 
+hatch_LLTempP <- cbind(newdata,
+                 predict(hatch_LLTempModel, newdata, type = "response", se.fit = T, re.form = NA))
+hatch_LLTempP$lower <- hatch_LLTempP$fit - 1.96 * hatch_LLTempP$se.fit
+hatch_LLTempP$upper <- hatch_LLTempP$fit + 1.96 * hatch_LLTempP$se.fit
+
+#retrieve quantiles
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$temp
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.1)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.1)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.1)), ]$temp
+    )
+  )
+}
+hatch_quantiles <- hatch_LLTempP %>%
+  group_by(sitemonth) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+hatch_quantiles[hatch_quantiles$quantile == "50%",]
+
+write.csv(hatch_quantiles, file = "C:/Users/CLAHM/Downloads/SLF/Data/SLF_LLTemp_hatch_quantiles.csv")
+
+#plot
+hatch_LLTempP <- hatch_LLTempP %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+hatch_LLTempP$sitemonth <- factor(hatch_LLTempP$sitemonth, levels = c("MilfordDecember","MilfordJanuary","MilfordFebruary","WinchesterDecember","WinchesterJanuary","RoanokeDecember","RoanokeJanuary"))
+abbott_hatch$sitemonth <- factor(abbott_hatch$sitemonth, levels = c("MilfordDecember","MilfordJanuary","MilfordFebruary","WinchesterDecember","WinchesterJanuary","RoanokeDecember","RoanokeJanuary"))
+
+ggplot() +
+  geom_point(data = abbott_hatch, aes(x = temp, y = propalive_abbott, color = run)) +
+  geom_errorbar(data = abbott_hatch, aes(x = temp, ymin = lower_abbott, ymax = upper_abbott, color = run), alpha = 0.5) +
+  geom_line(data = hatch_LLTempP, aes(x = temp, y = fit)) +
+  geom_ribbon(data = hatch_LLTempP, aes(x = temp, ymin = lower2, ymax = upper2), alpha = 0.1)+
+  facet_wrap2(sitemonth~., axes = "all", remove_labels = "all", nrow=2)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    legend.position = c(.85, .25)) +
+  labs(color = "", fill = "", x = "Temperature (°C)", y = "Proportion Alive")+
+  scale_x_reverse(limits = c(5, -60))
+
+#overlayed plot
+ggplot() +
+  geom_point(data = abbott_hatch, aes(x = temp, y = propalive_abbott, color = sitemonth)) +
+  geom_errorbar(data = abbott_hatch, aes(x = temp, ymin = lower_abbott, ymax = upper_abbott, color = sitemonth), alpha=0.5) +
+  geom_line(data = hatch_LLTempP, aes(x = temp, y = fit, color = sitemonth)) +
+  geom_ribbon(data = hatch_LLTempP, aes(x = temp, ymin = lower2, ymax = upper2, fill = sitemonth), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line()) +
+  labs(color = "", fill = "", x = "Temperature (°C)", y = "Proportion Alive")+
+  scale_x_reverse()+
+  scale_fill_manual(values = Palette)+
+  scale_color_manual(values = Palette)
+
+```
+
+## beta reg without month
+
+```{r}
+#make model
+abbott_hatch$run2 <- paste(abbott_hatch$sitemonth, abbott_hatch$run, sep = "")
+
+hatch_LLTempModel_pool <- glmmTMB(propalive_abbott ~ temp + (1|run2), data = abbott_hatch, family = beta_family(link = "logit"))
+summary((hatch_LLTempModel_pool))
+
+df.residual(hatch_LLTempModel_pool)
+#calculate proportion variance explained by random effects
+var <- var(residuals(hatch_LLTempModel_pool))
+var
+randovar <- 3.524e-09
+randovar/(randovar+var)
+#1.883615e-08
+
+#find the dispersion parameter theta/phi
+sigma(hatch_LLTempModel_pool) #0.969
+```
+
+## plot and quantiles without month
+
+```{r}
+#make predictions
+newdata <- data.frame(temp = c(seq(10, -5, by = -1), seq(-5, -45, by = -0.01))) 
+hatch_LLTempP_pool <- cbind(newdata,
+                 predict(hatch_LLTempModel_pool, newdata, type = "response", se.fit = T, re.form = NA))
+hatch_LLTempP_pool$lower <- hatch_LLTempP_pool$fit - 1.96 * hatch_LLTempP_pool$se.fit
+hatch_LLTempP_pool$upper <- hatch_LLTempP_pool$fit + 1.96 * hatch_LLTempP_pool$se.fit
+
+#retrieve quantiles
+quantiles_pool <- rbind(data.frame(quantile = "50%", 
+      estimate = hatch_LLTempP_pool[which.min(abs(hatch_LLTempP_pool$fit - 0.5)), ]$temp,
+      lower = hatch_LLTempP_pool[which.min(abs(hatch_LLTempP_pool$lower - 0.5)), ]$temp, 
+      upper = hatch_LLTempP_pool[which.min(abs(hatch_LLTempP_pool$upper - 0.5)), ]$temp),
+    data.frame(quantile = "90%", 
+      estimate = hatch_LLTempP_pool[which.min(abs(hatch_LLTempP_pool$fit - 0.1)), ]$temp,
+      lower = hatch_LLTempP_pool[which.min(abs(hatch_LLTempP_pool$lower - 0.1)), ]$temp, 
+      upper = hatch_LLTempP_pool[which.min(abs(hatch_LLTempP_pool$upper - 0.1)), ]$temp))
+quantiles_pool
+
+
+hatch_LLTempP_pool <- hatch_LLTempP_pool %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+
+ggplot() +
+  geom_point(data = abbott_hatch, aes(x = temp, y = propalive_abbott)) +
+  geom_line(data = hatch_LLTempP_pool, aes(x = temp, y = fit)) +
+  geom_ribbon(data = hatch_LLTempP_pool, aes(x = temp, ymin = lower2, ymax = upper2), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line()) +
+  labs(color = "", fill = "", x = "Temperature(°C)", y = "Proportion Alive")+
+  scale_x_reverse()
+
+```    
+
+# BVT vs. HATCH
+
+## combo beta reg
+
+```{r}
+combo_bvt <- survd[, c("temp", "propalive", "lower", "upper", "sitemonth", "run2"), ]
+combo_hatch <- abbott_hatch[, c("temp", "propalive_abbott", "lower_abbott", "upper_abbott", "sitemonth", "run2")]
+names(combo_hatch) <- c("temp", "propalive", "lower", "upper", "sitemonth", "run2")
+combo_bvt$Method <- "BVT"
+combo_hatch$Method <- "hatch"
+
+combo_methods <- rbind(combo_bvt, combo_hatch)
+
+combo_methods$type <- factor(combo_methods$Method, levels = c("hatch", "BVT"))
+
+combo_methods_model <- glmmTMB(propalive ~ temp * Method + (1|run2), data = combo_methods, family = beta_family(link = "logit"))
+summary(glht(combo_methods_model))
+
+#sample sizes
+table(combo_methods$Method)
+df.residual(combo_methods_model)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(combo_methods_model))
+randovar <- 8.909e-10
+var
+randovar/(randovar+var)
+
+#find the dispersion parameter theta/phi
+sigma(combo_methods_model)
+
+```
+
+## combo plot and quantiles
+
+```{r}
+
+#make predictions
+newdata <- expand.grid(Method = c("BVT", "hatch"), temp = c(seq(10, -5, by = -1), seq(-5, -45, by = -0.01)))
+
+combo_methodsP <- cbind(newdata,
+                 predict(combo_methods_model, newdata, type = "response", se.fit = T, re.form = NA))
+
+combo_methodsP$lower <- combo_methodsP$fit - 1.96 * combo_methodsP$se.fit
+combo_methodsP$upper <- combo_methodsP$fit + 1.96 * combo_methodsP$se.fit
+
+#retrieve quantiles
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$temp
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.1)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.1)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.1)), ]$temp
+    )
+  )
+}
+combo_methods_quantiles <- combo_methodsP %>%
+  group_by(Method) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+
+#plot
+combo_methodsP <- combo_methodsP %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+
+ggplot() +
+  geom_point(data = combo_methods, aes(x = temp, y = propalive, color = Method, shape = Method), alpha = 0.5) +
+  geom_line(data = combo_methodsP, aes(x = temp, y = fit, color = Method, linetype = Method)) +
+  geom_ribbon(data = combo_methodsP, aes(x = temp, ymin = lower2, ymax = upper2, fill = Method), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    legend.position = c(.88,.9),
+    plot.background = element_rect(fill = "white", color = NA),
+    legend.background = element_rect(fill = "white", color = NA)) +
+  labs(color = "Method", fill = "Method", linetype = "Method", shape = "Method", x = "Temperature (°C)", y = "Proportion Alive")+
+  scale_x_reverse(limits = c(0, -45),breaks = c(0, -5, -10, -15, -20, -25, -30, -35, -40, -45))+
+  scale_color_manual(values = c( "#0072B2","red"),
+                     labels = c("BVT", "hatch")) +
+  scale_fill_manual(values = c("#0072B2", "red"),
+                     labels = c("BVT", "hatch"))+
+  scale_shape_manual(values = c(19, 2),
+                     labels = c("BVT", "hatch")) +
+  scale_linetype_manual(values = c("solid", "dashed"), 
+                        labels = c("BVT", "hatch"))
+
+
+```
+
+# SCP
+
+## remove outliers
+
+```{r}
+#remove outliers
+unique(SCP$sitemonth)
+list_quantiles <- tapply(SCP$SCP, SCP$sitemonth, quantile)
+Q1s <- sapply(1:9, function(i) list_quantiles[[i]][2])
+Q3s <- sapply(1:9, function(i) list_quantiles[[i]][4])
+IQRs <- tapply(SCP$SCP, SCP$sitemonth, IQR)
+
+Lowers <- Q1s - 1.5*IQRs
+Uppers <- Q3s + 1.5*IQRs
+ Uppers
+ Lowers
+datas <- split(SCP, SCP$sitemonth)
+Uppers[2]<- -23.89875 #February Milford is unusually high upper bound, so change it to the next highest; visually it makes sense
+
+#SCPNO = no outliers
+SCPNO <- NULL
+for (i in 1:9){
+out <- subset(datas[[i]], datas[[i]]$SCP < Uppers[i]) #don't want to remove the low outliers in SCPOs, so only removing upper outliers
+SCPNO <- rbind(SCPNO, out)
+}
+#SCPOs = outliers that were removed
+SCPOs <- NULL
+for (i in 1:9){
+outs <- subset(datas[[i]],datas[[i]]$SCP > Uppers[i])
+SCPOs <- rbind(SCPOs, outs)
+}
+
+dim(SCP)
+dim(SCPNO)
+dim(SCPOs)
+
+#range of removed outliers
+min(SCPOs$SCP)
+max(SCPOs$SCP)
+
+min(SCP$SCP)
+
+```
+
+## lmer-preliminary
+
+```{r}
+shapiro.test(SCPNO[SCPNO$sitemonth == "WinchesterNovember", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "WinchesterNovember", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "RoanokeNovember", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "RoanokeNovember", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "MilfordDecember", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "MilfordDecember", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "WinchesterDecember", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "WinchesterDecember", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "RoanokeDecember", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "RoanokeDecember", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "MilfordJanuary", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "MilfordJanuary", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "WinchesterJanuary", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "WinchesterJanuary", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "RoanokeJanuary", ]$SCP)
+hist(SCPNO[SCPNO$sitemonth == "RoanokeJanuary", ]$SCP)
+shapiro.test(SCPNO[SCPNO$sitemonth == "MilfordFebruary", ]$SCP) #only not normal one
+hist(SCPNO[SCPNO$sitemonth == "MilfordFebruary", ]$SCP)
+unique(SCPNO$sitemonth)
+SCPNO$mass2 <- paste(SCPNO$sitemonth, SCPNO$mass, sep = "")
+
+#SCPNO$site <- factor(SCPNO$site, levels = c("Roanoke", "Winchester", "Milford", "Westport"))
+SCPNOmodel <- lmer(SCP ~ sitemonth + (1|mass2), data = SCPNO)
+summary(SCPNOmodel)
+
+#SCPNO$sitemonth <- factor(SCPNO$sitemonth, levels = c("RoanokeNovember", "WinchesterNovember", "RoanokeDecember", "WinchesterDecember", "MilfordDecember", "RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+SCPNOmodel <- lmer(SCP ~ sitemonth + (1|mass), data = SCPNO)
+summary(SCPNOmodel)
+
+#find proportion of variance explained by random effect: egg mass
+#SCPNONO$site <- factor(SCPNONO$site, levels = c("Winchester", "Roanoke", "Milford"))
+0.01687/(0.01687+0.80847)
+
+#SCPNO$sitemonth <- factor(SCPNO$sitemonth, levels = c("RoanokeNovember", "WinchesterNovember", "RoanokeDecember", "WinchesterDecember", "MilfordDecember", "RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+ggplot(SCPNO, aes(x = sitemonth, y = SCP)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(width = 0.1, alpha = 0.2) +
+  labs(x = "", y = "Supercooling Point (°C)")+
+  theme_minimal()+
+  theme(panel.border = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    axis.text.x = element_text(angle = 30, hjust = 1))
+
+```
+
+## power analysis
+
+```{r}
+SCPmodel_simple <- lm(SCP ~ month, data = SCP[SCP$month %in% c("December", "January"),]) #interchange to whichever comparison interested in
+summary(SCPmodel_simple)
+
+r_squared <- summary(SCPmodel_simple)$r.squared
+effect_size <- r_squared / (1 - r_squared)  # Cohen's f² (effect size)
+
+pwr.f2.test(u = (length(coef(SCPmodel_simple)) - 1), f2 = effect_size, sig.level = 0.05, power = 0.80)
+
+```
+
+## Kaplan-Meier
+
+```{r}
+#generate Kaplan-Meier curves
+SCPsurv_obj <- with(SCPNO, Surv(time = SCP, time2 = SCP, type = "interval2"))
+head(SCPsurv_obj, 100)
+SCPkm_fit <- survfit(SCPsurv_obj ~ sitemonth+mass, data = SCPNO)
+SCPkm_fit
+#exract data
+SCPsurvd <- data.frame(temp = SCPkm_fit$time,
+                        propSCP = SCPkm_fit$surv, 
+                        lower = SCPkm_fit$lower, 
+                        upper = SCPkm_fit$upper)
+SCPsurvd_newdata <- data.frame(strata = SCPkm_fit$strata)
+
+SCPsurvd_newdata <- SCPsurvd_newdata %>%
+  rownames_to_column(var = "sitemonth") %>%
+  separate(sitemonth, into = c("sitemonth", "mass"), sep = ", ")%>%
+  mutate(sitemonth = sub(".*=", "", sitemonth),
+         mass = sub(".*=", "", mass)) %>%
+  slice(rep(row_number(), strata))
+SCPsurvd <- cbind(SCPsurvd, SCPsurvd_newdata[,-3]) %>%
+  mutate(propSCP = 1-propSCP, #take the inverse, as to display survival not mortality
+  lower = 1-lower, #take the inverse
+  upper = 1-upper) #take the inverse
+
+ggplot()+
+  geom_step(data = SCPsurvd, aes(x = temp, y = propSCP, color = mass))+
+  geom_ribbon(data = SCPsurvd, aes(x = temp, ymin = lower, ymax = upper, fill = sitemonth), alpha = 0.1)+
+  facet_wrap(sitemonth~.)+
+  scale_x_reverse() 
+
+SCPsurvd$propSCP <- ifelse(SCPsurvd$propSCP < 0.00001, 0.001, ifelse(SCPsurvd$propSCP == 1, 0.999, SCPsurvd$propSCP))
+
+```
+
+## beta reg with month
+
+```{r}
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("MilfordDecember", "WinchesterDecember", "RoanokeDecember", "RoanokeNovember", "WinchesterNovember","RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+#other references
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("MilfordJanuary", "WinchesterJanuary", "RoanokeJanuary", "MilfordDecember", "WinchesterDecember","RoanokeDecember", "RoanokeNovember", "WinchesterNovember", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(glht(SCPModel), adjust = "bonferroni")
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("MilfordFebruary", "MilfordJanuary", "WinchesterJanuary", "RoanokeJanuary", "MilfordDecember","WinchesterDecember", "RoanokeDecember", "RoanokeNovember", "WinchesterNovember"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(glht(SCPModel), adjust = "bonferroni")
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("WinchesterNovember", "RoanokeDecember", "WinchesterDecember", "MilfordDecember","RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary", "RoanokeNovember"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("WinchesterDecember", "RoanokeDecember", "RoanokeNovember", "WinchesterNovember", "MilfordDecember","RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("WinchesterJanuary", "RoanokeJanuary", "MilfordDecember", "WinchesterDecember", "RoanokeDecember","RoanokeNovember", "WinchesterNovember", "MilfordJanuary", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("RoanokeNovember", "WinchesterNovember", "RoanokeDecember", "WinchesterDecember", "MilfordDecember","RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary((SCPModel))
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("RoanokeDecember", "RoanokeNovember", "WinchesterNovember", "WinchesterDecember", "MilfordDecember","RoanokeJanuary", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("RoanokeJanuary", "MilfordDecember", "WinchesterDecember", "RoanokeDecember", "RoanokeNovember","WinchesterNovember", "WinchesterJanuary", "MilfordJanuary", "MilfordFebruary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+#sample sizes
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("MilfordDecember", "MilfordJanuary", "MilfordFebruary", "WinchesterNovember", "WinchesterDecember", "WinchesterJanuary", "RoanokeNovember","RoanokeDecember","RoanokeJanuary"))
+SCPNO$sitemonth <- factor(SCPNO$sitemonth, levels = c("MilfordDecember", "MilfordJanuary", "MilfordFebruary", "WinchesterNovember", "WinchesterDecember", "WinchesterJanuary", "RoanokeNovember","RoanokeDecember","RoanokeJanuary"))
+table(SCPNO$sitemonth)
+table(SCPsurvd$sitemonth)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(SCPModel))
+randovar <- 0.1125
+
+var
+randovar/(randovar+var)
+
+
+#find the dispersion parameter theta/phi
+sigma(SCPModel)
+
+```
+
+## plot and quantiles with month
+
+```{r}
+#make predictions
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("MilfordDecember", "MilfordJanuary", "MilfordFebruary", "WinchesterNovember", "WinchesterDecember","WinchesterJanuary", "RoanokeNovember", "RoanokeDecember", "RoanokeJanuary"))
+SCPModel <- glmmTMB(propSCP~ temp* sitemonth + (1|mass), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(SCPModel)
+
+newdata <- expand.grid(sitemonth = c("MilfordDecember", "MilfordJanuary", "MilfordFebruary", "WinchesterNovember", "WinchesterDecember","WinchesterJanuary", "RoanokeNovember", "RoanokeDecember", "RoanokeJanuary"), temp = c(seq(10, -12, by = -1), seq(-12, -32, by = -0.01), seq(-32, -55, by = -1)))
+
+scpP <- cbind(newdata,
+                 predict(SCPModel, newdata, type = "response", se.fit = T, re.form = NA))
+# scpP <- scpP %>%
+#   mutate(month = str_split(sitemonth, " ", simplify = TRUE)[, 1],
+#          site = str_split(sitemonth, " ", simplify = TRUE)[, 2])
+scpP$lower <- scpP$fit - 1.96 * scpP$se.fit
+scpP$upper <- scpP$fit + 1.96 * scpP$se.fit
+
+#retrieve quantiles
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$temp
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.9)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.9)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.9)), ]$temp
+    )
+  )
+}
+scp_quantiles <- scpP %>%
+  group_by(sitemonth) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+scp_quantiles[scp_quantiles$quantile == "50%",]
+write.csv(scp_quantiles, file = "C:/Users/CLAHM/Downloads/SLF/Data/SLF_SCP_quantiles.csv")
+
+#plot
+scpP <- scpP %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+SCPsurvd$sitemonth <- factor(SCPsurvd$sitemonth, levels = c("MilfordDecember", "MilfordJanuary", "MilfordFebruary", "WinchesterNovember", "WinchesterDecember", "WinchesterJanuary", "RoanokeNovember","RoanokeDecember","RoanokeJanuary"))
+scpP$sitemonth <- factor(scpP$sitemonth, levels = c("MilfordDecember", "MilfordJanuary", "MilfordFebruary", "WinchesterNovember", "WinchesterDecember", "WinchesterJanuary", "RoanokeNovember","RoanokeDecember","RoanokeJanuary"))
+
+ggplot() +
+  geom_point(data = SCP, aes(x = temp, y = propSCP, color = sitemonth)) +
+  geom_line(data = scpP, aes(x = temp, y = fit, color = sitemonth)) +
+  geom_ribbon(data = scpP, aes(x = temp, ymin = lower2, ymax = upper2, fill = sitemonth), alpha = 0.1)+
+  scale_x_reverse(limits = c(-20, -32)) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    legend.position.inside()) +
+  labs(color = "", fill = "", x = "Temperature(°C)", y = "Proportion Supercooled")+
+  scale_color_manual(values = Palette)+
+  scale_fill_manual(values = Palette)+
+  scale_y_reverse(breaks = c(1, 0.9, 0.75, 0.5, 0.25, 0), labels = c("0", "0.1","0.25","0.5","0.75","1"))
+
+#Clarissa's original of above code:
+#ggplot() +
+#  geom_point(data = SCPsurvd, aes(x = temp, y = propSCP, color = sitemonth)) +
+#  geom_line(data = scpP, aes(x = temp, y = fit, color = sitemonth)) +
+#  geom_ribbon(data = scpP, aes(x = temp, ymin = lower2, ymax = upper2, fill = sitemonth), alpha = 0.1)+
+#  scale_x_reverse(limits = c(-20, -32)) +
+#  theme_minimal() +
+#   theme(panel.grid.minor = element_blank(),
+#    axis.line = element_line(),
+#    axis.ticks = element_line()) +
+#  labs(color = "", fill = "", x = "Temperature(°C)", y = "Proportion Supercooled")+
+#  scale_color_manual(values = Palette)+
+#  scale_fill_manual(values = Palette)+
+#  scale_y_reverse(breaks = c(1, 0.9, 0.75, 0.5, 0.25, 0), labels = c("0", "0.1","0.25","0.5","0.75","1"))
+
+```
+
+## beta reg without month
+
+```{r}
+#make model
+SCPsurvd$mass2 <- paste(SCPsurvd$sitemonth, SCPsurvd$mass, sep = "")
+scpModel_pool <- glmmTMB(propSCP ~ temp + (1|mass2), data = SCPsurvd, family = beta_family(link = "logit"))
+summary(scpModel_pool)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(scpModel_pool))
+randovar <- 0.4397
+var
+randovar/(randovar+var)
+#1.332563e-08 or 0.00000001332563 or 0.00000133
+
+#find the dispersion parameter theta/phi
+sigma(scpModel_pool)
+
+```
+
+## plot and quantiles without month
+
+```{r}
+#make predictions
+newdata <- data.frame(temp = c(seq(10, -12, by = -1), seq(-12, -40, by = -0.01), seq(-40, -55, by = -1))) 
+scpP_pool <- cbind(newdata,
+                 predict(scpModel_pool, newdata, type = "response", se.fit = T, re.form = NA))
+scpP_pool$lower <- scpP_pool$fit - 1.96 * scpP_pool$se.fit
+scpP_pool$upper <- scpP_pool$fit + 1.96 * scpP_pool$se.fit
+
+scpP_pool <- scpP_pool %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+
+#retrieve quantiles
+quantiles_pool <- rbind(data.frame(quantile = "50%", 
+      estimate = scpP_pool[which.min(abs(scpP_pool$fit - 0.5)), ]$temp,
+      lower = scpP_pool[which.min(abs(scpP_pool$lower - 0.5)), ]$temp, 
+      upper = scpP_pool[which.min(abs(scpP_pool$upper - 0.5)), ]$temp),
+    data.frame(quantile = "90%", 
+      estimate = scpP_pool[which.min(abs(scpP_pool$fit - 0.9)), ]$temp,
+      lower = scpP_pool[which.min(abs(scpP_pool$lower - 0.9)), ]$temp, 
+      upper = scpP_pool[which.min(abs(scpP_pool$upper - 0.9)), ]$temp))
+quantiles_pool
+
+#plot
+ggplot() +
+  geom_point(data = SCPsurvd, aes(x = temp, y = propSCP)) +
+  geom_line(data = scpP_pool, aes(x = temp, y = fit)) +
+  geom_ribbon(data = scpP_pool, aes(x = temp, ymin = lower2, ymax = upper2), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line()) +
+  labs(color = "", fill = "", x = "Temperature(°C)", y = "Proportion Supercooled")+
+  scale_x_reverse()+
+  scale_y_reverse(breaks = c(1, 0.9, 0.75, 0.5, 0.25, 0), labels = c("0", "0.1","0.25","0.5","0.75","1"))
+
+```    
+
+# LLTEMP VS SCP
+
+## combo beta reg
+
+```{r}
+#combine dataframes
+colnames(survd)
+colnames(SCPsurvd)
+survd_clean<-survd
+SCPsurvd_clean <- SCPsurvd
+names(survd_clean) <- c("temp", "prop", "lower", "upper", "sitemonth","mass")
+names(SCPsurvd_clean) <- c("temp", "prop", "lower", "upper", "sitemonth","mass")
+survd_clean$datatype <- "LLTemp"
+SCPsurvd_clean$datatype <- "SCP"
+colnames(survd_clean)
+colnames(SCPsurvd_clean)
+combo <- rbind(survd_clean, SCPsurvd_clean)
+
+#model
+combo$datatype <- factor(combo$datatype, levels = c("LLTemp", "SCP"))
+combomodel <- glmmTMB(prop ~ temp * datatype + (1|mass), data = combo, family = beta_family(link = "logit"))
+summary(combomodel)
+
+combo$datatype <- factor(combo$datatype, levels = c("SCP", "LLTemp"))
+combomodel <- glmmTMB(prop ~ temp * datatype + (1|mass), data = combo, family = beta_family(link = "logit"))
+summary(combomodel)
+
+#sample sizes
+table(combo$datatype)
+table(SCPsurvd$sitemonth)
+
+#calculate proportion variance explained by random effects
+var <- var(residuals(combomodel))
+randovar <- 0.2043
+var
+randovar/(randovar+var)
+
+#find the dispersion parameter theta/phi
+sigma(combomodel)
+```
+
+## combo plot and quantiles
+
+```{r}
+
+#make predictions
+newdata <- expand.grid(datatype = c("LLTemp", "SCP"), temp = c(seq(10, -12, by = -1), seq(-12, -42, by = -0.01), seq(-42, -55, by = -1)))
+comboP <- cbind(newdata,
+                 predict(combomodel, newdata, type = "response", se.fit = T, re.form = NA))
+comboP$lower <- comboP$fit - 1.96 * comboP$se.fit
+comboP$upper <- comboP$fit + 1.96 * comboP$se.fit
+
+#retrieve quantiles
+calculate_quantiles <- function(data) {
+  list(
+    data.frame(
+      quantile = "50%", 
+      estimate = data[which.min(abs(data$fit - 0.5)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.5)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.5)), ]$temp
+    ),
+    data.frame(
+      quantile = "90%", 
+      estimate = data[which.min(abs(data$fit - 0.9)), ]$temp,
+      lower = data[which.min(abs(data$lower - 0.9)), ]$temp, 
+      upper = data[which.min(abs(data$upper - 0.9)), ]$temp
+    )
+  )
+}
+combo_quantiles <- comboP %>%
+  group_by(type) %>%
+  do(bind_rows(calculate_quantiles(.))) %>%
+  ungroup()
+
+#plot
+comboP <- comboP %>%
+  mutate(lower2 = ifelse(lower<0,0,lower),
+         upper2 = ifelse(upper>1,1,upper))
+
+ggplot() +
+  geom_point(data = combo, aes(x = temp, y = prop, color = datatype, shape = datatype), alpha = 0.5) +
+  geom_line(data = comboP, aes(x = temp, y = fit, color = datatype, linetype = datatype)) +
+  geom_ribbon(data = comboP, aes(x = temp, ymin = lower2, ymax = upper2, fill = datatype), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    legend.position = c(.89,.9),
+    legend.background = element_rect(fill = "white", color = "white"),
+    plot.background = element_rect(fill = "white", color = NULL)) +
+  labs(color = "", fill = "", linetype = "", shape = "", x = "Temperature (°C)", y = "Proportion Alive/Pre-Supercool")+
+  scale_x_reverse(limits = c(0, -45),breaks = c(0, -5, -10, -15, -20, -25, -30, -35, -40, -45))+
+  scale_color_manual(values = c( "#0072B2","red"),
+                     labels = c("LLTemp", "SCP")) +
+  scale_fill_manual(values = c("#0072B2", "red"),
+                     labels = c("LLTemp", "SCP"))+
+  scale_shape_manual(values = c(19, 2),
+                     labels = c("LLTemp", "SCP")) +
+  scale_linetype_manual(values = c("solid", "dashed"), 
+                        labels = c("LLTemp", "SCP"))
+
+```
+
+## SCP/BVT/hatch plot
+
+```{r}
+min(LLTemp$temp)
+min(SCP$SCP)#find minimum data value so i know where to start dashed lines indicating extrapolation
+
+#combine datasets
+# colnames(comboP)
+# colnames(combo_methodsP)
+# comboP$Method <- ifelse(comboP$datatype == "LLTemp", "BVT", "SCP")
+# SCP_BVT_hatchP <- rbind(comboP[, c("temp", "fit", "lower2", "upper2", "Method")], combo_methodsP[, c("temp", "fit", "lower2", "upper2", "Method")])
+# SCP_BVT_hatchP$lowest <- ifelse(SCP_BVT_hatchP$Method == "SCP", -29.64, -33.71)
+colnames(LLTempP_pool)
+colnames(hatch_LLTempP_pool)
+colnames(scpP_pool)
+LLTempP_pool$Method <- "BVT"
+hatch_LLTempP_pool$Method <- "hatch"
+scpP_pool$Method <- "SCP"
+SCP_BVT_hatchP <- rbind(LLTempP_pool, hatch_LLTempP_pool, scpP_pool)
+SCP_BVT_hatchP$lowest <- ifelse(SCP_BVT_hatchP$Method == "SCP", -29.64, -33.71)
+                        
+colnames(combo)
+colnames(combo_methods)
+combo$Method <- ifelse(combo$datatype == "LLTemp", "BVT", "SCP")
+combo_methods <- combo_methods %>%
+  mutate(prop2 = propalive)
+colnames(combo)
+colnames(combo_methods)
+SCP_BVT_hatch <- rbind(combo[, c("temp", "prop", "lower", "upper", "sitemonth", "Method")], combo_methods[, c("temp", "prop", "lower", "upper", "sitemonth", "Method")])
+
+#order methods
+SCP_BVT_hatch$Method<- factor(SCP_BVT_hatch$Method, levels = c("hatch", "BVT", "SCP"))
+SCP_BVT_hatchP$Method<- factor(SCP_BVT_hatchP$Method, levels = c("hatch", "BVT", "SCP"))
+
+SCP_BVT_hatch_plot<- ggplot() +
+  geom_point(data = SCP_BVT_hatch, aes(x = temp, y = prop, color = Method, shape = Method), alpha = 0.4, size = 0.8)+
+  geom_line(data = SCP_BVT_hatchP, aes(x = temp, y = fit, color = Method, linetype = factor(temp > lowest))) +
+  geom_ribbon(data = SCP_BVT_hatchP, aes(x = temp, ymin = lower2, ymax = upper2, fill = Method), alpha = 0.1)+
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    axis.line = element_line(),
+    axis.ticks = element_line(),
+    legend.position = c(.89,.82),
+    legend.background = element_rect(fill = "white", color = "white"),
+    plot.background = element_rect(fill = "white", color = "white"),
+    plot.margin = margin(10, 10, 5, 5)) +
+  labs(x = "Temperature (°C)", y = "Proportion alive/pre-SCP")+
+  scale_x_reverse(expand = c(0, 0), limits = c(0, -45),breaks = c(0, -5, -10, -15, -20, -25, -30, -35, -40, -45))+
+  scale_y_continuous(expand = c(0.01, 0))+
+  scale_color_manual(values = c( "#0072B2","#E69F00","red")) +
+  scale_fill_manual(values = c( "#0072B2","#E69F00", "red"))+
+  scale_shape_manual(values = c(2, 15, 19)) +
+  scale_linetype_manual(values = c("dashed", "solid"))+
+  guides(linetype = "none")
+
+#errorbar line, to re-include it:
+# +
+#   geom_errorbar(data = SCP_BVT_hatch, aes(x = temp, ymin = lower, ymax = upper, color = Method), alpha = 0.3)
+
+#save plot
+  ggsave("C:/Users/venet001/Documents/Entomology/Venette/SLF/Outputs_from_R_Clarissa/Plots/SCP_BVT_hatch_plot.tiff", SCP_BVT_hatch_plot, width = 80, height = 80, units = "mm", dpi = 300)
+#Clarissa's original below (line above adjusted to correct directory)
+#ggsave("C:/Users/CLAHM/Downloads/SLF/Plots/SCP_BVT_hatch_plot.tiff", SCP_BVT_hatch_plot, width = 80, height = 80, units = "mm", dpi = 300)
+
+```
+
