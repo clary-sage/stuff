@@ -17,7 +17,7 @@ hatch <- read.csv("data/SLF_LLTemp_hatch_data.csv")
 ## load packages
 
 ```{r}
-#this will download any packages if you don't already have them
+#this will download any packages if you don't  have them
 packages <- c("tidyverse", "betareg", "survival", "lmerTest", "emmeans", "multcompView", "glmmTMB", "pwr", "ggh4x", "multcomp", "flextable", "car", "MASS", 'dunn.test', "dplyr","rstatix", "viridis")
 
 for (package in packages) {
@@ -41,7 +41,7 @@ Palette
 ## clean data
 ```{r}
 ## bvt
-LLTemp <- LLTemp[is.na(LLTemp$remove),] #remove dried eggs\
+LLTemp <- LLTemp[is.na(LLTemp$remove),] #remove dried eggs
 
 LLTemp <- LLTemp[!(LLTemp$treatment %in% c("Live Control", "Dead Control")), ] #remove controls, since these were only used to calculate viability, done in Excel
 
