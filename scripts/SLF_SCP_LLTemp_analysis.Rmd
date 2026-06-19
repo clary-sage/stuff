@@ -32,7 +32,7 @@ lapply(packages, library, character.only = TRUE)
 set.seed(123)  # for reproducibility
 # 10 evenly spaced colors from the viridis palette
 cols <- viridis(10)
-# randomize their order
+# randomize the order
 Palette <- sample(cols)
 Palette
 
