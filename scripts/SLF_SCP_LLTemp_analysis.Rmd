@@ -28,7 +28,7 @@ for (package in packages) {
 #load the packages
 lapply(packages, library, character.only = TRUE)
 
-#make color pallette
+#make color palette
 set.seed(123)  # for reproducibility
 # 10 evenly spaced colors from the viridis palette
 cols <- viridis(10)
