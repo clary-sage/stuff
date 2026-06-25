@@ -42,7 +42,7 @@ SCP<- SCP[SCP$site == "Westport",]
 LLTemp<- LLTemp[LLTemp$site == "CT",] 
 LLTime<- LLTime[LLTime$site == "CT",] 
 
-#this is subsetting to only include the city they came from this year
+#this is subsetting to  include the city they came from this year
 #I called it TC or Westport in diff datasets
 #I called it Connecticut or Westport in diff datasets
 ```
