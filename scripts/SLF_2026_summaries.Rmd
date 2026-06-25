@@ -1,7 +1,7 @@
 ---
 title: "SLF_2026 summaries"
 author: "Clarissa Moore"
-date: "2026-04-03"
+date: ""
 output: html_document
 ---
  
@@ -12,6 +12,7 @@ output: html_document
 # SCP <- read.csv("D:/SLF/Data/SLF_SCP_data.csv")
 # LLTemp <- read.csv("D:/SLF/Data/SLF_LLTemp_BVT_data.csv")
 # hatch <- read.csv("D:/SLF/Data/SLF_LLTemp_hatch_data.csv")
+#ok
 
 #Clarissa's original statements were
 SCP <- read.csv("C:/Users/CLAHM/Downloads/SLF/Data/SLF_SCP_data.csv")
