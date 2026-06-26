@@ -54,7 +54,7 @@ SCP %>%
   group_by(collection_date) %>%
   summarise(n = n()) 
 
-#total
+#totals
 nrow(SCP)
 ```
 
