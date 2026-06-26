@@ -50,7 +50,7 @@ LLTime<- LLTime[LLTime$site == "CT",]
 ## how many eggs (total over both shipments) were used to measure SCPs? 
 
 ```{r}
-#by collection
+#by collections
 SCP %>%
   group_by(collection_date) %>%
   summarise(n = n()) 
